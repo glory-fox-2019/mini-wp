@@ -46,7 +46,7 @@ li{
     display: flex;
     flex-direction: column;
     background-color: lightgray;
-    height: 100vh;
+    height: 500px;
 }
 
 #right-column{
@@ -54,16 +54,16 @@ li{
     display: flex;
     flex-direction: column;
     background-color: whitesmoke;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .menu{
-    padding: 5%;
-    font-size: 120%;
+    padding: 4%;
+    font-size: 100%;
 }
 
 #top-content{
-    padding: 5%;
+    padding: 3%;
     display: flex;
     font-size: 120%;
     border-style: hidden;
@@ -81,7 +81,7 @@ li{
     justify-content: space-between;
 }
 
-#image{
+.image{
     display: flex;
     justify-content: space-around;
 }
@@ -95,7 +95,7 @@ li{
 }
 
 .article b{
-    font-size: 30px
+    font-size: 25px
 }
 
 img{
@@ -104,15 +104,21 @@ img{
 }
 
 .content{
-    padding: 5%;
+    padding: 2%;
     display: flex;
     justify-content: space-between;
     font-size: 120%;
     border-style: hidden;
-    margin: 10px 40px 40px 40px;
+    margin: 10px 40px 20px 40px;
     background-color: lightgray;
 }
 
 .option{
     margin-left: 30px;
+}
+
+.manage{
+    color:blue;
+    display: flex;
+    justify-content: center;
 }
