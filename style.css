@@ -1,0 +1,130 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-size: 11px;
+}
+
+/* ---------------- header --------------- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: silver;
+    padding: 10px;
+    /* position: fixed;  */
+    /* z-index: 1; */
+    /* width: 100%; */
+}
+
+nav img {
+    width: 50px;
+    border-radius: 50px;
+    background-color: silver;
+}
+
+nav .input-group {
+    max-width: 300px;
+}
+
+/* ---------------- card title --------------- */
+.card {
+    max-height: 250px auto;
+    /* margin-top: 100px; */
+}
+
+.card img {
+    height: 100%;
+    
+}
+
+.card h5 {
+    font-style: bold;
+    font-weight: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.card-label {
+    color: silver
+}
+
+.card-label a {
+    font-size: 11px;
+}
+
+.card-main h5 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.card-main p {
+    max-height: 100px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.card-comment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-comment button{
+    border: none;
+    transition: 0.5s;
+}
+
+.card-containt {
+    background-color:;
+    
+}
+
+/* ---------------- dashboard--------------- */
+.dashboard {
+    display: flex;
+    margin: 15px;
+    /* padding: 0px; */
+
+}
+
+.dashboard-content {
+    margin: 10px;
+}
+
+
+
+/* ---------------- card list 2--------------- */
+.card-list2 {
+    margin-top: 10px;
+    /* margin-right: 20px; */
+    padding: 10px;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    justify-content: space-between
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.options i {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+/* ---------------- dashboard-edit --------------- */
+.dashboard-edit {
+    display: flex;
+}
+
+.button-dashboard-edit {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.button-dashboard-edit .btn{
+    margin: 5px;
+    /* padding-right: 10px; */
+    /* padding-left: 10px; */
+}
