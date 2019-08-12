@@ -45,46 +45,51 @@
               <h2>Create Post</h2>
             </div>
             <div class="editor">
-              <div class="row">
-                <div class="col-12 col-md-8">
-                  <div class="editor--title">
-                    <input type="text" name="title" placeholder="Title">
-                  </div>
-                  <div class="editor--content">
-                    <div class="editor--content__wysiwyg">
+              <form action="" id="form--post">
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <div class="editor--title">
+                      <input type="text" name="title" placeholder="Title">
                     </div>
-                    <!-- <div class="editor--content__text">
-                      <textarea name="content" id=""></textarea>
-                    </div> -->
+                    <div class="editor--content">
+                      <div class="editor--content__wysiwyg">
+                      </div>
+                      <!-- <div class="editor--content__text">
+                        <textarea name="content" id=""></textarea>
+                      </div> -->
+                    </div>
+                    <div class="editor--submit">
+                      <button type="submit" class="btn btn-primary">Save Post</button>
+                    </div>
                   </div>
-                </div>
-                <div class="col-12 col-md-4">
-                  <div class="editor--thumbnail">
-                    <div class="editor--thumbnail__input">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose thumbnail</label>
+                  <div class="col-12 col-md-4">
+                    <div class="editor--thumbnail">
+                      <div class="editor--thumbnail__input">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile">Choose thumbnail</label>
+                        </div>
+                      </div>
+                      <div class="editor--thumbnail__image--description">
+          
                       </div>
                     </div>
-                    <div class="editor--thumbnail__image--description">
-        
-                    </div>
-                  </div>
-                  <div class="editor--tag">
-                    <div class="editor--tag__input">
-                      <span class="editor--tag__input__label">
-                        <label for="">Tag</label>
-                      </span>
-                      <div class="editor--tag__input__form">
-                        <input type="text" name="tag">
+                    <div class="editor--tag">
+                      <div class="editor--tag__input">
+                        <span class="editor--tag__input__label">
+                          <label for="">Tag</label>
+                        </span>
+                        <div class="editor--tag__input__form">
+                          <input type="text" name="tag">
+                        </div>
                       </div>
-                    </div>
-                    <div class="editor--tag__item--list">
-                      <div class="editor--tag__item">Tag <a onclick="removeTag(this)">&times;</a></div>
+                      <div class="editor--tag__item--list">
+                        <div class="editor--tag__item">Tag <a onclick="removeTag(this)">&times;</a></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

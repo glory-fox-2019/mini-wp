@@ -154,6 +154,10 @@
   margin-bottom: 20px;
 }
 
+#create-post .editor .editor--submit {
+  padding: 15px;
+}
+
 #create-post .editor .editor--title {
   width: 100%;
 }
