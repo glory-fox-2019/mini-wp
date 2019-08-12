@@ -1,0 +1,171 @@
+body {
+    overflow: hidden;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.head-bar {
+    padding: 20px;
+    background-color: rgb(19, 140, 173);
+    width: 85%;    
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    z-index: 1;
+    -webkit-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+}
+.logo {
+    padding: 20px;
+    background-color: rgb(35, 44, 48);
+    width: 10%;
+    display: flex;
+    color: white;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-self: center;
+    -webkit-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px 6px 5px 0px rgba(0,0,0,0.75);
+}
+
+
+.options {
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.container {
+    display: flex;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.tools {
+    width: 15%;
+    padding: 15px;
+    background-color: #0001;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.content {
+    height: 500px;
+    width: 80%;
+    padding: 10px;
+    background-color: rgb(218, 224, 227);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 0;
+    overflow: auto;
+}
+
+.search {
+    width: 100px;
+}
+
+.search i {
+    height: 100%;
+    width: 100%;
+}
+
+.items {
+    padding: 10px;;
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+}
+
+.items i {
+    margin-right: 15px;
+}
+.clipboard {
+    margin-left: 5px;
+}
+.items p {
+    font-size: 15px;
+}
+.child-content {
+    padding: 30px;
+    margin: 15px;
+    width: 65%;
+    height: 30vh;
+    background-color: white;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.child-content img {
+    width: 50px;
+}
+
+.search-bar {
+    margin-top: 0;
+    padding: 30px;
+    background-color: white;
+    width: 66%;
+    margin: 10px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+#btn-write {
+    padding: 5px;
+    width: 120%;
+}
+
+.icons {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.search-child {
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+}
+
+.search-child a {
+    text-decoration: none;
+    color: black;
+}
+
+.left-content {
+    width: 50%;
+    
+}
+
+.right-content {
+    width: 50%;
+}
+
+.text-editor {
+    padding: 30px;
+    margin: 15px;
+    width: 65%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
