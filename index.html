@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mini Wp</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div id="nav" class="">
+        <div class="brand">
+          <span>Mini Wp</span>
+        </div>
+        <ul class="menu--list">
+          <li class="menu--item"><a href="javascript:void(0)" class="active" onclick="clickMenu('list-post',this)">List App</a></li>
+          <li class="menu--item"><a href="javascript:void(0)" onclick="clickMenu('create-post',this)">Add App</a></li>
+        </ul>
+        <div class="nav--footer">
+          <div class="nav--account">
+            <div class="account--avatar">
+              <div class="account--avatar__img"></div>
+            </div>
+            <div class="account--detail">
+              <p class="account--detail__avatar">JustArya</p>
+              <p class="account--detail__description">Author</p>
+            </div>
+            <div class="account--menu">
+      
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div id="create-post" class="main-content" style="display:none">
+          <div class="container">
+            <div class="title">
+              <h2>Create Post</h2>
+            </div>
+            <div class="editor">
+              <div class="row">
+                <div class="col-12 col-md-8">
+                  <div class="editor--title">
+                    <input type="text" name="title" placeholder="Title">
+                  </div>
+                  <div class="editor--content">
+                    <div class="editor--content__wysiwyg">
+                    </div>
+                    <!-- <div class="editor--content__text">
+                      <textarea name="content" id=""></textarea>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="editor--thumbnail">
+                    <div class="editor--thumbnail__input">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose thumbnail</label>
+                      </div>
+                    </div>
+                    <div class="editor--thumbnail__image--description">
+        
+                    </div>
+                  </div>
+                  <div class="editor--tag">
+                    <div class="editor--tag__input">
+                      <span class="editor--tag__input__label">
+                        <label for="">Tag</label>
+                      </span>
+                      <div class="editor--tag__input__form">
+                        <input type="text" name="tag">
+                      </div>
+                    </div>
+                    <div class="editor--tag__item--list">
+                      <div class="editor--tag__item">Tag <a onclick="removeTag(this)">&times;</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="list-post" class="main-content">
+          <div class="container">
+            <div class="title">
+              <h2>All Post</h2>
+            </div>
+            <div class="post--list grid">
+              <div class="grid-item">
+                <div class="post__item">
+                  <div class="post__item--thumbnail" style="background-image:url('https://picsum.photos/200/300')">
+                    <div class="post__item--action">
+                      <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                      <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                      <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                    </div>
+                  </div>
+                  <div class="post__item--title">
+                    TERBONGKAR! Begini cara jadi developer dalam 3 Bulan
+                  </div>
+                </div>
+              </div>
+              <div class="grid-item">
+                <div class="post__item">
+                  <div class="post__item--thumbnail" style="background-image:url('https://picsum.photos/200/300')">
+                    <div class="post__item--action">
+                      <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                      <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                      <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                    </div>
+                  </div>
+                  <div class="post__item--title">
+                    TOP 5 Bahasa Pemprograman yang bakal buat kamu dapet kerja!
+                  </div>
+                </div>
+              </div>
+              <div class="grid-item">
+                <div class="post__item">
+                  <div class="post__item--thumbnail" style="background-image:url('https://picsum.photos/200/300')">
+                    <div class="post__item--action">
+                      <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                      <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                      <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                    </div>
+                  </div>
+                  <div class="post__item--title">
+                    Tutorial buat aplikasi dalam 10 menit
+                  </div>
+                </div>
+              </div>
+              <div class="grid-item">
+                <div class="post__item">
+                  <div class="post__item--thumbnail" style="background-image:url('https://picsum.photos/200/300')">
+                    <div class="post__item--action">
+                      <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                      <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                      <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                    </div>
+                  </div>
+                  <div class="post__item--title">
+                    Cara tidur 5 Jam per hari (untuk murid hacktiv8)
+                  </div>
+                </div>
+              </div>
+              <div class="grid-item">
+                <div class="post__item">
+                  <div class="post__item--thumbnail" style="background-image:url('https://picsum.photos/200/300')">
+                    <div class="post__item--action">
+                      <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                      <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                      <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                    </div>
+                  </div>
+                  <div class="post__item--title">
+                    Vue JS tutorial #1
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <script src="/js/index.js"></script>
+</body>
+</html>
