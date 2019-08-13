@@ -1,19 +1,19 @@
-const app = new Vue ({
+const app = new Vue({
     el: '#app',
     data: {
         message: 'hello',
-        editDashboard: 'Edit your article', 
+        editDashboard: 'Edit your article',
         nav: true,
-        cardList2 : false,
+        cardList2: false,
         dashboardNav: true,
         dashboardEdit: true,
         container: false,
-        isPublic : true,
+        isPublic: true,
     },
 
 
     methods: {
-        toHome(){
+        toHome() {
             this.cardList2 = false
             this.dashboardNav = false
             this.dashboardEdit = false
@@ -35,10 +35,25 @@ const app = new Vue ({
             this.isPublic = true
         },
         createArticle() {
-            
+
+            let { title, content, } = req.body
+
+            axios({
+                    method: 'post',
+                    url: 'http:/localhost:3000/article/create',
+                    data: {
+                        title, content
+                    }
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
 
-        
+
 
     },
 

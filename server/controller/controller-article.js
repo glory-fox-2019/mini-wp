@@ -1,6 +1,7 @@
 const { article } = require('../models');
 
 class ControllerArticle {
+    
     static create(req, res) {
 
         let { title, description, duedate } = req.body
