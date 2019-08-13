@@ -191,3 +191,43 @@ a {
     align-items: center;
 
 }
+
+#textarea {
+    height: 200px;
+}
+
+.dalambox {
+    color: black;
+}
+
+#tombol {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+#column-right-write {
+    height: 100vh;
+    background-color: #0001;
+    width: 80%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
+.submitbutton {
+    margin-right: 3%;
+}
+input[type=text]{
+    width:100%;
+    height:5%;
+}
+#searchbar {
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    height: 20%;
+}
+#search {
+    margin-left: 5%;
+}
+
