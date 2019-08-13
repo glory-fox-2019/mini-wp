@@ -16,7 +16,8 @@ class articleController{
 
     }
     static findOne(req,res,next){
-        Article.find()
+        let {id} = req.body
+        Article.findById(id)
         .then(data => {
             res.status(200).json({
                 data,
@@ -43,10 +44,11 @@ class articleController{
         })
     }
     static update(req,res,next){
+        let {id,title,body} = req.body
+        console.log(id, title, body)
         let updatedData = {}
         req.body.title && (updatedData.title = req.body.title)
-        req.body.content && (updatedData.description = req.body.content)
-        Article.findByIdAndUpdate(req.params.id,updatedData,{new: true, runValidators:true})
+        req.body.content && (updatedData.content = req.body.content)
         Article.findByIdAndUpdate(
             id,
             updatedData,
@@ -62,6 +64,7 @@ class articleController{
         })
     }
     static delete(req,res,next){
+        let {id} = req.body
         Article.findByIdAndDelete(id)
         .then(data => {
             res.status(200).json({

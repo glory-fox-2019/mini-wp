@@ -106,23 +106,23 @@
                     <div id="top">
                         <div class="atas">
                             <div class="published">
-                                <a id="publish" href="#">published</a>
+                                <a class="publish" href="#">published</a>
                             </div>
                             <div class="published">
-                                <a id="draft" href="#">draft</a>
+                                <a id="draft" href="#" >draft</a>
                             </div>
                         </div>
                         <div id="searchbar">
-                                <div>
-                                        <input type="text" v-model="filter" >
-                                </div>
-        
-                                <div id="search">
-        
-                                    <i class="fas fa-search write"></i>
-                                </div>
+                            <div>
+                                <input type="text" v-model="filter">
+                            </div>
+
+                            <div id="search">
+
+                                <i class="fas fa-search write"></i>
+                            </div>
                         </div>
-  
+
                     </div>
                     <div class="bottom" v-for="article in articles">
                         <div class="judul">
@@ -134,17 +134,17 @@
                             <div class="photo">
                                 <div class="ph">
                                     <img src="https://images.unsplash.com/photo-1564488745050-fe0e9bdf541a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                                        style="width:100px;height:50px;" alt="foto">
+                                        style="width:100px;height:70px;" alt="foto">
                                 </div>
                                 <div class="more">
                                     <div class="dots">
-                                        <i class="fas fa-ellipsis-h fa-2x"></i>
+                                        <a class="publish" href="#" @click="deleteItem(article._id)">delete</a>
+                                        <a class="publish" href="#" @click="clickEdit(article._id)">edit</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div id="column-right-write" v-if="isWrite">
@@ -155,23 +155,45 @@
                                 <input type="text" placeholder="Title" v-model="title">
                             </div>
                             <div id="textarea">
-                                    <wysiwyg v-model="text"></wysiwyg>
+                                <wysiwyg v-model="text"></wysiwyg>
                             </div>
-                            <div id="tombol">
+                            <div class="tombol">
                                 <div class="submitbutton">
                                     <button>submit</button>
                                 </div>
                                 <div>
                                     <button>clear</button>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-
+            <div id="column-right-edit" v-if="isEdit">
+                <div class="container2">
+                    <div class="bottom">
+                        <form action="" @submit.prevent="editItem(article._id)">
+                            <div>
+                                <input type="text"  v-model="title">
+                            </div>
+                            <div class="textarea">
+                                <wysiwyg v-model="text" ></wysiwyg>
+                            </div>
+                            <div class="tombol">
+                                <div class="submitbutton">
+                                    <button>submit</button>
+                                </div>
+                                <div>
+                                    <button @click="clearItem">clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     <script src="/wysiwig/vueWysiwyg.js"></script>
