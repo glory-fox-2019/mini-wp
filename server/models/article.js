@@ -9,12 +9,19 @@ const articleSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    picture: {
+        type: String
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true,
     versionKey: false
 })
 
-var Article = mongoose.model('Article', articleSchema)
+const Article = mongoose.model('Article', articleSchema)
 
 module.exports = Article

@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     <link rel="stylesheet" href="style.css">
-    <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
     <link rel="stylesheet" href="vueWysiwyg.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    <meta name="google-signin-client_id" content="1045234682473-8e756h9is76up80ffgrv0jomsfaeo5v9.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>mini wordpress</title>
 </head>
 
@@ -20,11 +20,11 @@
       <div id="logo">
           <i class="fab fa-wordpress"></i>  Wordpress
       </div>
-      <div id="login">
-        <p>register</p>
-        <p>login</p>
+      <div id="login" v-if="!isLogin"> 
+        <p @click="onRegister">register</p>
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
       </div>
-      <div id="right-logo">
+      <div id="right-logo" v-if="isLogin">
         <div>
             <i class="fas fa-book"></i>  Reader
         </div>
@@ -33,11 +33,44 @@
                 <li @click="onWrite"><i class="fas fa-pen-square"></i>  Write</li>
                 <li><i class="fas fa-portrait"></i></li>
                 <li><i class="fas fa-map-pin"></i></li>
+                <li @click="logout">Logout</li>
               </ul>
         </div>
       </nav>
 
-      <div class="container">
+      <div class="homepage" v-if="!isLogin && !isRegister">
+        <div class="middle" >
+            <div id="welcome">
+                <h2>Welcome</h2> <br>
+              </div>
+              <div id="formLogin">
+                <form method="POST" @submit="login">
+                  <label for="username"> Username: </label><br>
+                  <input type="text" v-model="username"><br>
+                  <label for="password">Password</label><br>
+                  <input type="text" v-model="password"><br>
+                  <input type="submit" value="Login">
+                </form>
+              </div>
+        </div>
+      </div>
+      <div class="homepage" v-if="isRegister">
+          <div class="middle">
+              <div id="formRegister">
+                  <form method="POST" @submit.prevent="register">
+                    <label for="username"> Username: </label><br>
+                    <input type="text" v-model="username"><br>
+                    <label for="password">Password</label><br>
+                    <input type="text" v-model="password"><br>
+                    <label for="email">Email</label><br>
+                    <input type="text" v-model="email"><br>
+                    <input type="submit" value="Register">
+                  </form>
+                </div>
+          </div>
+      </div>
+
+      <div class="container" v-if="isLogin">
         <div id="left-column">
           <div class="menu" @click="onArticle">
               <i class="fas fa-tv"></i>  View Articles
@@ -88,10 +121,10 @@
           </div>
         </div>
         <div id="right-column">
-          <div id="top-content">
+          <div id="top-content" v-if="isTop">
             <div id="top">
             <ul>
-              <li>Published</li>
+              <li @click="onArticle">Published</li>
               <li>Drafts</li>
             </ul>
           </div>
@@ -104,18 +137,37 @@
             <div class="article">
               <b>{{article.title}}</b>
               <i>{{article.createdAt.slice(0, 10)}}</i>
+              <p><br></p>
+              <p @click="show(article)">show content</p>
             </div>
             <div class="image">
               <div>
                 <img src="journey.jpeg" alt="gambar">
               </div>
               <div class="option">
-                  <i @click="onContent" class="fas fa-ellipsis-h fa-3x"></i>
+                  <div class="edit">
+                    <i class="fas fa-highlighter" @click="onEdit(article)">edit</i>
+                  </div>
+                  <div class="delete">
+                    <i class="fas fa-trash-alt" @click="deleteArticle(article)">delete</i>
+                  </div>
               </div>
             </div>
-            <p v-if="isContent"> {{article.content}}</p>
           </div>
-            <div v-if="isWrite" id="content-editor">
+          <div v-if="isContent" class="article-content">
+            <div id="back"> 
+                <i  @click="back" class="fas fa-backward">  Back </i>
+            </div>
+            <div id="news">
+              <div id="title1">
+                  <h1> {{showTitle}} </h1>
+              </div>
+              <div id="content1">
+                  <p> {{showContent}} </p>
+              </div>
+            </div>
+          </div>
+            <div v-if="isWrite" class="content-editor">
                 <form method="POST" @submit.prevent="createArticle()">
                     <label for="title">Title: </label>
                     <input type="text" v-model="title">
@@ -123,11 +175,19 @@
                     <input type="submit" value="Submit">
                   </form>
             </div> 
+            <div v-if="isEdit" class="content-editor">
+              <form method="PATCH" @submit.prevent="editArticle()">
+                <label for="title">Title: </label>
+                    <input type="text" v-model="editTitle">
+                    <wysiwyg v-model="editContent"> </wysiwyg>
+                    <input type="submit" value="Submit">
+              </form>
+            </div>
       </div>
     </div>
   </div>
   <script src="vueWysiwyg.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="main.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

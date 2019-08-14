@@ -2,8 +2,9 @@ const article = require('../models/article')
 
 class ArticleController {
     static create(req, res, next) {
+        let { id } = req.decode
         let { title, content } = req.body
-        article.create({ title, content })
+        article.create({ title, content, userId: id })
         .then(article => {
             res.status(201).json(article)
         })
@@ -11,7 +12,8 @@ class ArticleController {
     }
 
     static find(req, res, next) {
-        article.find()
+        let { id } = req.decode
+        article.find({userId: id})
         .then(articles => {
             res.status(200).json(articles)
         })

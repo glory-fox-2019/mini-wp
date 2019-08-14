@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const PORT = 3000
+const userRouter = require('./routes/userRouter')
 const articleRouter = require('./routes/articleRouter')
 
 app.use(cors())
@@ -17,7 +18,7 @@ mongoose.connect("mongodb://localhost:27017/mini-wp", { useNewUrlParser: true })
     console.log(err.message)
 })
 
-
+app.use('/users', userRouter)
 app.use('/articles', articleRouter)
 
 app.use((err, req, res, next) => {
