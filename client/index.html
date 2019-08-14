@@ -24,10 +24,11 @@
     <div id="app">
     <!-- navigasi 1 -->
         <nav v-if="nav">
-            <div>
+            <div class="main-logo">
                 <img src="./assets/img/hactiv8-logo.jpg" alt="">
+                <h3>Hacktiv8 Blog</h3>
             </div>
-            <div>
+            <div >
                 <div class="input-group md-form form-sm form-2 pl-0">
                     <input class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
@@ -36,21 +37,56 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="button" class="btn btn-primary mr-3">Create</button>
-                <img src="./assets/img/hactiv8-logo.jpg" alt="">
+            <div v-if="isLogin" class="profile-icon d-flex">
+                <button type="button" class="btn"><i class="fas fa-edit mr-3"></i>Write Blog</button>
+                <div>
+                    <img src="./assets/img/hactiv8-logo.jpg" alt="">
+                </div>
+            </div>
+            <div v-if="!isLogin" class="login">
+                <button type="button" class="btn"></i>Log in</button>
             </div>
         </nav>
-    
+        <!-- <div class="nav2">
+            <ul>
+                <li>tag1</li>
+                <li>tag2</li>
+                <li>tag3</li>
+                <li>tag4</li>
+                <li>tag5</li>
+            </ul>
+        </div> -->
+
+
+        <!-- login -->
+        <!-- <form class="dropdown-menu p-4">
+                <div class="form-group">
+                  <label for="exampleDropdownFormEmail2">Email address</label>
+                  <input type="email" class="form-control" id="exampleDropdownFormEmail2" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleDropdownFormPassword2">Password</label>
+                  <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                    <label class="form-check-label" for="dropdownCheck2">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </form> -->
         <!-- dashboard -->
         <div class="dashboard">
             <div v-if="dashboardNav" class="side-nav col-md-2">
                 <ul>
                     <li v-on:click="toHome"><i class="fa fa-home mr-3"></i>Home</li>
-                    <li><i class="far fa-list mr-3"></i>My Article</li>
+                    <li v-on:click="toMyArticle"><i class="fas fa-list-alt mr-3"></i>My Article</li>
                     <li><i class="fas fa-plus-circle mr-3"></i></i>Add Article</li>
                     <li><i class="fas fa-star mr-3"></i>favourite</li>
-                    <li><i class="fas fa-times-circle mr-3"></i></i>Logout</li>
+                    <li><i class="fas fa-sign-out-alt mr-3"></i></i>Logout</li>
                 </ul>
             </div>
 
@@ -93,9 +129,13 @@
                     
                     <div class="col-md-9">
                         <h2>{{ editDashboard }}</h2>
-                        <!-- <h1></h1> -->
-                        <h4 class="mt-5">Title</h4>
-                        <input type="text" name="title" value="">
+                        <div class="edit-title">
+                            <input type="text" name="title" value="" placeholder="title ....">
+                        </div>
+                        <div class="edit-tag">
+                            <input type="text" name="title" value="" placeholder="tag ....">
+                            <small>Pisahkan dengan koma (' , ') atau spasi (' ')</small>
+                        </div>
 
                         <wysiwyg class="mt-5"></wysiwyg>
 
@@ -120,7 +160,10 @@
         <!-- container 1 -->
         <div v-if="container" class="container">
             
-            <button v-on:click="toDashboard" type="button" class="btn btn-primary">Primary</button> <-- test
+            <!-- <button v-on:click="toDashboard" type="button" class="btn btn-primary">Primary</button> <-- test -->
+            <div class="main-title">
+                <h1>Title Article</h1>            
+            </div>
             
             <!-- card-list 1 home-->
             <div id="card-list1" class="card m-5">

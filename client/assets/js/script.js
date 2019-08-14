@@ -9,6 +9,7 @@ const app = new Vue({
         dashboardEdit: true,
         container: false,
         isPublic: true,
+        isLogin: false,
     },
 
 
@@ -23,6 +24,10 @@ const app = new Vue({
             this.cardList2 = true
             this.dashboardNav = true
             this.container = false
+        },
+        toMyArticle() {
+            this.cardList2 = true
+            this.dashboardEdit = false
         },
         toEditArticle() {
             this.cardList2 = false

@@ -4,31 +4,92 @@
     font-size: 11px;
 }
 .container {
-    margin-top: px;
+    margin-top: 0px;
 }
+.main-title {
+    text-align: center;
+    font-style: italic;
+}
+
 /* ---------------- header --------------- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: silver;
+    background-color:  	#5e75c5;
     padding: 10px;
-    position: fixed; 
+    position: fixed;
     z-index: 1;
     width: 100%;
     top: 0;
     box-shadow: 0 0 1px silver
 }
 
-nav img {
-    width: 50px;
+nav .main-logo img {
+    width: 40px;
+    height: 40px;
     border-radius: 50px;
-    background-color: silver;
+    /* background-color: silver; */
+}
+
+.main-logo {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.main-logo h3 {
+    color: white;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+.profile-icon img{
+    max-height: 30px;
+    max-width: 30px;
+    border-radius: 10%;
+}
+
+.profile-icon {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.profile-icon button {
+    background-color:#bec7e8;
+    height: 30px;
+    font-size: 14px;
+    color: white;
+    margin-right: 10px;
+}
+
+.login .btn {
+    background-color:#afbbe7;
+    height: 30px;
+    font-size: 14px;
+    color: white;
+    margin-right: 10px;
+    border-radius: 14px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.login .btn:hover {
+    box-shadow: 0 0 5px #b0bef3;
+    color: #1c233b;
 }
 
 nav .input-group {
-    max-width: 300px;
+    max-width: 400px;
 }
+
+/* ---------------- nav 2 --------------- */
+.nav ul {
+    display: inline-flex;
+}
+
 
 /* ---------------- card title --------------- */
 .card {
@@ -155,12 +216,28 @@ nav .input-group {
     font-size: 13px;
     padding: 15px;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .side-nav li:hover {
     background-color: silver;
     color: white;
     box-shadow: 0 0 3px silver
+}
+
+.edit-title input {
+    margin-top: 20px;
+    border: none;
+    border-bottom: 1px solid #1c233b;
+    font-size: 30px;
+}
+
+.edit-tag input {
+    margin-top: 20px;
+    border: none;
+    border-bottom: 1px solid #1c233b;
+    font-size: 20px;
+    display: flex;
 }
 
 /* ---------------- dashboard-edit --------------- */
