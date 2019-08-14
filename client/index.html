@@ -80,11 +80,11 @@
               </form> -->
         <!-- dashboard -->
         <div class="dashboard">
-            <div v-if="dashboardNav" class="side-nav col-md-2">
+            <div v-if="sideNav" class="side-nav col-md-2">
                 <ul>
                     <li v-on:click="toHome"><i class="fa fa-home mr-3"></i>Home</li>
                     <li v-on:click="toMyArticle"><i class="fas fa-list-alt mr-3"></i>My Article</li>
-                    <li><i class="fas fa-plus-circle mr-3"></i></i>Add Article</li>
+                    <li v-on:click="toCreateArticle"><i class="fas fa-plus-circle mr-3"></i></i>Add Article</li>
                     <li><i class="fas fa-star mr-3"></i>favourite</li>
                     <li><i class="fas fa-sign-out-alt mr-3"></i></i>Logout</li>
                 </ul>
@@ -92,10 +92,9 @@
 
             <!-- dashboar content -->
             <div id=dashboard-content class="dashboard-content col-md-10">
-
                 <div v-if="cardList2">
 
-                    <!-- heder dahsboard -->
+                    <!-- heeder dahsboard -->
                     <ul class="nav nav-tabs">
                         <li @click.prevent="das" class="nav-item">
                             <a :class="{ active: isPublic }"   class="nav-link" href="#">Public</a>
@@ -106,44 +105,72 @@
                     </ul>
 
                     <!-- card list 2 -->
-                    <div class="d-flex card-list2">
+                    <div v-for="key in article"  class="d-flex card-list2">
                         <div class="col-md-2">
                             <img src="./assets/img/hactiv8-logo.jpg" alt="">
                         </div>
                         <div class="content-list col-md-9">
-                            <h4>This is some text within a card body.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus unde id ratione, ut facere nisi, velit autem at soluta, voluptas culpa recusandae laboriosam asperiores adipisci eaque animi quidem eius quae!
-                            </p>
+                            <h4>{{ key.title }}</h4>
+                            <p v-html="key.content"></p>
                         </div>
                         <div class="options col-md-1">
-                                <i class="fas fa-trash"></i>
-                            <a v-on:click="toEditArticle"><i class="fa fa-edit"></i></a>
+                            <a v-on:click="deleteArticle(key._id)"><i class="fas fa-trash"></i></a>
+                            <a v-on:click="fecthArticle(key._id)"><i class="fa fa-edit"></i></a>
                         </div>
                     </div>
                 </div>
                 <!-- end dashboard content -->
 
-                <!-- dashboard edit -->
-                <div v-if="dashboardEdit" class="dashboard-edit">
+
+                <!-- dashboard create -->
+                <div v-if="dashboardCreate" class="dashboard-edit">
                     
                     <div class="col-md-9">
-                        <h2>{{ editDashboard }}</h2>
+                        <h2>Create your article</h2>
                         <div class="edit-title">
-                            <input type="text" name="title" value="" placeholder="title ....">
+                            <input type="text" v-model="formCreateArticle.title" value="" placeholder="title ....">
                         </div>
-                        <div class="edit-tag">
+                        <!-- <div class="edit-tag">
                             <input type="text" name="title" value="" placeholder="tag ....">
                             <small>Pisahkan dengan koma (' , ') atau spasi (' ')</small>
-                        </div>
+                        </div> -->
 
-                        <wysiwyg class="mt-5"></wysiwyg>
+                        <wysiwyg v-model="formCreateArticle.content" type="text" class="mt-5"></wysiwyg>
 
                         <div class="button-dashboard-edit">
-                            <button type="button" class="btn btn-primary">Save</button>
+                            <button @click="createArticle" type="button" class="btn btn-primary">Save</button>
                             <button type="button" class="btn btn-primary">Cancel</button>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <h4>Lorem ipsum, dolor sit amet</h4>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit eaque sapiente porro, tempore pariatur necessitatibus repellendus quia neque blanditiis iste asperiores molestiae. Tempore sequi earum dicta, dolores quasi accusantium quo.
+                    </div>
+                </div>
+                <!-- end dashboard create -->
+
+                <!-- dashboard edit -->
+                <div v-if="dashboardEdit" class="dashboard-edit">
+                    <!-- card -->
+                    <div class="col-md-9">
+                        <h2>{{ editDashboard }}</h2>
+                        <div class="edit-title">
+                            <input type="text" v-model="formEditArticle.title" value="" placeholder="title ....">
+                        </div>
+                        <!-- <div class="edit-tag">
+                            <input type="text" name="title" value="" placeholder="tag ....">
+                            <small>Pisahkan dengan koma (' , ') atau spasi (' ')</small>
+                        </div> -->
+
+                        <wysiwyg v-model="formEditArticle.content" class="mt-5"></wysiwyg>
+
+                        <div class="button-dashboard-edit">
+                            <button @click="editArticle(formEditArticle.id)" type="button" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-primary">Cancel</button>
+                        </div>
+                    </div>
+                    <!-- end card -->
+
                     <div class="col-md-3">
                         <h4>Lorem ipsum, dolor sit amet</h4>
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit eaque sapiente porro, tempore pariatur necessitatibus repellendus quia neque blanditiis iste asperiores molestiae. Tempore sequi earum dicta, dolores quasi accusantium quo.
@@ -162,11 +189,11 @@
             
             <!-- <button v-on:click="toDashboard" type="button" class="btn btn-primary">Primary</button> <-- test -->
             <div class="main-title">
-                <h1>Title Article</h1>            
+                <h1>Title Article</h1>  <button class="btn btn-primary" @click="toDashboard">to dashboard</button>          
             </div>
             
             <!-- card-list 1 home-->
-            <div id="card-list1" class="card m-5">
+            <div v-for="key in article" id="card-list1" class="card m-5">
                 <div class="row no-gutters">
                     <div class="col-md-5">
                         <img src="./assets/img/img3.png" class="card-img" alt="...">
@@ -177,8 +204,8 @@
                             <a><i class="fa fa-calendar-o ml-5 mr-1"></i> date</a>
                         </div>
                         <div class="card-main">
-                            <h5>Font Awesome Web Application Icons</h5>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam, reiciendis quidem, tenetur dignissimos aperiam, sequi eum quo veritatis iusto perspiciatis ea! Maxime possimus asperiores incidunt dicta quo nulla obcaecati esse. Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, hic! Ad, dicta sapiente. Voluptate alias iusto animi dolores amet autem, hic architecto quia! Minima repellendus quos ipsam accusantium debitis rerum.  hic architecto quia! Minima repellendus quos ipsam accusantium debitis rerum</p>
+                            <h5>{{ key.title }}</h5>
+                            <p v-html="key.content"></p>
                         </div>
                         <div class="card-comment">
                             <div>
@@ -193,8 +220,6 @@
                     </div>
                 </div>
             </div>
-
-
 
         </div>
 
