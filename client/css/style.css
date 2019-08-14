@@ -139,6 +139,11 @@
   }
 }
 
+.main-content {
+  height: 100vh;
+  overflow: auto;
+}
+
 .main-content .title {
   margin-top: 75px;
   margin-bottom: 20px;
@@ -188,8 +193,16 @@
   font-size: 16px;
 }
 
-#create-post .editor .editor--thumbnail__input {
+#create-post .editor .editor--thumbnail {
+  overflow: hidden;
+}
+
+#create-post .editor .editor--thumbnail .editor--thumbnail__input {
   padding: 15px;
+}
+
+#create-post .editor .editor--thumbnail .editor--thumbnail__image img {
+  width: 100%;
 }
 
 #create-post .editor .editor--tag {
@@ -232,7 +245,7 @@
   text-decoration: none;
 }
 
-#list-post .post--list .grid-item {
+#list-post .post--list > div {
   width: 25%;
   padding: 10px;
 }
@@ -278,5 +291,28 @@
 
 #list-post .post--list .post__item:hover .post__item--action {
   display: block;
+}
+
+#login {
+  padding-top: 100px;
+  height: 100vh;
+  background-color: #E4EFFF;
+}
+
+#login form {
+  background-color: white;
+  max-width: 450px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 20px;
+  border-radius: 15px;
+  border: 1px solid #1A75FF;
+}
+
+#login form .title h2 {
+  margin-bottom: 20px;
+  line-height: 40px;
+  font-size: 50px;
+  font-weight: bold;
 }
 /*# sourceMappingURL=style.css.map */

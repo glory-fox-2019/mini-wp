@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mini Wp</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/vendors/vueWysiwyg/index.css">
+</head>
+<body>
+  <div id="app">
+    <div id="login" v-if="!isLogin">
+      <form @submit.prevent="login">
+        <div class="title">
+          <h2>Login</h2>
+        </div>
+        <div class="form-group">
+          <label for="input--username">Username:</label>
+          <input type="text" class="form-control" id="input--username" v-model="login.username">
+        </div>
+        <div class="form-group">
+          <label for="input--password">Password:</label>
+          <input type="text" class="form-control" id="input--password" v-model="login.password">
+        </div>
+        <div class="editor--submit">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+    </div>
+    <div id="admin" class="container-fluid" v-if="isLogin && isAdmin">
+      <div class="row">
+        <div id="nav" class="">
+          <div class="brand">
+            <span>Mini Wp</span>
+          </div>
+          <ul class="menu--list">
+            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('list-post')}" @click="changePage('list-post')">List Post</a></li>
+            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('create-post')}" @click="changePage('create-post')">Create Post</a></li>
+          </ul>
+          <div class="nav--footer">
+            <div class="nav--account">
+              <div class="account--avatar">
+                <div class="account--avatar__img"></div>
+              </div>
+              <div class="account--detail">
+                <p class="account--detail__avatar">JustArya</p>
+                <p class="account--detail__description">Author</p>
+              </div>
+              <div class="account--menu">
+        
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col main-content">
+          <div id="create-post" v-if="page === 'create-post'">
+            <div class="container">
+              <div class="title">
+                <h2>Create Post</h2>
+              </div>
+              <div class="editor">
+                <form @submit.prevent="">
+                  <div class="row">
+                    <div class="col-12 col-md-8">
+                      <div class="editor--title">
+                        <input type="text" name="title" placeholder="Title" v-model="post.title">
+                      </div>
+                      <div class="editor--content">
+                        <wysiwyg v-model="post.content"></wysiwyg>
+                      </div>
+                      <div class="editor--submit">
+                        <button type="submit" class="btn btn-primary" @click="saveCreatePost()">Save Post</button>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="editor--thumbnail">
+                        <div class="editor--thumbnail__image">
+                          <img :src="post.thumbnail">
+                        </div>
+                        <div class="editor--thumbnail__input">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" @change="previewImage" accept="image/*">
+                            <label class="custom-file-label" for="customFile" >Choose thumbnail</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="editor--tag">
+                        <div class="editor--tag__input">
+                          <span class="editor--tag__input__label">
+                            <label for="">Tag</label>
+                          </span>
+                          <div class="editor--tag__input__form">
+                            <input type="text" name="tag" @keyup.enter="addTag()" v-model="tagInput">
+                          </div>
+                        </div>
+                        <div class="editor--tag__item--list">
+                          <div class="editor--tag__item" v-for="(data,i) in post.tags">{{ data }} <a @click="removeTag(i)">&times;</a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div id="list-post" v-if="page === 'list-post'">
+            <div class="container">
+              <div class="title">
+                <h2>All Post</h2>
+              </div>
+              <div class="action">
+                <form @submit.prevent="searchPost">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="input--search" placeholder="Search" autocomplete="off" v-model="search">
+                  </div>
+                </form>
+              </div>
+              <div class="post--list row">
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3" v-for="data in posts">
+                  <div class="post__item">
+                    <div class="post__item--thumbnail" :style="`background-image:url(${data.thumbnail || 'https://picsum.photos/200/300'})`">
+                      <div class="post__item--action">
+                        <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
+                        <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
+                        <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                      </div>
+                    </div>
+                    <div class="post__item--title">
+                      {{ data.title }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script src="/vendors/vueWysiwyg/index.js"></script>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <script src="/js/index.js"></script>
+</body>
+</html>

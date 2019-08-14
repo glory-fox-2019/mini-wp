@@ -123,6 +123,8 @@ $small-radius: 8px;
 }
 
 .main-content{
+  height: 100vh;
+  overflow: auto;
   .title{
     margin-top: 75px;
     margin-bottom: 20px;
@@ -166,8 +168,16 @@ $small-radius: 8px;
         font-size: 16px;
       }
     }
-    .editor--thumbnail__input{
-      padding: 15px;
+    .editor--thumbnail{
+      overflow:hidden;
+      .editor--thumbnail__input{
+        padding: 15px;
+      }
+      .editor--thumbnail__image{
+        img{
+          width: 100%;
+        }
+      }
     }
     .editor--tag{
       padding: 15px;
@@ -206,7 +216,7 @@ $small-radius: 8px;
 }
 #list-post{
   .post--list{
-    .grid-item{
+    >div{
       width: 25%;
       padding: 10px;
     }
@@ -247,4 +257,26 @@ $small-radius: 8px;
     }
   }
   
+}
+#login{
+  padding-top: 100px;
+  height: 100vh;
+  background-color: $hover-main;
+  form{
+    background-color: white;
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+    border-radius: $radius;
+    border: 1px solid $main;
+    .title{
+      h2{
+        margin-bottom: 20px;
+        line-height: 40px;
+        font-size: 50px;
+        font-weight: bold;
+      }
+    }
+  }
 }
