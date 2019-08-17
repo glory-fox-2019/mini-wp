@@ -35,7 +35,7 @@ class UserController {
                         email: user.email
                     }
                     const token = generateToken(payload)
-                    res.status(201).json({token, username: user.username})
+                    res.status(201).json({token, username: user.username, id: user._id})
                 }
                 else {
                     throw {

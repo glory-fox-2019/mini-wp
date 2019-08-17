@@ -1,7 +1,7 @@
 <template>
 <div>
-    <section v-for="article in articles" :key="article._id">
-        <b-card no-body style="margin-bottom: 30px;">
+    <section v-for="article in articles" :key="article._id" style="margin-bottom: 70px;">
+        <b-card no-body >
             <b-row no-gutters>
                 <b-col md="8">
                     <b-card-body :title="article.title" style="display:flex; flex-direction: column;">
@@ -19,6 +19,10 @@
                 </b-col>
             </b-row>
         </b-card>
+        <div style="display: flex; width: 100%; justify-content: flex-end;">
+        <a href="#" v-if="isEdit" style="margin: 0; padding: 0; color:green; content-align: center; margin-right: 10px;">Edit</a>
+        <a href="#" @click.prevent="deleteArticle(article._id)" v-if="isEdit" style="margin: 0; padding: 0; color:red; content-align: center;">Delete</a>
+        </div>
     </section>
 </div>
 </template>
@@ -28,7 +32,8 @@ import moment from 'moment'
 
 export default {
     props: {
-        articles: Array
+        articles: Array,
+        isEdit: Boolean
     },
     data() {
         return {
@@ -36,7 +41,9 @@ export default {
         }
     },
     methods: {
-
+        deleteArticle(id) {
+            this.$emit('deleteArticle', id)
+        }
     }
 }
 </script>

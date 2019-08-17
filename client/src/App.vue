@@ -9,7 +9,30 @@
     </Navbar>
     <Loginpage v-if="pages.loginSection && !isLogin" @registerButton="registerPage" @userLogin="signIn"></Loginpage>
     <Registerpage v-if="pages.registerSection && !isLogin" @back="loginPage" @userRegister="signUp"></Registerpage>
-    <Contentpage v-if="pages.contentSection && isLogin" style="margin-top: 100px; " :articles="articles"></Contentpage>
+    <Contentpage 
+    v-if="pages.contentSection && isLogin" 
+    style="margin-top: 100px; " 
+    :articles="articles"
+    :isEdit="isEdit"
+    @deleteArticle="deleteArticle"
+    >
+    </Contentpage>
+
+        <b-modal ref="modal-1"
+        v-if="isLoading" 
+        hide-header
+        hide-footer
+        hide-header-close=true 
+        no-close-on-backdrop=true
+        centered=true
+        visible=true
+        no-close-on-esc
+        body-bg-variant="light"
+        >
+            <b-spinner variant="primary" type="grow"></b-spinner>
+            <b-spinner variant="danger" type="grow"></b-spinner>
+            <b-spinner variant="warning" type="grow"></b-spinner>
+        </b-modal>
 </div>
 </template>
 
@@ -24,6 +47,8 @@ import Contentpage from './components/Contentpage.vue'
 export default {
     data() {
         return {
+            isLoading: false,
+            isEdit: false,
             isLogin: false,
             articles: [],
             tempArticles: [],
@@ -54,6 +79,7 @@ export default {
             .then(response => {
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('username', response.data.username)
+                localStorage.setItem('junk', response.data.id)
                 Swal.fire({
                     type: 'success',
                     title: 'Login success !',
@@ -102,26 +128,6 @@ export default {
                 })
             })
         },
-        loadArticle() {
-            axios({
-                method: 'get',
-                url: `${article_url}`,
-                headers: {
-                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDU3OGFkNWRhNjY0YTNmZTkxZjRmZTUiLCJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAbWFpbC5jb20iLCJpYXQiOjE1NjYwNDEwOTl9.RsVx5ZuMX9KZjEXnHnleQ85NWaAsdjn2009LLNTmYyo"
-                }
-            })
-            .then(response => {
-                this.articles = response.data;
-                this.tempArticles = response.data;
-            })
-            .catch(err => {
-                Swal.fire({
-                    type: 'error',
-                    title: 'Server Error !',
-                    text: err.response.data
-                })
-            })
-        },
         signOut() {
             Swal.fire({
                 type: 'success',
@@ -136,6 +142,30 @@ export default {
                 localStorage.removeItem('username')
                 this.loginPage()
             }, 1800)
+        },
+        loadArticle() {
+            this.isEdit = false;
+            axios({
+                method: 'get',
+                url: `${article_url}`,
+                headers: {
+                    token: localStorage.token
+                }
+            })
+            .then(response => {
+                this.articles = response.data;
+                this.tempArticles = response.data;
+            })
+            .catch(err => {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Server Error !',
+                    text: err.response.data
+                })
+            })
+        },
+        deleteArticle(id) {
+            //delete here
         },
         registerPage() {
             this.pages.loginSection = false;
@@ -153,7 +183,8 @@ export default {
             this.loadArticle()
         },
         userArticles() {
-            this.articles = this.articles.filter((el) => { return el.author._id == "5d5696c8954acc58a9406f18"})
+            this.isEdit = true;
+            this.articles = this.tempArticles.filter((el) => { return el.author._id == localStorage.junk})
         },
         searchArticles(value) {
             const title = new RegExp(value,'i')

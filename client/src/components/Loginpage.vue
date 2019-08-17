@@ -3,9 +3,9 @@
     <b-container style="display: flex; height: 100vh; justify-content:center; flex-direction: column; width: 50%" >
       <div id="title" style="margin-bottom: 20px; display:flex; justify-content: center;">
           <img :src="image" style="width: 50px; height: 50px;">
-          <h1 style="margin-left: 10px;">Curhatin aja</h1>
+          <h1 style="margin-left: 10px;">Omongin aja</h1>
       </div>
-      <b-form @submit.prevent="signIn">
+      <b-form @submit.prevent="signIn" method='POST' action="#">
         <b-form-group
           label="Email address:"
           label-for="input-1"

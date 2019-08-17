@@ -5,7 +5,7 @@
         >
           <b-navbar-brand style="margin-left: 15px; display:flex; width: 30%; align-items: center;">
               <img :src="image" style="width: 30px; height: 30px; margin-right: 10px;">
-              <h5 style="margin-left: 10px; padding: 0; margin: 0;">Curhatin aja</h5>
+              <h5 style="margin-left: 10px; padding: 0; margin: 0;">Omongin aja</h5>
           </b-navbar-brand>
           <b-navbar-nav tabs fill style="display:flex; width:40%;">
             <b-nav-item @click.prevent="allArticles">Home</b-nav-item>
