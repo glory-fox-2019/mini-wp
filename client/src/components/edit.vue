@@ -1,0 +1,124 @@
+<template>
+  <div id="column-right-edit">
+    <div class="container2">
+      <div class="bottom">
+        <form action @submit.prevent="editItem(article._id)">
+          <div>
+            <input type="text" v-model="title" placeholder="insert title" />
+          </div>
+          <div class="textarea">
+            <editor placeholder="insert content" v-model="content"></editor>
+          </div>
+          <div>
+            <input type="file" id="file" ref="file" v-on:change="handlefileupload($event)" />
+          </div>
+          <div class="tombol">
+            <div class="submitbutton">
+              <button>submit</button>
+            </div>
+            <div>
+              <button @click="clearItem">clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import editor from "./editor.vue";
+export default {
+  props: ["updateid"],
+  components: {
+    editor
+  },
+  data() {
+    return {
+      featured_image: "",
+      title: "",
+      content: ""
+    };
+  },
+  methods: {
+    handlefileupload() {
+      let file = event.target.files || event.dataTransfer.files;
+      this.featured_image = file[0];
+    },
+    editItem() {
+      let id = updateid;
+      let token = localStorage.getItem("token");
+      let formData = new FormData();
+      formData.set("featured_image", this.featured_image);
+      formData.set("title", this.title);
+      formData.set("content", this.content);
+      axios({
+        method: "PATCH",
+        url: `http://localhost:3000/articles/update/${id}`,
+        headers: {
+          token
+        },
+        data: {
+          id,
+          title,
+          content,
+          featured_image
+        }
+      })
+        .then(data => {
+          response = data.data.data;
+          Swal.fire(
+            "Success",
+            "Your Article is Successfully Edited",
+            "success"
+          );
+          this.$emit("editArticle", response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    clearItem() {
+      this.title = "";
+      this.content = "";
+      this.image = "";
+    }
+  }
+};
+</script>
+
+<style scoped>
+#column-right-edit {
+  height: 100vh;
+  background-color: #0001;
+  width: 80%;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+}
+.container2 {
+  margin-top: 5%;
+  width: 70%;
+}
+.bottom {
+  margin-bottom: 5%;
+  padding: 5%;
+  background-color: white;
+  -webkit-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.tombol {
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+}
+.submitbutton {
+  margin-right: 3%;
+}
+input[type="text"] {
+  width: 100%;
+  height: 5%;
+}
+</style>
+

@@ -6,25 +6,44 @@
 
 body {
     overflow: hidden;
+    background-color: transparent;
+    background-image: url('https://images.unsplash.com/photo-1478095998943-7ab552a9061e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1482&q=80')
 }
-
-#navbar {
+nav {
+    background-color: transparent;
+}
+.navbarin {
     display: flex;
     align-content: center;
 }
+#navbarout {
+    display: flex;
+    align-content: center;
+    background-color: none;
+}
 
-#left-nav {
+.left-nav {
     background-color: black;
     padding: 15px;
     width: 10%;
 }
+.left-nav-out {
+    padding: 15px;
+    width: 10%;
+}
 
-#right-nav {
+.right-nav {
     background-color: #21759b;
     padding: 15px;
     width: 90%;
     display: flex;
     justify-content: space-between;
+}
+.right-nav-out {
+    padding: 15px;
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .right {
@@ -51,7 +70,7 @@ a {
     height: 90vh;
     background-color: #0001;
     width: 80%;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     justify-content: center;
 }
@@ -240,3 +259,62 @@ input[type=text]{
     justify-content: center;
 }
 
+.isi {
+    height: 50vh;
+    overflow: auto;
+}
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    
+}
+.tengah {
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.black {
+    color: black;
+}
+.sign-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.signin {
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0002;
+}
+.formsign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    justify-content: center;
+}
+
+#email {
+    height: 7%;
+}
+#password {
+    height: 7%;
+}
+.subss {
+    margin-top: 5%;
+}
+.next {
+    margin-right: 20%;
+}
+img {
+    width:100px;
+    height:70px;
+}
