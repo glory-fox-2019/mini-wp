@@ -9,19 +9,22 @@ class User {
         username: req.body.username
       })
       .then(data => {
-        if(bcrypt.comparePassword(req.body.password,data.password)){
-          let payload = {
-            id: data._id,
-            name: data.name,
-            username: data.username,
-            email: data.email,
-            role: data.role,
-            isLogin: true,
+        if(!data) next({httpStatus: 404, message: 'Username/Password is wrong'})
+        else{
+          if(bcrypt.comparePassword(req.body.password,data.password)){
+            let payload = {
+              id: data._id,
+              name: data.name,
+              username: data.username,
+              email: data.email,
+              role: data.role,
+              isLogin: true,
+            }
+            let token = jwt.generateToken(payload);
+            res.json({token, payload});
+          }else{
+            next({httpStatus: 401, message: 'Wrong Password'})
           }
-          let token = jwt.generateToken(payload);
-          res.json({token, payload});
-        }else{
-          next({httpStatus: 401, message: 'Wrong Password'})
         }
       })
       .catch(next)

@@ -3,7 +3,7 @@ module.exports = {
   post(req,res,next){
     Model.Post
       .findOne({
-        _id: req.params.data,
+        _id: req.params.id,
         userId: req.decode.id,
       })
       .then(data => {
