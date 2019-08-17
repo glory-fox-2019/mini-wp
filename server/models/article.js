@@ -9,6 +9,15 @@ const articleSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    featured_image: {
+        type: String,
+    },
+    author: {
+        type: String
+    },
+    UserId: {
+         type: Schema.Types.ObjectId, ref: 'users' 
     }
 }, {
     timestamps: true,
