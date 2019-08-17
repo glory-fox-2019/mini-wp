@@ -169,8 +169,12 @@ $small-radius: 8px;
         font-size: 16px;
         border-bottom: 1px solid #ccc;
       }
-      .ql-editor{
-        font-size: 16px;
+      .ql-container{
+        border: 0;
+        .ql-editor{
+          min-height: 250px;
+          font-size: 16px;
+        }
       }
     }
     .editor--thumbnail{
@@ -285,3 +289,4 @@ $small-radius: 8px;
     }
   }
 }
+
