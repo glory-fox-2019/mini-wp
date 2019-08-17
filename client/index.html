@@ -40,8 +40,8 @@
             <span>Mini Wp</span>
           </div>
           <ul class="menu--list">
-            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('list-post')}" @click="changePage('list-post')">List Post</a></li>
-            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('create-post')}" @click="changePage('create-post')">Create Post</a></li>
+            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('list-post')}" @click="changePage('list-post')"><i class="material-icons">insert_drive_file</i><span>List Post</span></a></li>
+            <li class="menu--item"><a href="javascript:void(0)" :class="{'active': isActive('create-post')}" @click="changePage('create-post')"><i class="material-icons">insert_drive_file</i><span>Create Post</span></a></li>
           </ul>
           <div class="nav--footer">
             <div class="nav--account">
@@ -69,7 +69,7 @@
                   <div class="row">
                     <div class="col-12 col-md-8">
                       <div class="editor--title">
-                        <input type="text" name="title" placeholder="Title" v-model="post.title">
+                        <input type="text" name="title" placeholder="Title" v-model="post.title" autocomplete="off">
                       </div>
                       <div class="editor--content">
                         <wysiwyg v-model="post.content"></wysiwyg>
@@ -81,11 +81,11 @@
                     <div class="col-12 col-md-4">
                       <div class="editor--thumbnail">
                         <div class="editor--thumbnail__image">
-                          <img :src="post.thumbnail">
+                          <img :src="input.thumbnailInput">
                         </div>
                         <div class="editor--thumbnail__input">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" @change="previewImage" accept="image/*">
+                            <input type="file" class="custom-file-input" ref="file" @change="handleImage" accept="image/*">
                             <label class="custom-file-label" for="customFile" >Choose thumbnail</label>
                           </div>
                         </div>
@@ -96,7 +96,7 @@
                             <label for="">Tag</label>
                           </span>
                           <div class="editor--tag__input__form">
-                            <input type="text" name="tag" @keyup.enter="addTag()" v-model="tagInput">
+                            <input type="text" name="tag" @keyup.enter="addTag()" v-model="input.tagInput">
                           </div>
                         </div>
                         <div class="editor--tag__item--list">
@@ -115,7 +115,7 @@
                 <h2>All Post</h2>
               </div>
               <div class="action">
-                <form @submit.prevent="searchPost">
+                <form @submit.prevent="searchPost" enctype="multipart/form-data">
                   <div class="form-group">
                     <input type="text" class="form-control" id="input--search" placeholder="Search" autocomplete="off" v-model="search">
                   </div>
@@ -124,11 +124,11 @@
               <div class="post--list row">
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3" v-for="data in posts">
                   <div class="post__item">
-                    <div class="post__item--thumbnail" :style="`background-image:url(${data.thumbnail || 'https://picsum.photos/200/300'})`">
+                    <div class="post__item--thumbnail" :style="{backgroundImage: `url('`+data.thumbnail || 'https://picsum.photos/id/1023/300/200'+`')`}">
                       <div class="post__item--action">
-                        <a href="#" class="post__item--action--read"><i class="material-icons">remove_red_eye</i></a>                      
-                        <a href="#" class="post__item--action--edit"><i class="material-icons">edit</i></a>
-                        <a href="#" class="post__item--action--delete"><i class="material-icons">delete</i></a>
+                        <a href="#" class="post__item--action--read" @click="readItem(data._id)"><i class="material-icons">remove_red_eye</i></a>                      
+                        <a href="#" class="post__item--action--edit" @click="editItem(data._id)"><i class="material-icons">edit</i></a>
+                        <a href="#" class="post__item--action--delete" @click="deleteItem(data._id)"><i class="material-icons">delete</i></a>
                       </div>
                     </div>
                     <div class="post__item--title">

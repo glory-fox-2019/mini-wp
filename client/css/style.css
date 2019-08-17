@@ -31,7 +31,7 @@
 }
 
 #nav .brand {
-  color: #1A75FF;
+  color: #152843;
   padding: 20px;
   padding-left: 40px;
   width: 100%;
@@ -63,6 +63,14 @@
   color: #1A75FF;
   padding: 15px 40px;
   font-size: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none;
+}
+
+#nav ul.menu--list li.menu--item a i {
+  margin-right: 5px;
 }
 
 #nav ul.menu--list li.menu--item a.active {

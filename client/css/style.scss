@@ -30,7 +30,7 @@ $small-radius: 8px;
 
   overflow: hidden;
   .brand{
-    color: $main;
+    color: $dark-main;
     padding: 20px;
     padding-left: 40px;
     width: 100%;
@@ -55,6 +55,11 @@ $small-radius: 8px;
         color: $main;
         padding: 15px 40px;
         font-size: 18px;
+        display: flex;
+        text-decoration: none;
+        i{
+          margin-right: 5px;
+        }
       }
       a.active{
         background-color: $active-main;

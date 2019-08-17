@@ -23,11 +23,13 @@ new Vue({
       thumbnail: '',
       tags: [],
     },
-    tagInput: '',
+    input:{
+      tagInput: '',
+      thumbnailInput: '',
+    }
   },
   mounted(){
     this.checkLogin(() => {
-      // console.log(this.isLogin, this.isAdmin)
       if(this.isLogin && this.isAdmin){
         axios({
           url:`${this.baseUrl}/posts`,
@@ -37,13 +39,14 @@ new Vue({
           }
         })
         .then(({data}) => {
+          console.log(data);
           this.posts = data;
         })
-        .catch(err => {
+        .catch(({response}) => {
           Swal.fire({
             type: 'error',
             title: 'Oops...',
-            text: err,
+            text: response.data.error,
           })
         })      
       }
@@ -60,14 +63,13 @@ new Vue({
         }
       })
       .then(({data}) => {
-        console.log(data);
         this.posts = data;
       })
-      .catch(err => {
+      .catch(({response}) => {
         Swal.fire({
           type: 'error',
           title: 'Oops...',
-          text: err,
+          text: response.data.error,
         })
       })
     },
@@ -78,47 +80,48 @@ new Vue({
       return this.page === page
     },
     addTag(){
-      this.post.tags.push(this.tagInput);
-      this.tagInput = '';  
+      this.post.tags.push(this.input.tagInput);
+      this.input.tagInput = '';  
     },
     removeTag(i){
       console.log('test')
       this.post.tags.splice(i,1);
     },
     saveCreatePost(){
+      let formData = new FormData();
+      formData.append('title', this.post.title);
+      formData.append('photo', this.post.thumbnail);
+      formData.append('content', this.post.content);
+      formData.append('tags', this.post.tags);
       axios({
         url: `${this.baseUrl}/posts`,
         method: 'post',
-        data: {
-          title: this.post.title,
-          content: this.post.content,
-          tags: this.post.tags
-        },
+        data: formData,
         headers: {
+          'Content-Type':'multipart/form-data',
           token: localStorage.getItem('token')
         }
       })
       .then(({data}) => {
-        console.log(data)
         this.page = 'list-post'
         this.posts.push(data);
         this.clearPost();
       })
-      .catch((err) => {
+      .catch(({response}) => {
         Swal.fire({
           type: 'error',
           title: 'Oops...',
-          text: err
+          text: response.data.error
         })
       })
     },
-    previewImage(event){
+    handleImage(event){
       var input = event.target;
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = (e) => {
-          this.post.thumbnail  = e.target.result;
-          // this.post.thumbnail = reader.readAsDataURL(input.files[0]);
+          this.input.thumbnailInput  = e.target.result;
+          this.post.thumbnail = this.$refs.file.files[0];
         }
         reader.readAsDataURL(input.files[0]);
       }
@@ -137,11 +140,11 @@ new Vue({
         this.isLogin = true;
         this.isAdmin = data.payload.role === 'admin'
       })
-      .catch(err => {
+      .catch(({response}) => {
         Swal.fire({
           type: 'error',
           title: 'Oops...',
-          text: err,
+          text: response.data.error,
         })
       })
     },
@@ -166,15 +169,49 @@ new Vue({
           cb();
         })
         .catch((err) => {
-          // Swal.fire({
-          //   type: 'error',
-          //   title: 'Oops...',
-          //   text: err,
-          // })
+          Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: err,
+          })
         })
       }else{
         this.isLogin = false;
       }
+    },
+
+    deleteItem(id){
+      axios({
+        url: `${this.baseUrl}/posts/${id}`,
+        method: 'DELETE',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({data}) => {
+        Swal.fire({
+          type: 'success',
+          title: 'Success',
+          text: data.message,
+        })
+        this.posts = this.posts.filter((el) => el._id !== id);
+      })
+      .catch(({response}) => {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: response.data.error,
+        })
+      })
+    },
+    
+    loadEditItem(id){
+      this.page = 'edit-post'
+    },
+    editItem(id){
+      axios({
+        url: ''
+      })
     }
   },
   computed: {}
