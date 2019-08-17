@@ -9,7 +9,7 @@ class articleController{
             res.status(200).json({
                 name,
                 data,
-                message: 'data found'
+                message: 'articles are found'
             })
         }).catch(err => {
             res.status(404)
@@ -23,7 +23,7 @@ class articleController{
         .then(data => {
             res.status(200).json({
                 data,
-                message: 'data found'
+                message: 'found your article'
             })
         }).catch(err => {
             res.status(404)
@@ -43,7 +43,7 @@ class articleController{
         }).then(data => {
             res.status(201).json({
                 data,
-                message: 'data created'
+                message: 'article is successfully created'
             })
         }).catch(err => {
             res.status(500)
@@ -63,7 +63,7 @@ class articleController{
         ).then(data => {
             res.status(200).json({
                 data,
-                message: 'data updated'
+                message: 'Data is successfully updated'
             })
         }).catch(err => {
             res.status(500)
@@ -76,7 +76,7 @@ class articleController{
         .then(data => {
             res.status(200).json({
                 data,
-                message: 'Data is deleted'
+                message: 'article is successfully deleted'
             })
         }).catch(err => {
             res.status(500)
@@ -88,7 +88,8 @@ class articleController{
         Article.find({UserId: id})
         .then(data => {
             res.status(200).json({
-                data
+                data,
+                message: 'found your articles'
             })
         }).catch(err => {
             res.status(404)
