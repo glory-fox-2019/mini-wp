@@ -4,209 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Muli|Poppins|Work+Sans&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
-    <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <meta name="google-signin-client_id"
+        content="625839930459-4rtuag4765ha3b3924a1fckfcrtp8lbp.apps.googleusercontent.com">
+        <link href="https://fonts.googleapis.com/css?family=Muli|Poppins&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/wysiwig/vueWysiwyg.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="/wysiwig/vueWysiwyg.css">
-    <link rel="stylesheet" href="/css/index.css">
-    <title>Wordpress</title>
-    <link rel="shortcut icon" type="image/png"
-        href="https://freepngimg.com/download/wordpress_logo/3-2-wordpress-logo-png-pic.png" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            overflow: hidden;
+            background-color: transparent;
+            background-image: url('https://images.unsplash.com/photo-1478095998943-7ab552a9061e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1482&q=80')
+        }
+    </style>
+    <title>iPress</title>
 </head>
 
 <body>
-    <div id="app">
-        <nav id="navbar">
-            <div id="left-nav">
-                <a href="#"><i class="fab fa-wordpress fa-lg"></i> iPress</a>
-            </div>
-            <div id="right-nav">
-                <a href="#"><i class="fas fa-newspaper"></i> Reader</a>
-                <div class="next-right">
-                    <div>
-                        <button class="right" id="button1" @click="checkWrite"><i class="far fa-edit write "></i>
-                            Write</button>
-                    </div>
-                    <div class="rightcorner">
-                        <div>
-                            <a href="#"><i class="fas fa-user fa-lg right white"></i></a>
-                        </div>
-                        <div>
-                            <a href="#"> <i class="far fa-bell fa-lg white"></i></a>
-                        </div>
-                    </div>
+    <div id="app"></div>
 
-                </div>
-
-            </div>
-        </nav>
-
-        <div class="container">
-            <div id="column-left">
-                <div class="box">
-                    <i class="far fa-user"></i> Welcome, Iqbal
-                </div>
-                <div class="box">
-                    <a class="dalambox" href="#" @click="checkBody"><i class="fas fa-laptop"></i> view articles</a>
-                </div>
-                <div class="box">
-                    <i class="fas fa-chart-bar"></i> stats
-                </div>
-                <div class="box">
-                    <i class="fas fa-chart-line"></i> activity
-                </div>
-                <div class="box" id="manage">
-                    Manage
-                </div>
-                <div class=" box plan">
-                    <div>
-                        <i class="fas fa-th-large"></i> Blog Posts
-                    </div>
-                    <div>
-                        <button>Add</button>
-                    </div>
-                </div>
-                <div class="box plan">
-                    <div>
-                        <i class="far fa-image"></i> Media
-                    </div>
-                    <div>
-                        <button>Add</button>
-                    </div>
-                </div>
-                <div class="box plan">
-                    <div>
-                        <i class="fas fa-comments"></i> Comments
-                    </div>
-                </div>
-                <div class="box plan">
-                    <div>
-                        <i class="fas fa-comment-dots"></i> Feedback
-                    </div>
-                    <div>
-                        <button>Add</button>
-                    </div>
-                </div>
-                <div class="box Personalize">
-                    Personalize
-                </div>
-                <div class="box plan">
-                    <div>
-                        <i class="fas fa-user-cog"></i> Customize
-                    </div>
-                    <div>
-                        <button>Add</button>
-                    </div>
-                </div>
-            </div>
-            <div id="column-right" v-if="isBody">
-                <div class="container2">
-                    <div id="top">
-                        <div class="atas">
-                            <div class="published">
-                                <a class="publish" href="#">published</a>
-                            </div>
-                            <div class="published">
-                                <a id="draft" href="#" >draft</a>
-                            </div>
-                        </div>
-                        <div id="searchbar">
-                            <div>
-                                <input type="text" v-model="filter">
-                            </div>
-
-                            <div id="search">
-
-                                <i class="fas fa-search write"></i>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="bottom" v-for="article in articles">
-                        <div class="judul">
-                            <div>
-                                <h4>{{article.title}}</h4>
-                                <p>{{article.content}}</p>
-                                <p>{{String(new Date(article.createdAt)).substr(0,10)}}</p>
-                            </div>
-                            <div class="photo">
-                                <div class="ph">
-                                    <img src="https://images.unsplash.com/photo-1564488745050-fe0e9bdf541a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                                        style="width:100px;height:70px;" alt="foto">
-                                </div>
-                                <div class="more">
-                                    <div class="dots">
-                                        <a class="publish" href="#" @click="deleteItem(article._id)">delete</a>
-                                        <a class="publish" href="#" @click="clickEdit(article._id)">edit</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="column-right-write" v-if="isWrite">
-                <div class="container2">
-                    <div class="bottom">
-                        <form action="" @submit.prevent="submitForm">
-                            <div>
-                                <input type="text" placeholder="Title" v-model="title">
-                            </div>
-                            <div id="textarea">
-                                <wysiwyg v-model="text"></wysiwyg>
-                            </div>
-                            <div class="tombol">
-                                <div class="submitbutton">
-                                    <button>submit</button>
-                                </div>
-                                <div>
-                                    <button>clear</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div id="column-right-edit" v-if="isEdit">
-                <div class="container2">
-                    <div class="bottom">
-                        <form action="" @submit.prevent="editItem(article._id)">
-                            <div>
-                                <input type="text"  v-model="title">
-                            </div>
-                            <div class="textarea">
-                                <wysiwyg v-model="text" ></wysiwyg>
-                            </div>
-                            <div class="tombol">
-                                <div class="submitbutton">
-                                    <button>submit</button>
-                                </div>
-                                <div>
-                                    <button @click="clearItem">clear</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script src="/wysiwig/vueWysiwyg.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
-    <script src="/wysiwig/vueWysiwyg.js"></script>
-    <script src="main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="/src/main.js"></script>
 </body>
 
 </html>
