@@ -44,8 +44,8 @@
 </template>
 
 <script>
-const user_url = 'http://localhost:3000/user'
-const article_url = 'http://localhost:3000/articles'
+const user_url = 'http://35.193.37.14:80/user'
+const article_url = 'http://35.193.37.14:80/articles'
 
 import Navbar from './components/Navbar.vue'
 import Loginpage from './components/Loginpage.vue'
@@ -86,7 +86,7 @@ export default {
     methods: {
         signIn(loginForm) {
             Swal.fire({
-                title: 'Deleting your article...',
+                title: 'Please wait...',
                 allowOutsideClick: () => !Swal.isLoading()
             })
             Swal.showLoading()
@@ -123,6 +123,11 @@ export default {
             })
         },
         googleSignIn(idToken) {
+            Swal.fire({
+                title: 'Please wait...',
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+            Swal.showLoading()
             axios({
                 method: 'post',
                 url: `${user_url}/signInGoogle`,
@@ -131,7 +136,7 @@ export default {
                 }
             })
             .then(response => {
-                console.log(response.data.id)
+                Swal.close()
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('username', response.data.username)
                 localStorage.setItem('junk', response.data.id)
@@ -156,7 +161,7 @@ export default {
         },
         signUp(registerForm) {
             Swal.fire({
-                title: 'Deleting your article...',
+                title: 'Please wait...',
                 allowOutsideClick: () => !Swal.isLoading()
             })
             Swal.showLoading()
@@ -208,6 +213,11 @@ export default {
         },
         loadArticle() {
             this.isEdit = false;
+            Swal.fire({
+                title: 'Please wait...',
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+            Swal.showLoading()
             axios({
                 method: 'get',
                 url: `${article_url}`,
@@ -216,6 +226,7 @@ export default {
                 }
             })
             .then(response => {
+                Swal.close()
                 this.articles = response.data;
                 this.tempArticles = response.data;
             })
