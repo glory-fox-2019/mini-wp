@@ -28,7 +28,7 @@ class ArticleController {
     static read(req, res, next) {
         Article.find({
             author: req.decoded._id
-        })
+        }).populate('author', "_id name email")
             .then(data => {
                 res.json(data.sort((a,b) => b.updatedAt - a.updatedAt))
             })
