@@ -2,7 +2,7 @@
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
-      title="Submit Your Name"
+      title="Login"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -43,7 +43,7 @@ import GoogleSignInButton from 'vue-google-signin-button-directive'
            email : '',
            password : ''
        },
-       clientId : "128325823668-ufctjqn2m5anj8gu3vicpdcq54slfaq0.apps.googleusercontent.com"
+       clientId : "698328543472-plm5qetlcqdthroo59e26gk7hid6r1pt.apps.googleusercontent.com"
       }
     },
     methods: {
