@@ -13,7 +13,6 @@ const getPublicUrl = (filename) => {
 
 const sendUploadToGCS = (req, res, next) => {
     if(req.body.image && !req.file) {
-        console.log(req.body.image)
         next()
     }
     else if (!req.file) {

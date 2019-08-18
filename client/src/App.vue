@@ -85,6 +85,11 @@ export default {
     },
     methods: {
         signIn(loginForm) {
+            Swal.fire({
+                title: 'Deleting your article...',
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+            Swal.showLoading()
             axios({
                 method: 'post',
                 url: `${user_url}/signIn`,
@@ -94,6 +99,7 @@ export default {
                 }
             })
             .then(response => {
+                Swal.close()
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('username', response.data.username)
                 localStorage.setItem('junk', response.data.id)
@@ -149,6 +155,11 @@ export default {
             })
         },
         signUp(registerForm) {
+            Swal.fire({
+                title: 'Deleting your article...',
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+            Swal.showLoading()
             axios({
                 method: 'post',
                 url: `${user_url}/signUp`,
@@ -159,6 +170,7 @@ export default {
                 }
             })
             .then(user => {
+                Swal.close()
                 Swal.fire({
                     type: 'success',
                     title: 'Register success !',

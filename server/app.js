@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV == 'development' || !process.env.NODE_ENV) {
     require('dotenv').config()
 }
 const express = require('express');
@@ -8,7 +8,8 @@ const routes = require('./routes')
 const errHandler = require('./middlewares/errhandler')
 const PORT = process.env.PORT || 3000;
 const app = express()
-mongoose.connect('mongodb://localhost:27017/mini-wp', {useNewUrlParser: true}, function (err) {
+const uri = process.env.uri
+mongoose.connect(uri, {useNewUrlParser: true}, function (err) {
     if (err) {
         console.log(err)
     }

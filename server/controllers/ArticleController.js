@@ -48,6 +48,8 @@ class ArticleController {
             content,
             featured_image,
             author
+        },{
+            runValidators: true
         })
         .then(updated => {
             res.status(200).json(updated)

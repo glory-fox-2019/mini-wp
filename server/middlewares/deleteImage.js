@@ -10,7 +10,6 @@ const storage = new Storage({
 const bucket = storage.bucket(CLOUD_BUCKET)
 module.exports = (req, res, next) => {
     const file = bucket.file(req.file)
-    console.log(req.file)
     file.delete()
     .then(() => {
         res.status(200).json("Delete Success")
