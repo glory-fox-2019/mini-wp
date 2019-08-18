@@ -49,7 +49,7 @@ class ControllerArticle {
     static create(req, res) {
         // console.log('mmm');
         const { title, content, tags } = req.body
-        const featured_image = req.file ? req.file.cloudStoragePublicUrl : ''
+        const image = req.file ? req.file.cloudStoragePublicUrl : ''
 
         let owner = req.decoded.id
         let parserTags = []
@@ -59,47 +59,47 @@ class ControllerArticle {
             .create({
                 title,
                 content,
-                featured_image,
+                image,
                 tags: parserTags,
                 owner
             })
             .then(article => {
                 newArticle = article
 
-                if (parserTags.length > 0) {
-                    parserTags.forEach(el => {
-                        tag = tag.toLowerCase()
-                        Tag.findOne({ name: tag })
-                            .then(tagFind => {
-                                if (tagFind) {
-                                    return Tag
-                                        .findByIdAndUpdate(tagFind._id,
-                                            {
-                                                '$push': { 'articleId': newArticle._id }
-                                            },
-                                            {
-                                                'new': true,
-                                                'upsert': true
-                                            }
-                                        )
-                                }
-                                else {
-                                    return Tag
-                                        .create({
-                                            name: tag,
-                                            articleId: [newArticle._id]
-                                        })
-                                }
-                            })
-                            .then(data => {
-                            })
-                            .catch(err => {
-                                res.status(500).json(err)
-                            })
-                    })
-                }
-            })
-            .then(data => {
+                // if (parserTags.length > 0) {
+                    // parserTags.forEach(el => {
+                        // tag = tag.toLowerCase()
+                        // Tag.findOne({ name: tag })
+                        //     .then(tagFind => {
+                        //         if (tagFind) {
+                        //             return Tag
+                        //                 .findByIdAndUpdate(tagFind._id,
+                        //                     {
+                        //                         '$push': { 'articleId': newArticle._id }
+                        //                     },
+                        //                     {
+                        //                         'new': true,
+                        //                         'upsert': true
+                        //                     }
+                        //                 )
+                        //         }
+                        //         else {
+                        //             return Tag
+                        //                 .create({
+                        //                     name: tag,
+                        //                     articleId: [newArticle._id]
+                        //                 })
+                        //         }
+                        //     })
+                    //         .then(data => {
+                    //         })
+                    //         .catch(err => {
+                    //             res.status(500).json(err)
+                    //         })
+            //         })
+            //     }
+            // })
+            // .then(data => {
                 res.status(201).json(newArticle)
             })
             .catch(err => {

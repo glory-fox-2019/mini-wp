@@ -5,7 +5,7 @@
             <li @click="toMyArticle" ><i class="fas fa-list-alt mr-3"></i>My Article</li>
             <li @click="toCreateArticle"><i class="fas fa-plus-circle mr-3"></i>Add Article</li>
             <!-- <li><i class="fas fa-star mr-3"></i>favourite</li> -->
-            <li><i class="fas fa-sign-out-alt mr-3"></i>Logout</li>
+            <!-- <li><i class="fas fa-sign-out-alt mr-3"></i>Logout</li> -->
         </ul>
     </div>
 </template>

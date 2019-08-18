@@ -1,6 +1,6 @@
 <template>
     <div v-show="pages" class="form-create col-md-10 ">
-        <form @submit.prevent="createArticle">
+        <form @submit.prevent="createArticle" enctype="multipart/form-data">
             <div class="col-md-9">
                 <h2>Create your article</h2>
                 <div class="edit-title">
@@ -12,7 +12,12 @@
                     <wysiwyg v-model="formCreate.content" type="text" class="mt-5"></wysiwyg>
                 </div>
 
-                <input type="file" />
+                <input 
+                    type="file"
+                    @change="handlefileupload($event)"
+                    lang="es"
+                    customeFileLang
+                />
 
                 <div class="button-dashboard-edit">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -42,8 +47,31 @@
             }
         },
         methods: {
+            handlefileupload (event) {
+                let file = event.target.files || event.dataTransfer.files;
+                this.formCreate.image = file[0]
+
+            },
             createArticle(){
                 this.$emit('create-article', this.formCreate)
+                // // console.log(data);
+                // let formArticle = new FormData()
+                // formArticle.set('title', this.formCreate.title)
+                // formArticle.set('content', this.formCreate.content)
+                // formArticle.set('file', this.formCreate.file)
+
+                // axios
+                //     .post({
+                //         method:'post',
+                //         url:`http://localhost:3000/article`,
+                //         data: formArticle
+                //     })
+                //     .then(({ data }) => {
+                //         this.$emit('create-article', data)
+                //     })
+                //     .catch(err => {
+                //         console.log(err);
+                //     })
             }
         }
     }

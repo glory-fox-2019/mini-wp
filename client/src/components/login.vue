@@ -14,7 +14,8 @@
                 
                 <button type="submit" class="btn btn-primary">Login</button>
                 <span @click="toRegister">register</span>
-                <div id="google-signin-button"></div>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
             </form>
         </section>
 </template>

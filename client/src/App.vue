@@ -40,6 +40,7 @@
             :articles="articles"
             @delete-article="deleteArticle"
             @edit-article="getEditArticle"
+            
         ></Dashboard>
     </div>
 
@@ -91,14 +92,14 @@
                     id: '',
                     title: '',
                     content: '',
-                    featured_image: '',
+                    image: '',
                     tags: []
                 },
                 newArticle: {
                     id: '',
                     title: '',
                     content: '',
-                    featured_image: '',
+                    image: '',
                     tags: []
                 },
             }
@@ -173,7 +174,7 @@
                     })
             },
             onSignin(userGoogle) {
-                const token = userGoogle.getAuthResponse().id_token
+                const token = googleUser.getAuthResponse().id_token
                 let config = { headers: { token } }
 
                 axios
@@ -264,44 +265,14 @@
                         console.log(err);
                     })
             },
-            createArticle(data){
-                let formArticle = new FormData()
-                formArticle.append('title', data.title)
-                formArticle.append('content', data.content)
-
-                console.log(formArticle.tags);
-
-                if(data.featured_image){
-                    this.getTags()
-                    formArticle.append('featured_image', this.newArticle.featured_image)
-                }
-                if(data.tags.length>0){
-                    formArticle.append('tags', JSON.stringify(this.newArticle.tags))
-                }
-
-                let config = {
-                    headers: {
-                        token: localStorage.token
-                    }
-                }
-                axios
-                    .post(`${baseUrl}/article`, formArticle, config)
-                    .then(({ data }) => {
-                        // this.getTags()
-                        this.articles.push(data)
-                        this.toDashboard()
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
-            },
+            
             editArticle(){
                 let formArticle = new FormArticle()
                 formArticle.append('title', this.newArticle.title)
                 formArticle.append('content', this.newArticle.content)
 
-                if(this.newArticle.featured_image) {
-                    formArticle.append('fatured_image', this.newArticle.featured_image)
+                if(this.newArticle.image) {
+                    formArticle.append('fatured_image', this.newArticle.image)
                 }
                 if(this.newArticle.tags.length > 0){
                     formArticle.append('tags', this.newArticle.tags)
@@ -320,7 +291,7 @@
                             if (el._id == this.newArticle.id){
                                 el.title = data.title,
                                 el.content = data.content
-                                el.featured_image = data.featured_image
+                                el.image = data.image
                                 el.tags = data.tags
                             }
                             return el
@@ -347,7 +318,7 @@
                     .then(({ data }) => {
                         this.newArticle.title = data.title
                         this.newArticle.content = data.content
-                        this.newArticle.featured_image = data.featured_image
+                        this.newArticle.image = data.image
                         this.newArticle.tags = data.tags
 
                         // fales kan dashboard
@@ -374,26 +345,7 @@
                     })
             },
             deleteArticle(id){
-                // Swal.fire({
-                //     title: 'Are you sure ?',
-                //     text: 'you wont be able to revet this!',
-                //     type: 'warning',
-                //     showCancelButton: true,
-                //     confirmButtonColor: '#3085d6',
-                //     cancelButtonColor: '#d33',
-                //     confirmButtonText: 'Yes, delete it!'
-                // })
-                // .then( result => {
-                //     if(result.value){
-                //         let config = {
-                //             headers: {
-                //                 token: localstorage.token,
-                //                 id: localStorage.id
-                //             }
-                //         }
-
-                //     }
-                // })
+                
                 let config = {
                     headers: {
                         token: localStorage.token,
@@ -404,14 +356,34 @@
                 axios
                     .delete(`${baseUrl}/article/${id}`, config)
                     .then(({ data }) => {
-                        console.log(data,'<-------');
-                        // this.articles.filter(el=> el !== data._id)
+                        // console.log(data,'<-------');
                         this.getAllByOwner()
                     })
                     .catch(err => {
                         console.log(err);
                     })
             },
+            createArticle(){
+                // this.$emit('create-articwle', this.formCreate)
+                console.log('========');
+                let formArticle = new FormData()
+                formArticle.append('title', this.newArticle.title)
+                formArticle.append('content', this.newArticle.content)
+                formArticle.append('file', this.newArticle.file)
+                console.log(formArticle);
+                axios
+                    .post({
+                        method:'post',
+                        url:`http://localhost:3000/article`,
+                        data: formArticle
+                    })
+                    .then(({ data }) => {
+                        this.articles.push(data)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
 
         },
         mounted() {
