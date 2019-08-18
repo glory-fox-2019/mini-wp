@@ -13,8 +13,14 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(morgan('dev'))
 
-mongoose.connect( 'mongodb://localhost:27017/db_mini_wo' , {useNewUrlParser: true},()=>{
-    console.log('connected to mongodb');
+
+
+mongoose.connect(' mongodb://mromiario:123@cluster0-shard-00-00-qjyss.mongodb.net:27017,cluster0-shard-00-01-qjyss.mongodb.net:27017,cluster0-shard-00-02-qjyss.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority' , {useNewUrlParser: true},(err)=>{
+    if(!err){
+        console.log('connected to mongodb');
+    }else{
+        console.log(err);
+    }
 })
  
 app.use(cors())
