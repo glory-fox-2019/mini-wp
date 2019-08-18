@@ -1,7 +1,0 @@
-{
-    "articles": [
-        {"title": "Lorem Ipsum", "views": 34, "likes": 12},
-        {"title": "Dolor Sit Amet", "views": 24, "likes": 20},
-        {"title": "Lorem Dolor", "views": 37, "likes": 22}
-    ]
-}

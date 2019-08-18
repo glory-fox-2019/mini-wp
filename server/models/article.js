@@ -9,6 +9,13 @@ const ArticleSchema = new Schema({
     content: {
         type: String,
         required: [true, "Please enter content"]
+    },
+    featured_image: {
+        type: String
+    },
+    author: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true
