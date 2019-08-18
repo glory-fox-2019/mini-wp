@@ -13,7 +13,12 @@ $small-radius: 8px;
   padding: 0 !important;
   margin: 0 !important;
 }
-
+a{
+  outline: none;
+}
+a:hover{
+  text-decoration: none!important;
+}
 #nav{
   background-color: white;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -30,14 +35,14 @@ $small-radius: 8px;
 
   overflow: hidden;
   .brand{
-    color: $dark-main;
     padding: 20px;
     padding-left: 40px;
     width: 100%;
     font-weight: bold;
-      span{
-        font-size: 40px;
-      }
+    a{
+      color: $dark-main;
+      font-size: 40px;
+    }
   }
 
   ul.menu--list{
@@ -137,7 +142,8 @@ $small-radius: 8px;
           height: 100%;
           width: 30px;
           color: white;
-          a:hover {
+          a:active {
+            height: 100%;
             text-decoration: none;
           }
         }
@@ -309,7 +315,7 @@ $small-radius: 8px;
   padding-top: 100px;
   height: 100vh;
   background-color: $hover-main;
-  form, .form--signin-google{
+  form, .form--signin-google, .form--action{
     background-color: white;
     max-width: 450px;
     width: 100%;
@@ -327,7 +333,7 @@ $small-radius: 8px;
       }
     }
   }
-  .form--signin-google{
+  .form--signin-google, .form--action{
     padding: 20px;
     margin-top: 20px;
   }
@@ -345,5 +351,199 @@ $small-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transition: 0.1s;
   }
+  .form--action{
+    p{
+      margin: 0;
+    }
+  }
 }
-
+#blog{
+  nav{
+    >div{
+      display: flex;
+      align-items: center;
+    }
+    background-color: white;
+    .nav--brand{
+      font-size: 40px;
+      color: $main;
+      padding: 15px;
+      width: 300px;
+    }
+    .nav--search{
+      width: 100%;
+      input{
+        outline: 0;
+        padding: 15px 10px;
+        margin: 10px 0;
+        font-size: 18px;
+        border: 0;
+        border-bottom: 1px solid $main;
+        width: 100%;
+      }
+    }
+    .nav--menu--auth{
+      border-radius: $radius;
+      background: $dark-main;
+      margin-left: 30px;
+      height: 60px;
+      transform: translate(0);
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      a{
+        text-align:center;
+        font-size: 18px;
+        color: white;
+        text-decoration: none;
+        min-width: 140px;
+        padding: 10px;
+        display: block;
+      }
+    }
+  }
+  #blog-home{
+    padding: 20px 0;
+    padding-bottom: 50px;
+    .post--list{
+      >div{
+        width: 25%;
+        padding: 10px;
+      }
+      a.post__item{
+        color: black;
+        text-decoration: none;
+        display: block;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        .post__item--thumbnail{
+          background-size: cover;
+          background-position: center;
+          height: 200px;
+          width: 100%;
+          position: relative;
+          .post__item--action{
+            display: none;
+            position: absolute;
+            background-color: white;
+            bottom: 0;
+            right: 0;
+            border-top-left-radius: $small-radius;
+            a{
+              display: inline-block;
+              color: black;
+              padding: 5px 8px;
+              i{
+                font-size: 18px;
+              }
+            }
+          }
+        }
+        .post__item--title{
+          padding: 10px;
+          font-size: 18px;
+        }
+      }
+      .post__item:hover .post__item--action{
+        display: block; 
+      }
+    }
+  }
+  #blog-post{
+    .post{
+      margin: 30px 0;
+      margin-bottom: 70px;
+      .post--card{
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        border-radius: $radius;
+        overflow: hidden;
+      }
+      .post--content{
+        .post--thumbnail{
+          img{
+            width: 100%;
+          }
+        }
+        .post--title{
+          margin: 20px;
+        }
+        .post--content{
+          margin: 20px;
+          margin-bottom: 30px;
+        }
+        .post--tag{
+          margin: 20px;
+          .post--tag--label{
+            width: 50px;
+            display: inline-block;
+          }
+          .tag--item{
+            border-radius: 10px;
+            background: $main;
+            display: inline-block;
+            padding: $small-radius;
+            color: white;
+            margin-bottom: 5px;
+            margin-right: 5px;
+            a{
+              font-size: 20px;
+              line-height: 16px;
+              color: white;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      .post--account{
+        margin-top: 40px;
+        padding: 20px;
+        display: flex;
+        .account--avatar{
+          // width: 70px;
+          height: 100%;
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          .account--avatar__img{  
+            background-color: white;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+          }
+        }
+        .account--detail{
+          padding: 18px 10px;
+          color: black;
+          font-size: 22px;
+          width: 100%;
+          p{
+            margin: 0;
+            
+          }
+          .account--detail__avatar{
+            line-height: 20px;
+            margin-bottom: 5px;
+          }
+          .account--detail__description{
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+  footer{
+    background-color: $dark-main;
+    color: white;
+    padding: 30px 0;
+    >div{
+      display: flex;
+      justify-content: space-between;
+    }
+    p{
+      margin: 0;
+    }
+  }
+}

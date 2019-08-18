@@ -5,48 +5,46 @@
         <h2>Create Post</h2>
       </div>
       <div class="editor">
-        <form @submit.prevent="">
-          <div class="row">
-            <div class="col-12 col-md-8">
-              <div class="editor--title">
-                <input type="text" name="title" placeholder="Title" v-model="post.title" autocomplete="off" required>
+        <div class="row">
+          <div class="col-12 col-md-8">
+            <div class="editor--title">
+              <input type="text" name="title" placeholder="Title" v-model="post.title" autocomplete="off" required>
+            </div>
+            <div class="editor--content">
+              <editor v-model="post.content"></editor>
+            </div>
+            <div class="editor--submit">
+              <a href="javascript:void(0)" class="btn" @click.prevent="$emit('update:page','list-post')">Cancel</a>
+              <button type="submit" class="btn btn-primary" @click="saveCreatePost()">Save Post</button>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="editor--thumbnail">
+              <div class="editor--thumbnail__image">
+                <img :src="input.thumbnailInput">
               </div>
-              <div class="editor--content">
-                <editor v-model="post.content"></editor>
-              </div>
-              <div class="editor--submit">
-                <a href="javascript:void(0)" class="btn" @click.prevent="$emit('update:page','list-post')">Cancel</a>
-                <button type="submit" class="btn btn-primary" @click="saveCreatePost()">Save Post</button>
+              <div class="editor--thumbnail__input">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" ref="file" @change="handleImage" accept="image/*">
+                  <label class="custom-file-label" for="customFile" >Choose thumbnail</label>
+                </div>
               </div>
             </div>
-            <div class="col-12 col-md-4">
-              <div class="editor--thumbnail">
-                <div class="editor--thumbnail__image">
-                  <img :src="input.thumbnailInput">
-                </div>
-                <div class="editor--thumbnail__input">
-                  <div class="custom-file">
-                    <input type="file" class="custom-file-input" ref="file" @change="handleImage" accept="image/*">
-                    <label class="custom-file-label" for="customFile" >Choose thumbnail</label>
-                  </div>
+            <div class="editor--tag">
+              <div class="editor--tag__input">
+                <span class="editor--tag__input__label">
+                  <label for="">Tag</label>
+                </span>
+                <div class="editor--tag__input__form">
+                  <input type="text" name="tag" @keyup.enter="addTag()" v-model="input.tagInput">
                 </div>
               </div>
-              <div class="editor--tag">
-                <div class="editor--tag__input">
-                  <span class="editor--tag__input__label">
-                    <label for="">Tag</label>
-                  </span>
-                  <div class="editor--tag__input__form">
-                    <input type="text" name="tag" @keyup.enter="addTag()" v-model="input.tagInput">
-                  </div>
-                </div>
-                <div class="editor--tag__item--list">
-                  <div class="editor--tag__item" v-for="(data,i) in post.tags" :key="data._id">{{ data }} <a @click="removeTag(i)">&times;</a></div>
-                </div>
+              <div class="editor--tag__item--list">
+                <div class="editor--tag__item" v-for="(data,i) in post.tags" :key="data._id">{{ data }} <a @click="removeTag(i)">&times;</a></div>
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

@@ -1,9 +1,9 @@
 <template>
   <div id="admin" class="container-fluid">
     <div class="row">
-      <Nav :page="page" :userdata="userdata" @update:page="page = $event" @logout:auth="logout()"></Nav>
+      <Nav :page="page" :userdata="userdata" @update:page="page = $event" @update:app:page="$emit('update:app:page',$event)" @logout:auth="logout()"></Nav>
       <div class="col main-content">
-        <list-post v-if="page === 'list-post'" :posts="posts" @delete:post="deletePost($event)" @edit:post="loadEditPost($event)" @search="searchPost($event)"></list-post>
+        <list-post v-if="page === 'list-post'" :posts="posts" @delete:post="deletePost($event)" @edit:post="loadEditPost($event)" @search="searchPost($event)" @show:post="$emit('show:post',$event)"></list-post>
         <create-post v-if="page === 'create-post'" @add:post="posts.push($event)" @update:page="page = $event"></create-post>
         <edit-post v-if="page === 'edit-post'" :id="edit.id" @update:page="page = $event" @update:post="updatePost($event)"></edit-post>
       </div>
@@ -52,6 +52,18 @@ export default {
         })
     },
     fetchPost(){
+      let loader = this.$loading.show({
+        // Optional parameters
+        container: this.$refs.loadingContainer,
+        canCancel: false,
+        loader: 'spinner',
+        width: 150,
+        height: 150,
+        color: '#1A75FF',
+        backgroundColor: '#ffffff',
+        opacity: 0.5,
+        zIndex: 999,
+      });
       console.log('Fetch Post');
       axios.get('/user/posts',{
         headers: {
@@ -59,9 +71,11 @@ export default {
         }
       })
       .then(({data}) => {
+        loader.hide();
         this.posts = data;
       })
       .catch(({response}) => {
+        loader.hide();
         this.$swal({
           type: 'error',
           title: 'Oops...',
@@ -70,12 +84,25 @@ export default {
       })
     },
     deletePost(id){
+      let loader = this.$loading.show({
+        // Optional parameters
+        container: this.$refs.loadingContainer,
+        canCancel: false,
+        loader: 'spinner',
+        width: 150,
+        height: 150,
+        color: '#1A75FF',
+        backgroundColor: '#ffffff',
+        opacity: 0.5,
+        zIndex: 999,
+      });
       axios.delete(`/user/posts/${id}`,{
-        headers: {
-          token: localStorage.getItem('token')
-        }
-      })
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
         .then(({data}) => {
+          loader.hide();
           this.$swal({
             type: 'success',
             title: 'Success',
@@ -84,6 +111,7 @@ export default {
           this.posts = this.posts.filter((el) => el._id !== id);
         })
         .catch(({response}) => {
+          loader.hide();
           this.$swal({
             type: 'error',
             title: 'Oops...',

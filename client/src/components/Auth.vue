@@ -5,6 +5,9 @@
     <div class="form--signin-google">
       <Button-Google @auth="$emit('auth',$event)"></Button-Google>
     </div>
+    <div class="form--action">
+      <p><a href="javascript:void(0)" @click="$emit('update:app:page','blog')"> < Back to blog</a></p>
+    </div>
   </div>
 </template>
 <script>
