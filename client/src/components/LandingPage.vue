@@ -125,7 +125,7 @@
 import axios from "axios";
 
 export default {
-  props: ["changeView", "token"],
+  props: ["changeView", "baseUrl"],
   data() {
     return {
       formRegister: {
@@ -151,20 +151,16 @@ export default {
       this.$gAuth
         .signIn()
         .then(GoogleUser => {
-          // On success do something, refer to https://developers.google.com/api-client-library/javascript/reference/referencedocs#googleusergetid
           console.log("user", GoogleUser.getAuthResponse().id_token);
-          // GoogleUser.getId() : Get the user's unique ID string.
-          // GoogleUser.getBasicProfile() : Get the user's basic profile information.
-          // GoogleUser.getAuthResponse() : Get the response object from the user's auth session. access_token and so on
+
           axios({
             method: "post",
-            url: "http://localhost:3000/users/login-google",
+            url: `${this.baseUrl}/users/login-google`,
             data: {
               token: GoogleUser.getAuthResponse().id_token
             }
           })
             .then(({ data }) => {
-              // console.log(data, "dari response server<<<<<<<");
               this.$emit("login-google", data);
             })
             .catch(err => {
@@ -173,6 +169,7 @@ export default {
         })
         .catch(error => {
           //on fail do something
+          console.log(error);
         });
       this.isSignIn = this.$gAuth.isAuthorized;
     }

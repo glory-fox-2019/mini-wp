@@ -26,11 +26,6 @@ a .navbar {
     padding: 0
 }
 
-nav.navbar {
-    background-color: #661c1c;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.616)
-}
-
 a {
     display: inline-block;
 }
@@ -95,7 +90,7 @@ div.setting ul li a {
 }
 
 #navbarSupportedContent ul li a.nav-link:hover {
-    background-color: rgb(61, 8, 8)
+    background-color: #0f314d
 }
 
 /* ========================= CONTAINER ===================================== */
@@ -110,7 +105,7 @@ div.container-fluid {
 /* ========================= SIDE BAR ================================ */
 div.side-bar {
     background-color: white;
-    border-right: 1px solid rgb(187, 187, 187);
+    /* background-image: url('./static/fur.png'); */
     position: fixed;
     height: 100%;
     z-index: 2;
@@ -124,18 +119,25 @@ h2.streams {
 li.list-group-item {
     background-color: transparent;
     padding-left: 0;
+    transition: 0.3s
+}
+
+li.list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.082);
 }
 
 li.list-group-item a {
     display: flex;
     align-items: center;
     color: black;
-    font-family: 'Roboto Condensed'
+    font-family: 'Roboto Condensed';
+    text-decoration: none;
 }
 
 /* ================== CONTENT ================================== */
 
-body {
+body,
+html {
     background-color: rgb(233, 233, 233);
 }
 
@@ -143,7 +145,8 @@ div.content {
     padding-top: 30px;
     background-color: rgb(233, 233, 233);
     margin-left: auto;
-    margin-top: 50px;
+    margin-top: 60px;
+    height: 100vh;
 }
 
 div.articles-container ul li a.nav-link {
@@ -156,8 +159,10 @@ div.nav-articles {
     padding-bottom: 10px;
 }
 
-img.search-img {
-    width: 40px;
+svg.search-img {
+    height: 100%;
+    margin-right: 10px;
+    font-size: 25px;
 }
 
 div.list-articles {
@@ -171,23 +176,19 @@ div.card {
     box-shadow: 0 0 5px rgba(42, 42, 42, 0.616);
     margin-bottom: 20px;
     padding: 10px 0;
+    position: relative;
+    top: 0;
+    transition: 0.1s;
 }
 
-div.article-title h1 {
-    font-family: 'Literata';
-    font-size: 28px;
+div.card:hover {
+    top: -5px;
+    box-shadow: 0 5px 8px rgba(42, 42, 42, 0.424);
 }
 
 .article-image {
     padding: 10px 0;
     text-align: right;
-}
-
-.article-image img {
-    width: 80px;
-    width: 80px;
-    border: 1px solid rgb(92, 92, 92);
-    border-radius: 3px;
 }
 
 span.timestamp {

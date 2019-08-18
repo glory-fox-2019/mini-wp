@@ -14,7 +14,13 @@ const articleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    featured_image: String
+    featured_image: String,
+    featured_image_name: String,
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Tag'
+    }],
+    isPublished: Boolean
 }, {
     timestamps: {
         created_at: 'createdAt'

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light d-flex fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light d-flex fixed-top p-0">
     <!-- ----------- brand ------------ -->
     <div class="brand col-sm-3 d-flex align-items-center justify-content-around" @click.prevent>
       <a class="col-2" href>
@@ -21,7 +21,7 @@
     </div>
     <!-- ----------- user setting ------------ -->
     <div class="setting col-sm-3 align-items-center">
-      <div class="setting-btn" v-show="token">
+      <div class="setting-btn" v-if="isLogin">
         <ul class="navbar-nav mr-auto d-flex align-items-center justify-content-center">
           <li class="nav-item active btn btn-light write">
             <a href @click.prevent="viewCreate">
@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  props: ["token"],
+  props: ["isLogin"],
   methods: {
     viewCreate() {
       this.$emit("view-create");
@@ -77,5 +77,10 @@ export default {
 
 .nav-item {
   margin-right: 30px;
+}
+
+nav.navbar {
+  background-color: #19476d;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.616);
 }
 </style>

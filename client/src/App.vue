@@ -1,10 +1,20 @@
 <template>
   <div>
-    <Navbar @view-create="viewCreate" @view-article="viewArticle" :token="token"></Navbar>
-    <Sidebar v-if="token" @logout="logout"></Sidebar>
+    <Navbar @view-create="viewCreate" @view-article="viewArticle()" :isLogin="isLogin"></Navbar>
+    <!-- sidebar -->
+    <Sidebar
+      v-if="isLogin"
+      @logout="logout"
+      @my-article="viewArticle()"
+      @see-global="seeGlobalPublished()"
+    ></Sidebar>
+    <!-- content -->
     <Content
+      v-if="isLogin"
+      :baseUrl="baseUrl"
       :articles="articles"
       :isLogin="isLogin"
+      :isPublish="isPublish"
       :formCreate="formCreate"
       :userpage="userpage"
       @create-article="createArticle"
@@ -12,18 +22,25 @@
       :currentArticle="currentArticle"
       :formEdit="formEdit"
       @edit-page="editPage"
-      @update-article="updateArticle"
+      @update-article="updateArticle($event)"
       @preview-article="previewArticle"
       :preview="preview"
       @search-article="searchArticle"
-      v-if="token"
+      @search-bytag-draft="searchByTagDraft"
+      @see-draft="getArticle"
+      @see-published="seePublished($event)"
+      @publish-article="publishArticle()"
+      :publishedListPage="publishedListPage"
+      @show-article="previewArticle($event)"
     ></Content>
+    <!-- landing page -->
     <LandingPage
+      :baseUrl="baseUrl"
       @register="register"
       :changeView="modalForm"
       @login="login"
       @login-google="loginGoogle"
-      v-if="!token"
+      v-if="!isLogin"
     ></LandingPage>
   </div>
 </template>
@@ -39,15 +56,17 @@ import LandingPage from "./components/LandingPage.vue";
 export default {
   data() {
     return {
+      baseUrl: `http://localhost:3000`,
       isLogin: false,
       currentArticle: {},
       articles: [],
+      publishedListPage: false,
       userpage: true,
       formCreate: false,
       formEdit: false,
       modalForm: true,
       preview: false,
-      token: localStorage.getItem("token")
+      isPublish: false
     };
   },
   components: {
@@ -61,7 +80,7 @@ export default {
       // console.log(payload, "dari app vue nih <<<<<<<<<<<<<");
       axios({
         method: "post",
-        url: "http://localhost:3000/users/register",
+        url: `${this.baseUrl}/users/register`,
         data: {
           username: payload.username,
           email: payload.email,
@@ -89,17 +108,15 @@ export default {
         });
     },
     login: function(payload) {
-      //   console.log(payload, "sampe login di app vue <<<<<<<<<<<<<<<");
       axios({
         method: "post",
-        url: "http://localhost:3000/users/login",
+        url: `${this.baseUrl}/users/login`,
         data: {
           email: payload.email,
           password: payload.password
         }
       })
         .then(({ data }) => {
-          //   console.log(data, "token dari server <<<<<<<<<<<<");
           Swal.fire({
             title: "Login Success!",
             text: "Let's start your journey..",
@@ -107,7 +124,7 @@ export default {
             timer: 1300
           });
           localStorage.setItem("token", data);
-          this.token = localStorage.getItem("token");
+          this.isLogin = true;
           this.getArticle();
         })
         .catch(err => {
@@ -122,7 +139,7 @@ export default {
     },
     loginGoogle: function(token) {
       localStorage.setItem("token", token);
-      this.token = localStorage.getItem("token");
+      this.isLogin = true;
       this.getArticle();
     },
     logout: function() {
@@ -137,8 +154,8 @@ export default {
       }).then(result => {
         if (result.value) {
           Swal.fire("See ya!", "", "success");
-          localStorage.removeItem("token");
-          this.token = "";
+          localStorage.clear();
+          this.isLogin = false;
           this.articles = [];
         }
       });
@@ -146,7 +163,22 @@ export default {
     getArticle: function() {
       axios({
         method: "get",
-        url: "http://localhost:3000/articles",
+        url: `${this.baseUrl}/articles`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          this.articles = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getPublishedArticle: function() {
+      axios({
+        method: "get",
+        url: `${this.baseUrl}/articles/published`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -159,7 +191,7 @@ export default {
         });
     },
     createArticle: function() {
-      console.log('Successfuly create article!')
+      console.log("Successfuly create article!");
       Swal.fire({
         title: "Congratulation!",
         text: "Your new article have been submitted",
@@ -174,7 +206,7 @@ export default {
     deleteArticle: function(id) {
       //   console.log(id);
       Swal.fire({
-        title: "Are you sure?",
+        title: "Delete this article?",
         text: "You won't be able to revert this!",
         type: "warning",
         showCancelButton: true,
@@ -183,16 +215,24 @@ export default {
         confirmButtonText: "Yes, delete it!"
       }).then(result => {
         if (result.value) {
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
           axios({
             method: "delete",
-            url: `http://localhost:3000/articles/delete/${id}`,
+            url: `${this.baseUrl}/articles/delete/${id}`,
             headers: {
               token: localStorage.getItem("token")
             }
           })
             .then(({ data }) => {
-              this.getArticle();
+              Swal.fire(
+                "Deleted!",
+                "Your article has been deleted.",
+                "success"
+              );
+              if (data.isPublished == true) {
+                this.getPublishedArticle();
+              } else {
+                this.getArticle();
+              }
             })
             .catch(err => {
               console.log(err);
@@ -204,7 +244,7 @@ export default {
       //   console.log(id);
       axios({
         method: "get",
-        url: `http://localhost:3000/articles/edit/${id}`,
+        url: `${this.baseUrl}/articles/edit/${id}`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -220,37 +260,26 @@ export default {
         });
     },
     updateArticle: function(payload) {
-      console.log(payload, "nyampe lagi di appssss");
-      axios({
-        method: "put",
-        url: `http://localhost:3000/articles/edit/${payload._id}`,
-        data: {
-          title: payload.title,
-          content: payload.content
-        },
-        headers: {
-          token: localStorage.getItem("token")
-        }
-      })
-        .then(({ data }) => {
-          Swal.fire({
-            title: "Well done!",
-            text: "Your article has been updated",
-            type: "success",
-            timer: 1300
-          });
-          this.formEdit = false;
-          this.getArticle();
-          this.userpage = true;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      Swal.fire({
+        title: "Update success!",
+        text: "Your article has been updated",
+        type: "success",
+        timer: 1300
+      });
+      this.formEdit = false;
+      if (payload.isPublished) {
+        this.getPublishedArticle();
+        this.isPublish = true;
+      } else {
+        this.getArticle();
+        this.isPublish = false;
+      }
+      this.userpage = true;
     },
     previewArticle: function(id) {
       axios({
         method: "get",
-        url: `http://localhost:3000/articles/edit/${id}`,
+        url: `${this.baseUrl}/articles/edit/${id}`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -258,7 +287,9 @@ export default {
         .then(({ data }) => {
           this.currentArticle = data;
           this.preview = true;
+
           this.userpage = false;
+          this.publishedListPage = false;
         })
         .catch(err => {
           console.log(err);
@@ -268,17 +299,13 @@ export default {
       this.articles = [];
       axios({
         method: "get",
-        url: "http://localhost:3000/articles",
+        url: `${this.baseUrl}/articles/search?keyword=${search.keyword}&&by=${search.by}&&page=${search.page}`,
         headers: {
           token: localStorage.getItem("token")
         }
       })
         .then(({ data }) => {
-          data.forEach(element => {
-            if (element.title.toLowerCase().includes(search.toLowerCase())) {
-              this.articles.push(element);
-            }
-          });
+          this.articles = data;
         })
         .catch(err => {
           console.log(err);
@@ -286,19 +313,45 @@ export default {
     },
     viewCreate: function(condition) {
       this.formCreate = true;
+
       this.userpage = false;
       this.formEdit = false;
       this.preview = false;
+      this.publishedListPage = false;
     },
     viewArticle: function() {
+      this.publishedListPage = false;
       this.formCreate = false;
-      this.userpage = true;
+      this.userpage = false;
       this.formEdit = false;
       this.preview = false;
+      this.isPublish = false;
+
+      this.userpage = true;
+      this.getArticle();
+    },
+    searchByTagDraft(articlesByTag) {
+      this.articles = articlesByTag;
+    },
+    seePublished(payload) {
+      this.articles = payload;
+    },
+    publishArticle() {
+      this.preview = false;
+      this.userpage = true;
+      this.getArticle();
+    },
+    seeGlobalPublished() {
+      this.userpage = false;
+      this.preview = false;
+
+      this.publishedListPage = true;
+      this.getPublishedArticle();
     }
   },
   created: function() {
-    if (this.token) {
+    if (localStorage.getItem("token")) {
+      this.isLogin = true;
       this.getArticle();
     }
   }

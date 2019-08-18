@@ -9,11 +9,14 @@ const storage = new Storage({
     keyFilename: process.env.KEYFILE_PATH
 })
 const bucket = storage.bucket(CLOUD_BUCKET)
+
+// =====================================================================================
+
 const getPublicUrl = (filename) => {
     return `https://storage.googleapis.com/${CLOUD_BUCKET}/${filename}`
 }
+
 const sendUploadToGCS = (req, res, next) => {
-    // console.log(req.file)
     if (!req.file) {
         return next()
     }
@@ -37,6 +40,7 @@ const sendUploadToGCS = (req, res, next) => {
     })
     stream.end(req.file.buffer)
 }
+
 const Multer = require('multer'),
     multer = Multer({
         storage: Multer.MemoryStorage,
@@ -45,6 +49,8 @@ const Multer = require('multer'),
         }
         // dest: '../images'
     })
+
+
 module.exports = {
     getPublicUrl,
     sendUploadToGCS,

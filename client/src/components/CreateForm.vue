@@ -9,16 +9,49 @@
         id="inp-article-title"
         placeholder="Title here.."
         v-model="formCreate.title"
+        autocomplete="off"
       />
-      <input class="input-img" type="file" name="files" id="file" @change="inputFile" />
+      <!-- file image input -->
+      <h3 class="tag-title">Featured Image:</h3>
+      <small class="small-info">
+        <i>required</i>
+      </small>
+      <b-form-file
+        placeholder="Choose a file..."
+        drop-placeholder="Drop file here..."
+        @change="inputFile"
+      ></b-form-file>
+
+      <!-- tags input -->
+      <h3 class="tag-title">Tags:</h3>
+      <small class="small-info">
+        <i>required; ex: vacation, holiday, ... (press Enter to input tags)</i>
+      </small>
+      <tags-input
+        class="input-tags"
+        element-id="tags"
+        v-model="selectedTags"
+        :existing-tags="existingTags"
+        :typeahead="true"
+      ></tags-input>
 
       <Editor
         class="editor"
         v-model="formCreate.content"
         api-key="yz6rslamoykea3ihubhhbd4r79vbysel2ke1qimc6866wzvm"
-        :init="{plugins: 'wordcount'}"
+        :init="{
+          plugins: 'wordcount', 
+          menubar:false,
+          toolbar: 'formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment'}"
       ></Editor>
-      <button class="btn btn-primary" href @click.prevent="createArticle">Submit</button>
+
+      <div class="submit d-flex align-items-center">
+        <button class="btn btn-primary" href @click.prevent="createArticle">Save</button>
+        <div class="loading ml-2" v-show="isLoading">
+          <span>Loading...</span>
+          <b-spinner small label="Small Spinner"></b-spinner>
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -26,15 +59,21 @@
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
+  props: ["baseUrl"],
   data() {
     return {
+      isLoading: false,
       formCreate: {
         title: "",
         content: "",
-        featured_image: ""
-      }
+        featured_image: "",
+        tags: []
+      },
+      existingTags: [],
+      selectedTags: []
     };
   },
   components: {
@@ -45,32 +84,61 @@ export default {
       this.formCreate.featured_image = e.target.files[0];
     },
     createArticle: function() {
-      //harus disin new form data
-      //append formdata nya denga title, contentn, featured_image
-      //request ke database server
-      //kalau berhasil ("masuk then")
-      //this,$emit
+      this.isLoading = true;
 
       let formData = new FormData();
       formData.append("title", this.formCreate.title);
       formData.append("content", this.formCreate.content);
       formData.append("image", this.formCreate.featured_image);
+      formData.append("tags", this.formCreate.tags);
 
       axios({
         method: "post",
-        url: "http://localhost:3000/articles",
+        url: `${this.baseUrl}/articles`,
         data: formData,
         headers: {
           token: localStorage.getItem("token")
         }
       })
         .then(({ data }) => {
-          console.log(data, "created article response from CreateForm");
+          this.isLoading = false;
           this.$emit("create-article");
         })
         .catch(err => {
           console.log(err);
+          this.isLoading = false;
+          Swal.fire({
+            type: "error",
+            title: "Oops",
+            text: err.response.data.message
+          });
         });
+    }
+  },
+  created() {
+    axios({
+      method: "get",
+      url: `${this.baseUrl}/tags`
+    })
+      .then(({ data }) => {
+        let existTags = [];
+        for (let i = 0; i < data.length; i++) {
+          existTags.push({ value: data[i].name });
+        }
+        this.existingTags = existTags;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  watch: {
+    // format tags input so it only input the value
+    selectedTags: function(newVal, oldVal) {
+      let formatedTags = [];
+      for (const tag of newVal) {
+        formatedTags.push(tag.value);
+      }
+      this.formCreate.tags = formatedTags;
     }
   }
 };
@@ -79,6 +147,10 @@ export default {
 <style scoped>
 .editor {
   height: 300px;
+}
+
+.input-tags {
+  margin-bottom: 10px;
 }
 
 h1.new-article {
@@ -91,5 +163,14 @@ input.input-img {
 
 button {
   margin: 10px 0;
+}
+
+.tag-title {
+  font-family: "Oswald";
+  font-size: 20px;
+  margin-top: 10px;
+}
+.small-info {
+  color: rgb(177, 171, 171);
 }
 </style>
