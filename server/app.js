@@ -1,7 +1,10 @@
+if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
+    require('dotenv').config();
+}
 const express = require('express')
 const cors = require('cors');
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const articleRouter = require('./routes/article')
 const userRouter = require('./routes/user')
 const mongoose = require('mongoose');
@@ -14,7 +17,7 @@ app.use(express.json())
 app.use('/users', userRouter)
 app.use(authentication)
 app.use('/articles', articleRouter)
-mongoose.connect('mongodb://localhost:27017/mini_wordpress', {useNewUrlParser: true})
+mongoose.connect(process.env.LINK, {useNewUrlParser: true})
 .then(data => {
     console.log('success')
 }).catch(err => {
