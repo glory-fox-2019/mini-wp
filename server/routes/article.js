@@ -8,7 +8,7 @@ router.get('/', articleController.findArticles)
 router.get('/filter/:id', articleController.findOne)
 router.post('/create',images.multer.single('featured_image'), 
 images.sendUploadToGCS, articleController.create)
-router.patch('/update/:id',images.multer.single('featured_image'), 
+router.patch('/update/:id',authorization,images.multer.single('featured_image'), 
 images.sendUploadToGCS, articleController.update)
 router.delete('/delete/:id',authorization, articleController.delete)
 router.get('/myArticles', articleController.findMine)

@@ -2,7 +2,6 @@
 require('dotenv').config()
 
 const {Storage} = require('@google-cloud/storage')
-
 const CLOUD_BUCKET = process.env.CLOUD_BUCKET
 
 const storage = new Storage({
@@ -49,8 +48,14 @@ const Multer = require('multer'),
         storage: Multer.MemoryStorage,
         limits: {
           fileSize: 5 * 1024 * 1024
-        }
-        // dest: '../images'
+        },
+        fileFilter: function (req, file, cb) {
+          if (file.mimetype !== 'image/jpeg') {
+           req.fileValidationError = 'goes wrong on the mimetype';
+           return cb(null, false, new Error('goes wrong on the mimetype'));
+          }
+          cb(null, true);
+         }
       })
 
 module.exports = {

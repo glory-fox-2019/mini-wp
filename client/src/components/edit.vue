@@ -2,7 +2,7 @@
   <div id="column-right-edit">
     <div class="container2">
       <div class="bottom">
-        <form action @submit.prevent="editItem(article._id)">
+        <form action @submit.prevent="editItem()">
           <div>
             <input type="text" v-model="title" placeholder="insert title" />
           </div>
@@ -46,7 +46,7 @@ export default {
       this.featured_image = file[0];
     },
     editItem() {
-      let id = updateid;
+      let id = this.updateid;
       let token = localStorage.getItem("token");
       let formData = new FormData();
       formData.set("featured_image", this.featured_image);
@@ -58,21 +58,26 @@ export default {
         headers: {
           token
         },
-        data: {
-          id,
-          title,
-          content,
-          featured_image
-        }
+        data: formData
       })
         .then(data => {
-          response = data.data.data;
-          Swal.fire(
-            "Success",
-            "Your Article is Successfully Edited",
-            "success"
-          );
-          this.$emit("editArticle", response);
+          let response = data.data.data;
+          if (response) {
+            Swal.fire(
+              "Success",
+              "Your Article is Successfully Edited",
+              "success"
+            );
+            this.$emit("edit-me");
+          } else {
+            Swal.fire({
+              position: "center",
+              type: "error",
+              title: "Forbidden",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
         })
         .catch(err => {
           console.log(err);
