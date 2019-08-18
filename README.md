@@ -14,7 +14,7 @@ Includes SignIn, Google SignIn, and Resgitration
 
 To Sign In without using google authorization
 
-    url: 'http://localhost:3000/user/signin'
+    url: 'http://34.87.37.210/user/signin'
     headers: token *required*,
     body: {
         email:{
@@ -43,7 +43,7 @@ To Sign In without using google authorization
 
 To Sign In using google authorization
 
-    url: 'http://localhost:3000/user/Gsignin'
+    url: 'http://34.87.37.210/user/Gsignin'
     headers: token *required*,
     body: {
         email:{
@@ -71,7 +71,7 @@ To Sign In using google authorization
 
 To Register 
 
-    url: 'http://localhost:3000/user/register'
+    url: 'http://34.87.37.210/user/register'
     headers: none,
     body: {
         name:{
@@ -106,7 +106,7 @@ Includes, CRUD of articles, Getting current user profile, filtering articles Lis
 
 User creating articles 
 
-    url: 'http://localhost:3000/articles/create'
+    url: 'http://34.87.37.210/articles/create'
     headers: token *required*,
     body: {
         title:{
@@ -153,7 +153,7 @@ User creating articles
 
 User can update thei articles
 
-    url: 'http://localhost:3000/articles/update/:id'
+    url: 'http://34.87.37.210/articles/update/:id'
     headers: token *required*,
     body: {
         title:{
@@ -185,7 +185,7 @@ User can update thei articles
 
 ## Deleting User's articles
 
-    url: 'http://localhost:3000/articles/delete/:id'
+    url: 'http://34.87.37.210/articles/delete/:id'
     headers: token *required*
     body: none,
     response status: {
@@ -210,7 +210,7 @@ User can update thei articles
 
 ## Get All Article
 
-    url: 'http://localhost:3000/articles',
+    url: 'http://34.87.37.210/articles',
     headers: token *required*,
     body: none,
     response status: {
@@ -230,7 +230,7 @@ User can update thei articles
 
 ## Get Article by their Id
 
-    url: 'http://localhost:3000/articles/filter/:id'
+    url: 'http://34.87.37.210/articles/filter/:id'
     headers: token *required*,
     body: 
     id: {
@@ -259,7 +259,7 @@ User can update thei articles
 
 ## Get Current User's Articles
 
-    url: 'http://localhost:3000/articles/myArticles'
+    url: 'http://34.87.37.210/articles/myArticles'
     headers: token *required*,
     body: none,
     response status: {
