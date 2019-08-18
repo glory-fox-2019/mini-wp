@@ -76,7 +76,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <a class="nav-link nav-font"> HOME </a>
+          <a @click.prevent="backtoHome" class="nav-link nav-font"> HOME </a>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -88,6 +88,7 @@
       </b-collapse>
     </b-navbar>
   </div>
+
 
   <!-- Jumbotron -->
   <div>
@@ -165,6 +166,8 @@ export default {
   },
   data(){
     return {
+      slide: 0,
+      sliding: null,
       message : 'hello world',
       register : {
         name: '',
@@ -192,12 +195,21 @@ export default {
     }
   },
   methods: {
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
+    },
     changePage(page, data) {
       console.log('ini dari change page')
       this.currentPage = page
       this.dataEdit = data
       this.dataDetails = data
 
+    },
+    backtoHome(){
+      this.currentPage = 'listArticle'
     },
     loading(status){
       if (status === true){

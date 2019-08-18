@@ -10,14 +10,14 @@ const route = require('./routes/index')
 const errorHandler = require('./middlewares/errorHandler')
 
 const mongoose = require('mongoose')
-// mongoose.connect('mongodb://localhost/postingg', {useNewUrlParser: true}, function(err){
-//   if (err) throw err
-//   else console.log('mongoose connected')
-// })
-mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0-qtldw.gcp.mongodb.net/postingg?retryWrites=true&w=majority', {useNewUrlParser: true}, function(err){
+mongoose.connect('mongodb://localhost/postingg', {useNewUrlParser: true}, function(err){
   if (err) throw err
   else console.log('mongoose connected')
 })
+// mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0-qtldw.gcp.mongodb.net/postingg?retryWrites=true&w=majority', {useNewUrlParser: true}, function(err){
+//   if (err) throw err
+//   else console.log('mongoose connected')
+// })
 
 
 //body parser and cors
