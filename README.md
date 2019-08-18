@@ -1,5 +1,5 @@
 # Postingg
-A post sharing app like word press for Portofolio on Hacktiv8 Bootcamp
+A post sharing app like word press for Portofolio on Hacktiv8 Bootcamp. Deployed on: http://postingg.luqmanzakariya.com
 
 ## USAGE
 
@@ -30,27 +30,37 @@ example :
 
 | Route  | HTTP | Headers(s) | Body | Sucess Response | Error Response  | Description         |
 | ------ | ---- | ---------- | - |-| ---- | ----- | ------------------- |
-| `/users/register` | POST | `none` | `name, email, password` | (201) json(data) | (500) json(err.message)  | Sign up with new user info |
-| `/users/login` | POST | `none` | `email, password` |  (200) json(data) | (500) json(err.message)  | Sign in and get an access token based on credentials |
-| `/users/loginGoogle` | POST | `none`  | `none`|  (200) json(data) | (500) json(err.message) | Sign in and get an access token based on credentials |
+| `/users/register` | POST | `none` | `name (string, required), email (string, required), password (string, required)` | (201) json(data) | (500) validation error  | Sign up with new user info |
+| `/users/login` | POST | `none` | `email (string, required), password (string, required)` |  (200) json(data) | (500) validation error, (404) wrong email/password  | Sign in and get an access token based on credentials |
+| `/users/loginGoogle` | POST | `none`  | `none`|  (200) json(data) | (500) internal server error | Sign in and get an access token based on credentials |
 
 
 ## List of Article routes:
-base url : http//localhost:3000/todos
+base url : http//localhost:3000/articles
 
 example :
 
-    http//localhost:3000/todos/create
+    http//localhost:3000/articles/all
 
 | Route | HTTP | Headers(s) | Body | Sucess Response | Error Response | Description |
 | ----- | ---- | ---------- | ---- | ----------------| -------------- | ---|
-| `/` | GET | `token` | `none` | (200) json(data)| (500) json(err.message) | Get all user's todo |
-| `/:id` | GET | `token` | `none` | (200) json(data)| (500) json(err.message) | Get all todo details |
-| `/create` | POST | `token` | `name, description, dueDate` | (200) json(data)| (500) json(err.message) | create todo |
-| `/:id` | DELETE | `token` | `none` | (200) json(data)| (500) json(err.message) | delete a todo |
-| `/:id` | PATCH | `token` | `name, description, dueDate` | (200) json(data)| (500) json(err.message) | update a todo |
-| `/status/:id` | PATCH | `token` | `none` | (200) json(data)| (500) json(err.message) | change todo status |
-| `/todoproject/:id` | DELETE | `token` | `none` | (200) json(data)| (500) json(err.message) | delete todo in a project |
-| `/todoproject/status/:id` | PATCH | `token` | `none` | (200) json(data)| (500) json(err.message) | update status todo in a project |
-| `/todoproject/:id` | GET | `token` | `none` | (200) json(data)| (500) json(err.message) | find todo details in project |
-| `/todoproject/:id` | PATCH | `token` | `name, description, dueDate` | (200) json(data)| (500) json(err.message) | update todo in a project |
+| `/all` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Get all article |
+| `/search/:title` | GET | `none` | `none` | (200) json( [data)] | (500) internal server error | Get all article based on title search |
+| `/article/:id` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Find article details based on id |
+| `//tags/:id` | GET | `token` | `none` | (200) json( [data] )| (500) internal server error, (400) unauthorized | find list article based on tags |
+| `/own` | GET | `token` | `none` | (200) json(data)| (500) internal server error, (400) unauthorized | Get user's created article |
+| `/create` | POST | `token` | `title(string), content(string), tags(string), fileUrl(string)` |(200) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) ) | (500) internal server error, (400) unauthorized | create new article |
+| `/:id` | PATCH | `token` | `title(string), content(string), tags(string), fileUrl(string)` | json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) | (500) internal server error, (400) unauthorized | update article data by id |
+| `/:id` | DELETE | `token` | `none` | (200) json(n(number),modified(number),ok(number))| (500) internal server error, (400) unauthorized | delete article by id |
+
+## List of Tag routes:
+base url : http//localhost:3000/articles
+
+example :
+
+    http//localhost:3000/find/:id
+
+| Route | HTTP | Headers(s) | Body | Sucess Response | Error Response | Description |
+| ----- | ---- | ---------- | ---- | ----------------| -------------- | ---|
+| `/findAll` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Find all tags name created |
+| `/find/:id` | GET | `none` | `none` | (200) json( [data)] | (500) internal server error | Find all article based on tags |
