@@ -1,8 +1,16 @@
 const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
-  title: String,
-  content: String,
-  thumbnail: String,
+  title: {
+    type:String,
+    required: true,
+  },
+  content: {
+    type:String,
+    required: true,
+  },
+  thumbnail: {
+    type:String,
+  },
   tags: Array,
   userId: mongoose.Schema.ObjectId
 },{

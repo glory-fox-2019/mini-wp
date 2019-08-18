@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost:27017/task_mini_wp', {useCreateIndex: true
   .then(() => console.log('Connected to Database'))
   .catch(err => console.log('Error Connecting to database | Error:'+err));
 
+app.use('/api/user/posts', routes.userPosts);
 app.use('/api/posts', routes.posts);
 app.use('/api/user', routes.user);
 

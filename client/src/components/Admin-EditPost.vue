@@ -14,6 +14,7 @@
                 <editor v-if="fetch" v-model="post.content" :value="post.content"></editor>
               </div>
               <div class="editor--submit">
+                <a href="javascript:void(0)" class="btn" @click.prevent="$emit('update:page','list-post')">Cancel</a>
                 <button type="submit" class="btn btn-primary" @click="saveEditPost()">Save Post</button>
               </div>
             </div>
@@ -74,7 +75,11 @@ export default {
   },
   methods: {
     fetchPost(){
-      axios.get('/posts/'+this.id)
+      axios.get('/user/posts/'+this.id, {
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
         .then(({data}) => {
           this.post.title = data.title;
           this.post.content = data.content;
@@ -102,6 +107,19 @@ export default {
       this.post.tags.splice(i,1);
     },
     saveEditPost(){
+      let loader = this.$loading.show({
+        // Optional parameters
+        container: this.$refs.loadingContainer,
+        canCancel: false,
+        loader: 'spinner',
+        width: 150,
+        height: 150,
+        color: '#1A75FF',
+        backgroundColor: '#ffffff',
+        opacity: 0.5,
+        zIndex: 999,
+      });
+      
       let formData = new FormData();
       formData.append('title', this.post.title);
       if(this.post.oldThumbnailUrl) formData.append('oldThumbnail',this.post.oldThumbnailUrl);
@@ -110,18 +128,21 @@ export default {
       formData.append('content', this.post.content);
       formData.append('tags', JSON.stringify(this.post.tags));
       
-      axios.put('/posts/'+this.id,formData, {
+      axios.put('/user/posts/'+this.id,formData, {
           headers: {
             'token': localStorage.getItem('token'),
             'Content-Type':'multipart/form-data',
           }
         })
         .then(({data}) => {
+          loader.hide();
+          
           this.$emit('update:page','list-post');
           this.$emit('update:post',data);
           console.log(data);
         })
         .catch(({response}) => {
+          loader.hide();
           this.$swal({
             type: 'error',
             title: 'Oops...',

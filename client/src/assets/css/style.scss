@@ -71,12 +71,35 @@ $small-radius: 8px;
   }
   
   .nav--footer{
+    .account--menu--content{
+      margin: 0;
+      transform: translateY(70px);
+      transition: 0.1s;
+      z-index: 0;
+      li{
+        list-style: none;
+        a{
+          background: #ccc;
+          border-top-right-radius: $radius;
+          margin-bottom: -15px;
+          padding: 15px;
+          padding-bottom: 30px;
+          display: block;
+          color: $dark-main;
+        }
+      }
+    }
+    .account--menu--content--active{
+      transform: translateY(0px);
+      transition: 0.1s;
+    }
     .nav--account{
       border-top-right-radius: $radius;
       border-bottom-right-radius: $radius;
       height: 80px;
       background: $dark-main;
       display: flex;
+      transform: translate(0);
       .account--avatar{
         // width: 70px;
         height: 100%;
@@ -94,6 +117,7 @@ $small-radius: 8px;
         padding: 18px 10px;
         color: white;
         font-size: 22px;
+        width: 100%;
         p{
           margin: 0;
           
@@ -106,6 +130,19 @@ $small-radius: 8px;
           font-size: 14px;
         }
       }
+      .account--menu{
+        .account--menu__icon{
+          display: flex;
+          align-items: center;
+          height: 100%;
+          width: 30px;
+          color: white;
+          a:hover {
+            text-decoration: none;
+          }
+        }
+      }
+      
     }
   }
 }
@@ -212,6 +249,7 @@ $small-radius: 8px;
           padding: $small-radius;
           color: white;
           margin-bottom: 5px;
+          margin-right: 5px;
           a{
             font-size: 20px;
             line-height: 16px;
@@ -267,18 +305,19 @@ $small-radius: 8px;
   }
   
 }
-#login{
+#auth{
   padding-top: 100px;
   height: 100vh;
   background-color: $hover-main;
-  form{
+  form, .form--signin-google{
     background-color: white;
     max-width: 450px;
     width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
     border-radius: $radius;
-    border: 1px solid $main;
+
+    box-shadow: 29px 43px 39px rgba(0,0,0,0.1);
     .title{
       h2{
         margin-bottom: 20px;
@@ -287,6 +326,24 @@ $small-radius: 8px;
         font-weight: bold;
       }
     }
+  }
+  .form--signin-google{
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .google-signin-button {
+    color: white;
+    background-color: $main;
+    border: 0;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px 20px 25px 20px;
+    transition: 0.1s;
+  }
+  .google-signin-button:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.1s;
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div ref="loadingContainer">
     <Auth @auth="auth = $event" v-if="!auth.isLogin"></Auth>
-    <Admin v-if="auth.isLogin && auth.isAdmin"></Admin>
+    <Admin v-if="auth.isLogin && (auth.role === 'admin' || auth.role === 'author')" @logout:auth="logout()" :userdata="auth"></Admin>
   </div>
 </template>
 <script>
@@ -15,32 +15,36 @@ export default {
       baseUrl: 'http://localhost:3000/api',
       auth:{
         isLogin: false,
-        isAdmin: false,
+        role: '',
         username: '',
         name: '',
       },
     }
   },
   mounted(){
-    this.checkLogin(() => {
-      
-    });
+    this.checkLogin();
 
   },
   methods: {
-    checkLogin(cb){
+    checkLogin(){
       if(localStorage.getItem('token')){
-        this.auth.isLogin = true;
+        console.log('checklogin')
         axios.get('/user')
           .then(({data}) => {
-            this.auth.isAdmin = data.role === 'admin'
-            cb();
+            let auth = {
+              isLogin: true,
+              role: data.role,
+              username: data.username,
+              name: data.name,
+              loginWith: data.loginWith,
+            }
+            this.auth = auth;
           })
-          .catch((err) => {
+          .catch(({response}) => {
             this.$swal({
               type: 'error',
               title: 'Oops...',
-              text: err,
+              text: response.error.message,
             })
           })
       }else{
@@ -50,7 +54,21 @@ export default {
     loadEditItem(id){
       this.page = 'edit-post'
     },
-    editItem(id){}
+    logout(){
+      localStorage.clear();
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+
+      this.auth = {
+        isLogin: false,
+        role: '',
+        email: '',
+        username: '',
+        name: ''
+      }
+    }
   },
   watch: {
     'auth.isLogin'(newVal,oldVal){

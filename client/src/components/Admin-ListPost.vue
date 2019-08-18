@@ -14,9 +14,9 @@
           <div class="post__item">
             <div class="post__item--thumbnail" :style="{backgroundImage: `url('`+data.thumbnail || 'https://picsum.photos/id/1023/300/200'+`')`}">
               <div class="post__item--action">
-                <a href="#" class="post__item--action--read" @click="showPost(data._id)"><i class="material-icons">remove_red_eye</i></a>                      
-                <a href="#" class="post__item--action--edit" @click="$emit('edit:post', data._id)"><i class="material-icons">edit</i></a>
-                <a href="#" class="post__item--action--delete" @click="$emit('delete:post',data._id)"><i class="material-icons">delete</i></a>
+                <a href="javascript:void(0)" class="post__item--action--read" @click="showPost(data._id)"><i class="material-icons">remove_red_eye</i></a>                      
+                <a href="javascript:void(0)" class="post__item--action--edit" @click="$emit('edit:post', data._id)"><i class="material-icons">edit</i></a>
+                <a href="javascript:void(0)" class="post__item--action--delete" @click="$emit('delete:post',data._id)"><i class="material-icons">delete</i></a>
               </div>
             </div>
             <div class="post__item--title">

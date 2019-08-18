@@ -1,7 +1,7 @@
 <template>
   <div id="admin" class="container-fluid">
     <div class="row">
-      <Nav :page="page" @update:page="page = $event"></Nav>
+      <Nav :page="page" :userdata="userdata" @update:page="page = $event" @logout:auth="logout()"></Nav>
       <div class="col main-content">
         <list-post v-if="page === 'list-post'" :posts="posts" @delete:post="deletePost($event)" @edit:post="loadEditPost($event)" @search="searchPost($event)"></list-post>
         <create-post v-if="page === 'create-post'" @add:post="posts.push($event)" @update:page="page = $event"></create-post>
@@ -17,10 +17,10 @@ import ListPost from './Admin-ListPost';
 import CreatePost from './Admin-CreatePost';
 import EditPost from './Admin-EditPost';
 export default {
+  props: ['userdata'],
   components: {Nav,ListPost,CreatePost,EditPost},
   data(){
     return {
-      baseUrl: 'http://localhost:3000/api',
       page: 'list-post',
       search: '',
       posts:[],
@@ -30,23 +30,16 @@ export default {
     }
   },
   mounted(){
-    axios.get('/posts')
-      .then(({data}) => {
-        console.log(data);
-        this.posts = data;
-      })
-      .catch(({response}) => {
-        this.$swal({
-          type: 'error',
-          title: 'Oops...',
-          text: response.data.error,
-        })
-      })      
+    this.fetchPost();
   },
   methods: {
     searchPost(keyword){
       let url = encodeURI(keyword);
-      axios.get(`/posts?search=`+url)
+      axios.get(`/user/posts?search=`+url,{
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
         .then(({data}) => {
           this.posts = data;
         })
@@ -58,8 +51,30 @@ export default {
           })
         })
     },
+    fetchPost(){
+      console.log('Fetch Post');
+      axios.get('/user/posts',{
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+      .then(({data}) => {
+        this.posts = data;
+      })
+      .catch(({response}) => {
+        this.$swal({
+          type: 'error',
+          title: 'Oops...',
+          text: response.data.error,
+        })
+      })
+    },
     deletePost(id){
-      axios.delete(`/posts/${id}`)
+      axios.delete(`/user/posts/${id}`,{
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
         .then(({data}) => {
           this.$swal({
             type: 'success',
@@ -85,6 +100,11 @@ export default {
         return el._id == data._id 
       })
       this.posts[index] = data;
+    },
+    logout(){
+      this.posts = [];
+      this.search = '';
+      this.$emit('logout:auth');
     }
   }
 }

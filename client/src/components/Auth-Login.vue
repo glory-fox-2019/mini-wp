@@ -5,14 +5,15 @@
         <h2>Login</h2>
       </div>
       <div class="form-group">
-        <label for="input--username">Username:</label>
-        <input type="text" class="form-control" id="input--username" v-model="username">
+        <label for="input--email">Email:</label>
+        <input type="email" class="form-control" id="input--email" v-model="email">
       </div>
       <div class="form-group">
         <label for="input--password">Password:</label>
-        <input type="text" class="form-control" id="input--password" v-model="password">
+        <input type="password" class="form-control" id="input--password" v-model="password">
       </div>
       <div class="editor--submit">
+        <p>Doesn't Have An Account, <a href="javascript:void(0)" @click="$emit('update:auth:page','register')">Register</a></p>
         <button type="submit" class="btn btn-primary">Login</button>
       </div>
     </form>
@@ -20,39 +21,38 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../config/axios';
 export default {
   data(){
     return {
-      baseUrl: 'http://localhost:3000/api',
-      username:'',
+      email:'',
       password:'',
     }
   },
   methods: {
     login(){
       axios({
-        url: `${this.baseUrl}/user/login`,
+        url: `/user/login`,
         method:'post',
         data:{
-          username: this.username,
+          email: this.email,
           password: this.password,
         }
       })
       .then(({data}) => {
         localStorage.setItem('token',data.token);
         this.isLogin = true;
-        this.isAdmin = data.payload.role === 'admin'
         let auth = {
           isLogin: this.isLogin,
-          isAdmin: this.isAdmin,
+          role: data.payload.role,
           username: data.payload.username,
           name: data.payload.name,
+          loginWith: data.payload.loginWith,
         }
         this.$emit('auth',auth);
+
       })
       .catch(({response}) => {
-        console.log('masuk error')
         this.$swal({
           type: 'error',
           title: 'Oops...',
