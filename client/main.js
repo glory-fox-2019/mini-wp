@@ -5,15 +5,13 @@ new Vue ({
         wysiwyg: vueWysiwyg.default.component,
       },
     data: {
-        isWrite: false,
-        isArticle: true,
-        isContent: false,
-        isEdit: false,
         isTop: true,
         isLogin: false,
         isRegister: false,
+        all: [],
+        page: '',
         email: '',
-        username: '',
+        name: '',
         password: '',
         editTitle: '',
         editContent: '',
@@ -23,45 +21,61 @@ new Vue ({
         showTitle: '',
         title: '',
         articles: [],
+        image: '',
         message: 'halo',
         tempArticles: [],
         filter: '',
     },
     methods: {
         onWrite() {
-            this.isWrite = true
-            this.isArticle = false
+            // this.isWrite = true
+            // this.isArticle = false
+            // this.onallArticle = false
+            this.page = 'write'
         },
         onArticle() {
-            this.isWrite = false
-            this.isEdit = false
-            this.isArticle = true
+            // this.isWrite = false
+            // this.isEdit = false
+            // this.onallArticle = false
+            // this.isArticle = true
+            this.page = 'myArticle'
+        },
+
+        onallArticle() {
+            // this.isWrite = false
+            // this.isEdit = false
+            // this.isArticle = false
+            // this.allArticle = true
+            this.page = 'home'
         },
 
         show(input) {
             this.showContent = input.content
             this.showTitle = input.title
-            this.isContent = true
-            this.isArticle = false
+            // this.isContent = true
+            // this.isArticle = false
             this.isTop = false
+            this.page = 'content'
         },
 
         back() {
-            this.isContent = false;
-            this.isArticle = true
+            // this.isContent = false;
+            // this.isArticle = true
             this.isTop = true
+            this.page = 'home'
         },
 
         onEdit(input) {
-            this.isArticle = false,
-            this.isEdit = true
+            // this.isArticle = false,
+            // this.isEdit = true
             this.editId = input._id
             this.editTitle = input.title
             this.editContent = input.content
+            this.page = 'edit'
         },
         login() {
             axios.post('http://localhost:3000/users/signin', {
-                username: this.username,
+                email: this.email,
                 password: this.password
             }).then(data=>{
                 localStorage.setItem('token', data.data.token) 
@@ -74,6 +88,7 @@ new Vue ({
                 timer: 1500
               })
             this.isLogin = true
+            this.page = 'myArticle'
         },
 
         onSignIn(googleUser) {
@@ -91,7 +106,7 @@ new Vue ({
 
         register() {
             axios.post('http://localhost:3000/users/register', {
-                username: this.username,
+                name: this.name,
                 email : this.email,
                 password: this.password
             })
@@ -109,16 +124,25 @@ new Vue ({
 
         createArticle(){
             let token = localStorage.getItem('token')
-            // console.log(token)
-            axios.post('http://localhost:3000/articles', {
+            let { image } = this
+            var bodyFormData = new FormData()
+            bodyFormData.append('image', image[0])
+            console.log(bodyFormData)
+            
+            axios.post('http://localhost:3000/images/upload', bodyFormData, {
+                headers: {token}
+            })
+            .then(({data}) => {
+                axios.post('http://localhost:3000/articles', {
                     title: this.title,
-                    content: this.content
+                    content: this.content,
+                    image: data.link
                 }, {
                     headers: {token} 
-                }
-             )
-            .then(data => {
-                console.log(data)
+                })
+            .then(result => {
+                this.articles.unshift(result)
+                this.allArticles.unshift(result)
                 Swal.fire({
                     position: 'center',
                     type: 'success',
@@ -126,7 +150,8 @@ new Vue ({
                     showConfirmButton: false,
                     timer: 1500
                   })
-                this.onArticle()
+                this.page = 'myArticle'
+            })
             })
             .catch(function(err) {
                 Swal.fire({
@@ -138,12 +163,18 @@ new Vue ({
             })
         },
 
+        previewFile() {
+            this.image = this.$refs.myFiles.files
+        },
+
         editArticle() {
+            let token = localStorage.getItem('token')
             let id = this.editId
             axios.patch(`http://localhost:3000/articles/${id}`, {
                 title: this.editTitle,
-                content: this.editContent
-            })
+                content: this.editContent,
+                articleId : this.editId
+            }, {headers: {token}})
             .then(data => {
                 Swal.fire({
                     position: 'center',
@@ -152,7 +183,7 @@ new Vue ({
                     showConfirmButton: false,
                     timer: 1500
                   })
-                this.onArticle()
+                  this.page = 'myArticle'
             })
             .catch(function(err) {
                 Swal.fire({
@@ -165,8 +196,9 @@ new Vue ({
         },
 
         deleteArticle(input) {
+            let token = localStorage.getItem('token')
             let id = input._id
-            axios.delete(`http://localhost:3000/articles/${id}`)
+            axios.delete(`http://localhost:3000/articles/${id}`, {headers: {token}})
             .then(function(data) {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -184,6 +216,7 @@ new Vue ({
                         'success'
                       )
                     }
+                    this.onArticle()
                   })
             })
             .catch(function (err) {
@@ -196,15 +229,29 @@ new Vue ({
             })
         }
     },
+    // created() {
+    //     let token = localStorage.getItem('token')
+    //     axios.get('http://localhost:3000/articles', {headers: {token}})
+    //     .then(data => {
+    //         this.articles = data.data
+    //         this.isLogin = false
+    //     })
+    // },
+
     created() {
         let token = localStorage.getItem('token')
-        axios.get('http://localhost:3000/articles', {headers: {token}})
+        axios.get('http://localhost:3000/articles/all', {headers: {token}})
         .then(data => {
-            this.articles = data.data
+            this.all = data.data
             this.tempArticles = data.data
+            axios.get('http://localhost:3000/articles', {headers: {token}})
+            .then(data2 => {
+            this.articles = data2.data
             this.isLogin = false
         })
+        })
     },
+
     watch: {
         filter(a, b) {
             let regex = new RegExp(a, 'i')

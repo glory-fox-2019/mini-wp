@@ -13,6 +13,13 @@ const articleSchema = new Schema({
     picture: {
         type: String
     },
+    author: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

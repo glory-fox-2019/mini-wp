@@ -20,7 +20,7 @@ class UserController {
             .then(result => {
                 if(!result){
                     return User.create({
-                        username: payload.username,
+                        name: payload.name,
                         email: payload.email,
                         password: encrypt(process.env.PASSWORD)
                     })
@@ -31,7 +31,7 @@ class UserController {
             .then(user => {
                 let dataUser = {
                     id: user.id,
-                    username: user.username,
+                    name: user.name,
                     email: user.email
                 }
                 let token = generateToken(dataUser)
@@ -45,16 +45,16 @@ class UserController {
     }
 
     static signIn(req, res, next){
-        const {username, password} = req.body
+        const {email, password} = req.body
         User.findOne({
-            username: username
+            email: email
         })
         .then(user => {
             if(user){
                 if(decrypt(password,user.password)) {
                     const payload = {
                         id: user._id,
-                        username: user.username,
+                        name: user.name,
                         email: user.email
                     }
                     const token = generateToken(payload)
@@ -71,9 +71,9 @@ class UserController {
     }
 
     static register(req,res,next){
-        const {username, email, password} = req.body
+        const {name, email, password} = req.body
         User.create({
-            username, email, password: encrypt(password)
+            name, email, password: encrypt(password)
         })
         .then(data => {
             res.status(201).json({

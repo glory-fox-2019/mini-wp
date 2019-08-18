@@ -1,10 +1,11 @@
 module.exports = (req, res, next) => {
     const Article = require('../models/article')
-    const id = req.decode.id
-    const articleId = req.body._id
-    Article.findById({id: articleId})
+    const { id } = req.decode
+    const articleId = req.params.id
+    Article.findById(articleId)
     .then(data => {
-        if(data.UserId == id){
+        console.log(data)
+        if(data.userId == id){
             next()
         }
     }).catch(next)

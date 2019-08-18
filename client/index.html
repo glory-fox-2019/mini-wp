@@ -22,7 +22,7 @@
       </div>
       <div id="login" v-if="!isLogin"> 
         <p @click="onRegister">register</p>
-        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div> -->
       </div>
       <div id="right-logo" v-if="isLogin">
         <div>
@@ -45,10 +45,10 @@
               </div>
               <div id="formLogin">
                 <form method="POST" @submit="login">
-                  <label for="username"> Username: </label><br>
-                  <input type="text" v-model="username"><br>
+                  <label for="email"> Email: </label><br>
+                  <input type="text" v-model="email"><br>
                   <label for="password">Password</label><br>
-                  <input type="text" v-model="password"><br>
+                  <input type="password" v-model="password"><br>
                   <input type="submit" value="Login">
                 </form>
               </div>
@@ -58,10 +58,10 @@
           <div class="middle">
               <div id="formRegister">
                   <form method="POST" @submit.prevent="register">
-                    <label for="username"> Username: </label><br>
-                    <input type="text" v-model="username"><br>
+                    <label for="name"> name: </label><br>
+                    <input type="text" v-model="name"><br>
                     <label for="password">Password</label><br>
-                    <input type="text" v-model="password"><br>
+                    <input type="password" v-model="password"><br>
                     <label for="email">Email</label><br>
                     <input type="text" v-model="email"><br>
                     <input type="submit" value="Register">
@@ -72,7 +72,7 @@
 
       <div class="container" v-if="isLogin">
         <div id="left-column">
-          <div class="menu" @click="onArticle">
+          <div class="menu" @click="onallArticle">
               <i class="fas fa-tv"></i>  View Articles
           </div>
           <div class="menu">
@@ -124,7 +124,7 @@
           <div id="top-content" v-if="isTop">
             <div id="top">
             <ul>
-              <li @click="onArticle">Published</li>
+              <li @click="onArticle">My Articles</li>
               <li>Drafts</li>
             </ul>
           </div>
@@ -133,7 +133,7 @@
               <i class="fas fa-search"></i>
           </div>
         </div>
-          <div v-if="isArticle" class="content" v-for="article in articles">
+          <div v-if="page == 'myArticle'" class="content" v-for="article in articles">
             <div class="article">
               <b>{{article.title}}</b>
               <i>{{article.createdAt.slice(0, 10)}}</i>
@@ -142,7 +142,7 @@
             </div>
             <div class="image">
               <div>
-                <img src="journey.jpeg" alt="gambar">
+                <img :src="article.image" alt="gambar">
               </div>
               <div class="option">
                   <div class="edit">
@@ -154,7 +154,20 @@
               </div>
             </div>
           </div>
-          <div v-if="isContent" class="article-content">
+          <div v-if="page == 'home'" class="content" v-for="article in all">
+            <div class="article">
+              <b>{{article.title}}</b>
+              <i>{{article.createdAt.slice(0, 10)}}</i>
+              <p><br></p>
+              <p @click="show(article)">show content</p>
+            </div>
+            <div class="image">
+              <div>
+                <img :src="article.image" alt="gambar">
+              </div>
+            </div>
+          </div>
+          <div v-if="page == 'content'" class="article-content">
             <div id="back"> 
                 <i  @click="back" class="fas fa-backward">  Back </i>
             </div>
@@ -167,15 +180,16 @@
               </div>
             </div>
           </div>
-            <div v-if="isWrite" class="content-editor">
-                <form method="POST" @submit.prevent="createArticle()">
+            <div v-if="page == 'write' " class="content-editor">
+                <form enctype="multipart/form-data" @submit.prevent="createArticle()">
                     <label for="title">Title: </label>
                     <input type="text" v-model="title">
                     <wysiwyg v-model="content"> </wysiwyg>
+                    <input type="file" @change="previewFile" id="file" ref="myFiles">
                     <input type="submit" value="Submit">
                   </form>
             </div> 
-            <div v-if="isEdit" class="content-editor">
+            <div v-if="page == 'edit' " class="content-editor">
               <form method="PATCH" @submit.prevent="editArticle()">
                 <label for="title">Title: </label>
                     <input type="text" v-model="editTitle">
@@ -186,9 +200,10 @@
       </div>
     </div>
   </div>
-  <script src="vueWysiwyg.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="vueWysiwyg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="main.js"></script>
+<!-- <script src="src/main.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

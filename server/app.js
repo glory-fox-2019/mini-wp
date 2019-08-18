@@ -1,10 +1,14 @@
+if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
+    require('dotenv').config()
+}
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const userRouter = require('./routes/userRouter')
 const articleRouter = require('./routes/articleRouter')
+const imageRouter = require('./routes/imageRouter')
 
 app.use(cors())
 app.use(express.urlencoded({extended: false}))
@@ -18,8 +22,10 @@ mongoose.connect("mongodb://localhost:27017/mini-wp", { useNewUrlParser: true })
     console.log(err.message)
 })
 
+app.use('/images', imageRouter)
 app.use('/users', userRouter)
 app.use('/articles', articleRouter)
+
 
 app.use((err, req, res, next) => {
     console.log(err)
