@@ -15,12 +15,27 @@
       <navin @sign-out="signingOut" @writeArticle="getWrite"></navin>
       <div class="container">
         <leftcolumn @seeArticles="getBody" @myArticles="getMine" :name="name"></leftcolumn>
-        <rightcolumn
-          v-show="isBody"
-          :articles="articles"
-          @delete-article="removeArticle($event)"
-          @update-file="updateData($event)"
-        ></rightcolumn>
+        <div id="column-right" v-show="isBody">
+          <div class="container2">
+            <div id="top">
+              <div class="atas"></div>
+              <div id="searchbar">
+                <div>
+                  <input type="text" v-model="filter" placeholder="Type Title" />
+                </div>
+                <div id="search">
+                  <i class="fas fa-search write"></i>
+                </div>
+              </div>
+            </div>
+            <rightcolumn
+              :articles="articles"
+              @delete-article="removeArticle($event)"
+              @update-file="updateData($event)"
+            ></rightcolumn>
+          </div>
+        </div>
+
         <write v-show="isWrite" @uploadFile="getFile($event)"></write>
         <edit v-show="isEdit" @editArticle="getUpdate($event)" :updateid="updateid"></edit>
       </div>
@@ -70,6 +85,7 @@ export default {
       image: "",
       name: "",
       updateid: "",
+      filter:""
     };
   },
   methods: {
@@ -173,7 +189,7 @@ export default {
       this.isWrite = false;
       this.isBody = false;
       this.isEdit = true;
-      this.updateid = id
+      this.updateid = id;
     }
   },
   created() {
@@ -187,19 +203,58 @@ export default {
       this.beforein = true;
       this.afterin = false;
     }
+  },
+    watch: {
+    filter(a, b) {
+      let regex = new RegExp(a, "i");
+      this.articles = this.tempArticles.filter(el => regex.test(el.title));
+    }
   }
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Muli|Poppins&display=swap");
-* {
-  font-family: "Poppins", sans-serif;
-}
 .container {
   display: flex;
   align-content: flex-start;
   margin: 0;
   padding: 0;
+}
+#column-right {
+  height: 90vh;
+  background-color: #0001;
+  width: 80%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.container2 {
+  margin-top: 5%;
+  width: 70%;
+}
+#top {
+  margin-bottom: 5%;
+  padding: 5%;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  -webkit-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.atas {
+  display: flex;
+}
+#searchbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  height: 20%;
+}
+#search {
+  margin-left: 5%;
+}
+.write {
+    color: #21759b;
 }
 </style>

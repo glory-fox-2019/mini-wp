@@ -1,17 +1,4 @@
  <template>
-  <div id="column-right">
-    <div class="container2">
-      <div id="top">
-        <div class="atas"></div>
-        <div id="searchbar">
-          <div>
-            <input type="text" v-model="filter" />
-          </div>
-          <div id="search">
-            <i class="fas fa-search write"></i>
-          </div>
-        </div>
-      </div>
       <div class="isi">
         <div class="bottom" v-for="(article,index) in articles" :key="index">
           <div class="judul">
@@ -35,8 +22,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -94,41 +79,12 @@ export default {
       this.$emit("update-file", id);
     }
   },
-  watch: {
-    filter(a, b) {
-      let regex = new RegExp(a, "i");
-      this.articles = this.tempArticles.filter(el => regex.test(el.title));
-    }
-  }
 };
 </script>
 
 <style scoped>
-#column-right {
-  height: 90vh;
-  background-color: #0001;
-  width: 80%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-}
-.container2 {
-  margin-top: 5%;
-  width: 70%;
-}
-#top {
-  margin-bottom: 5%;
-  padding: 5%;
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  -webkit-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
-}
-.atas {
-  display: flex;
-}
+
+
 .published {
   margin-right: 15%;
 }
@@ -142,15 +98,7 @@ export default {
 #draft {
   color: #21759b;
 }
-#searchbar {
-  display: flex;
-  justify-content: flex-end;
-  width: 50%;
-  height: 20%;
-}
-#search {
-  margin-left: 5%;
-}
+
 .isi {
   height: 50vh;
   overflow: auto;

@@ -7,11 +7,11 @@
     </div>
     <div class="right-nav-out">
       <div class="next-right">
-        <div>
+        <div class="rightcorner">
           <button
             v-google-signin-button="clientId"
             class="google-signin-button"
-          >Continue with Google</button>
+          ><i class="fab fa-google"></i></button>
         </div>
         <div class="rightcorner">
           <div>
@@ -115,5 +115,10 @@ a {
 }
 .right {
   margin-right: 20px;
+}
+button {
+  height:40px;
+  width:40px;
+  cursor: pointer;
 }
 </style>
