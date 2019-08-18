@@ -59,7 +59,7 @@ export default {
     },
     mounted() {
         console.log(localStorage.getItem('token'))
-        axios.get('http://localhost:3000/articles', {
+        axios.get('http://35.247.138.16/articles', {
             headers: {
                 token: localStorage.getItem('token')
             }

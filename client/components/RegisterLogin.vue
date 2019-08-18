@@ -65,7 +65,7 @@ export default {
         loginUser() {
             const {email, password} = this.loginForm
             
-            axios.post('http://localhost:3000/user/login', {email, password})
+            axios.post('http://35.247.138.16/user/login', {email, password})
                 .then(({data}) => {
                     localStorage.setItem('token', data.token)
                     localStorage.setItem('user', data.name)
@@ -82,7 +82,7 @@ export default {
         },
         registerUser() {
             const {name, email, password} = this.registerForm
-            axios.post('http://localhost:3000/user/register', {name, email, password})
+            axios.post('http://35.247.138.16/user/register', {name, email, password})
                 .then(({data}) => {
                     localStorage.setItem('token', data.token)
                     localStorage.setItem('user', data.name)

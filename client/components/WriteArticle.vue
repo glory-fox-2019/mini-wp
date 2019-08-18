@@ -41,7 +41,7 @@ export default {
                 formData.set('image', this.file)
                 formData.set('content', this.content)
             this.loading = true
-            axios.post('http://localhost:3000/articles', formData,
+            axios.post('http://35.247.138.16/articles', formData,
                 {
                     headers: {
                         token: localStorage.getItem('token')

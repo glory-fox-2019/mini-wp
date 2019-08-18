@@ -43,7 +43,7 @@ export default {
                 formData.set('image', this.file)
                 formData.set('content', this.editData.eContent)
 
-                axios.put('http://localhost:3000/articles/'+id, formData,
+                axios.put('http://35.247.138.16/articles/'+id, formData,
                     {
                         headers: {
                             token: localStorage.getItem('token')
@@ -72,7 +72,7 @@ export default {
                     title: this.editData.eTitle,
                     content: this.editData.eContent
                 }
-                axios.patch('http://localhost:3000/articles/'+id, artikel,
+                axios.patch('http://35.247.138.16/articles/'+id, artikel,
                     {
                         headers: {
                             token: localStorage.getItem('token')

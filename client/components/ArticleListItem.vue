@@ -29,7 +29,7 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.value) {
-                    axios.delete(`http://localhost:3000/articles/${id}`, {
+                    axios.delete(`http://35.247.138.16/articles/${id}`, {
                         headers: {
                             token: localStorage.getItem('token')
                         }
