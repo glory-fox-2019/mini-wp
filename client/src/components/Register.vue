@@ -52,6 +52,7 @@ export default {
                 this.$emit('register:done')
             })
             .catch( err => {
+                this.isLoading = false
                 Swal.fire({
                     type: 'error',
                     title: err.response.data

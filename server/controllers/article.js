@@ -25,7 +25,7 @@ class ArticleController {
         req.query.title && (filter.title = req.query.title)
         req.query.tags && (filter.tags = req.query.tags)
 
-        Article.find(filter).populate([{ path: 'tagsId' }, { path: 'author'}]).sort('createdAt')
+        Article.find(filter).populate([{ path: 'tagsId' }, { path: 'author'}]).sort({ createdAt: -1 })
             .then( data => {
                 res.status(200).json(data)
             })
@@ -34,7 +34,7 @@ class ArticleController {
 
     static findUserArticles(req, res, next){
         let author = req.decoded._id
-        Article.find({ author }).populate([{ path: 'tagsId' }, { path: 'author'}]).sort('createdAt')
+        Article.find({ author }).populate([{ path: 'tagsId' }, { path: 'author'}]).sort({ createdAt: -1 })
             .then( data => {
                 res.status(200).json(data)
             })

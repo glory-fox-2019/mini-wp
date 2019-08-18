@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV==='development'){
+if(process.env.NODE_ENV==='development' || !process.env.NODE_ENV){
     require('dotenv').config()
 }
 
@@ -15,7 +15,7 @@ const dbName = 'database' // Change here
 const app = express()
 
 // Check mongoose connection
-mongoose.connect(`mongodb://localhost/${dbName}-${process.env.NODE_ENV}`, {
+mongoose.connect(`mongodb+srv://mongodb:${process.env.MONGODB_PASSWORD}@mongodb-9zz64.gcp.mongodb.net/miniwp?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false
@@ -39,4 +39,5 @@ app.use('/api', routes)
 // Error Handler
 app.use(errorHandler)
 
-app.listen(port, ()=> console.log('Listening on port', port))
+module.exports = app
+// app.listen(port, ()=> console.log('Listening on port', port))

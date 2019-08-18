@@ -14118,6 +14118,8 @@ var _default = {
 
         _this.$emit('register:done');
       }).catch(function (err) {
+        _this.isLoading = false;
+
         _sweetalert.default.fire({
           type: 'error',
           title: err.response.data
@@ -64371,7 +64373,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43503" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39067" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
