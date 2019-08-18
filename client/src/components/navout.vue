@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       clientId:
-        "625839930459-4rtuag4765ha3b3924a1fckfcrtp8lbp.apps.googleusercontent.com"
+        "625839930459-0vfpk4uci2uel6nh4u3bc3jiiq5os9qf.apps.googleusercontent.com"
     };
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
     OnGoogleAuthSuccess(idToken) {
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/Gsignin",
+        url: "http://34.87.37.210/users/Gsignin",
         data: {
           idToken
         }

@@ -9052,7 +9052,7 @@ var _default = {
   },
   data: function data() {
     return {
-      clientId: "625839930459-4rtuag4765ha3b3924a1fckfcrtp8lbp.apps.googleusercontent.com"
+      clientId: "625839930459-0vfpk4uci2uel6nh4u3bc3jiiq5os9qf.apps.googleusercontent.com"
     };
   },
   methods: {
@@ -9070,7 +9070,7 @@ var _default = {
 
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/Gsignin",
+        url: "http://34.87.37.210/users/Gsignin",
         data: {
           idToken: idToken
         }
@@ -9343,7 +9343,7 @@ var _default = {
       var email = this.emailLogin;
       var password = this.passwordLogin;
       axios({
-        url: "http://localhost:3000/users/signin",
+        url: "http://34.87.37.210/users/signin",
         method: "POST",
         data: {
           email: email,
@@ -9567,7 +9567,7 @@ var _default = {
       var name = this.nameSignup;
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/register",
+        url: "http://34.87.37.210/users/register",
         data: {
           email: email,
           password: password,
@@ -10082,7 +10082,7 @@ var _default = {
         if (result.value) {
           axios({
             method: "DELETE",
-            url: "http://localhost:3000/articles/delete/".concat(id),
+            url: "http://34.87.37.210/articles/delete/".concat(id),
             headers: {
               token: token
             }
@@ -23903,7 +23903,7 @@ var _default = {
       formData.set("content", this.content);
       axios({
         method: "POST",
-        url: "http://localhost:3000/articles/create",
+        url: "http://34.87.37.210/articles/create",
         headers: {
           token: token
         },
@@ -24122,7 +24122,7 @@ var _default = {
       formData.set("content", this.content);
       axios({
         method: "PATCH",
-        url: "http://localhost:3000/articles/update/".concat(id),
+        url: "http://34.87.37.210/articles/update/".concat(id),
         headers: {
           token: token
         },
@@ -24449,7 +24449,7 @@ var _default = {
       var token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/",
+        url: "http://34.87.37.210/articles/",
         headers: {
           token: token
         }
@@ -24477,7 +24477,7 @@ var _default = {
       var token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/myArticles",
+        url: "http://34.87.37.210/articles/myArticles",
         headers: {
           token: token
         }
@@ -29506,7 +29506,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49438" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55746" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

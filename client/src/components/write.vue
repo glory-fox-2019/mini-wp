@@ -52,7 +52,7 @@ export default {
       formData.set("content", this.content);
       axios({
         method: "POST",
-        url: "http://localhost:3000/articles/create",
+        url: "http://34.87.37.210/articles/create",
         headers: {
           token
         },

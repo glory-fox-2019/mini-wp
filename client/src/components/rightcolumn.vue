@@ -49,7 +49,7 @@ export default {
           if (result.value) {
             axios({
               method: "DELETE",
-              url: `http://localhost:3000/articles/delete/${id}`,
+              url: `http://34.87.37.210/articles/delete/${id}`,
               headers: {
                 token
               }
