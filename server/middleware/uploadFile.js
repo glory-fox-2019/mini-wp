@@ -4,7 +4,7 @@ const randomNameFile = require('../helpers/randomNameFile')
 const accepted_extensions = ['jpg', 'png']
 const storage = multer.diskStorage({
   destination : function (req, file, cb) {
-    cb(null, './uploads/')
+    cb(null, 'https://storage.cloud.google.com/josprima-mini-wp-image/')
   },
   filename : function (req, file, cb) {
     cb(null, randomNameFile(file.originalname))
