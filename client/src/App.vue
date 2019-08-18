@@ -1,6 +1,7 @@
 <template>
-  <b-container>
-      <navbar :isLogin="pages.isLogin" @actionLogin="loginStatus" @home="homeClick"></navbar>
+  <b-container fluid class="p-0">
+      <navbar :isLogin="pages.isLogin" @actionLogin="loginStatus" @home="homeClick" @dashboard="toDashboard"></navbar>
+      <b-container>
       <div v-if="!pages.isDashboard">
           <listContent v-if="!pages.isReadMode" :contents="datas.contents" @read="read"></listContent>
           <readArticle v-if="pages.isReadMode" :content="datas.content"></readArticle>
@@ -8,6 +9,7 @@
       <div v-if="pages.isDashboard">
           <dashboard></dashboard>
       <div>
+      </b-container>
   </b-container>
 </template>
 
@@ -22,21 +24,11 @@ export default {
       pages : {
           isLogin : false,
           isReadMode : false,
-          isDashboard : true,
+          isDashboard : false,
       },
       datas : {
-          contents : [{
-              title : 'Anak Tiri Durhaka',
-              author : 'Aku anak kuat',
-              description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-              view : 2000
-          },
-          {
-              title : 'Anak Tiri Durhaka Banget',
-              author : 'Aku anak kuat',
-              description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-              view : 2000
-          }],
+          contents : [],
+          tempContents : [],
           content : {}
       }
     }; 
@@ -50,19 +42,55 @@ export default {
   methods : {
       loginStatus(status){
          this.pages.isLogin = status
+         this.pages.isDashboard = false;
       },
       read(object){
-          this.pages.isReadMode = true;
-          this.datas.content = object
+          axios({
+              method: "GET",
+              url : `http://localhost:3000/article/view/${object._id}`,
+          }).then(({data}) => {
+              this.datas.content = data
+              this.pages.isReadMode = true;
+          }).catch(err => {
+              console.log(err.response)
+          })
+         
+      },
+      getHome(){
+        axios({
+            method: 'GET',
+            url : "http://localhost:3000/article/home",
+        }).then(({data}) => {
+            console.log(data)
+            this.datas.contents = data
+            this.tempContents = data
+        }).catch(err => {
+            console.log(err)
+        })
       },
       homeClick(){
           this.pages.isReadMode = false;
+          this.pages.isDashboard = false;
+          console.log(this.pages.isDashboard)
+          this.getHome()
+      },
+      toDashboard(){
+          this.pages.isDashboard = true
+      }
+  },
+  created(){
+     this.getHome()
+     if (localStorage.token){
+          this.pages.isLogin = true
       }
   }
 };
 </script>
 
 <style scoped>
+ .p-0{
+     padding: 0;
+ }
 </style>
 
 

@@ -2,58 +2,105 @@
     <div>
         <b-jumbotron lead="Never Stop Creating">
             <template slot="header">{{user.info.fullname}}</template>
-            <p></p>
-            <b-button variant="primary" href="#">Create More Article</b-button>
+            <b-button variant="primary" v-if="action.isDashboard" href="#" @click.prevent="createContent">Create More Article</b-button>
+            <b-button variant="success" v-if="action.isCreate || action.isEdit" href="#" @click.prevent="contentList">My Collection</b-button>
         </b-jumbotron>
-        <b-nav tabs>
-            <b-nav-item>Publish</b-nav-item>
-            <b-nav-item>Draft</b-nav-item>
-            <b-nav-item>Deleted</b-nav-item>
-        </b-nav>
-        <listContent v-if="!action.isCreate" :contents="user.articles" @read="read"></listContent>
+        <div v-if="action.isDashboard">
+            <b-tabs
+                active-nav-item-class="font-weight-bold text-uppercase text-danger"
+                active-tab-class="font-weight-bold text-success"
+                content-class="mt-3">
+                <b-tab @click.prevent="getMyArticle(1)" title="Publish" active></b-tab>
+                <b-tab @click.prevent="getMyArticle(2)" title="Draft"><p></p></b-tab>
+                <b-tab @click.prevent="getMyArticle(3)" title="Deleted"><p></p></b-tab>
+            </b-tabs>
+        </div>
+        <dashboardListContent v-if="action.isDashboard" :contents="user.articles" @read="read" @removeContent="removeArticle" @edit="updateContent"></dashboardListContent>
         <createContent v-if="action.isCreate"></createContent>
+        <dashboardUpdate v-if="action.isEdit" :content="updateArticle"></dashboardUpdate>
     <div>
 
 </template>
 
 <script>
-import listContent from './content-list'
+
 import createContent from './dashboard-create'
+import dashboardListContent from './dashboard-list-content'
+import dashboardUpdate from './dashboard-update'
 export default {
     data(){
         return {
             user : {
-                articles : [{
-                    title : 'Anak Tiri Durhaka',
-                    author : 'Aku anak kuat',
-                    description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    view : 2000
-                },
-                {
-                    title : 'Anak Tiri Durhaka',
-                    author : 'Aku anak kuat',
-                    description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    view : 2000
-                }   
-                ],
+                articles : [],
                 info : {
                     fullname : 'Fauzi Nur Fadillah'
 
-                }
+                },
             },
             action : {
-                isCreate : true
-            }
+                isCreate : false,
+                isEdit : false,
+                isDashboard : true
+            },
+            updateArticle : {}
         }
     },
     components :{
-        listContent,
-        createContent
+        dashboardListContent,
+        createContent,
+        dashboardUpdate
     },
     methods : {
         read(){
 
+        },
+        getMyArticle(status){
+            let token = localStorage.getItem('token')
+            axios({
+                method: 'GET',
+                url: `http://localhost:3000/article/myarticle/${status}`,
+                headers : { token }
+            }).then(({data}) => {
+                this.user.articles = data
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        createContent(){
+            this.action.isCreate = true
+            this.action.isDashboard = false;
+            this.action.isEdit = false;
+        },
+        contentList(){
+            this.action.isCreate = false;
+            this.action.isDashboard = true;
+            this.action.isEdit = false;
+            this.getMyArticle(1)
+        },
+        updateContent(content){
+            this.updateArticle = content
+            this.action.isCreate = false
+            this.action.isDashboard = false;
+            this.action.isEdit = true;
+        },
+        removeArticle(id){
+            this.user.articles = this.user.articles.filter(el => { return el._id != id })
         }
+    },
+    created() {
+        this.getMyArticle(1)
+        let token = localStorage.getItem('token')
+        axios({
+            method: 'get',
+            url : 'http://localhost:3000/user/myprofile',
+            headers: { token }
+        })
+        .then(({data}) => {
+            this.user.info.fullname = data.fullname
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 }
 </script>

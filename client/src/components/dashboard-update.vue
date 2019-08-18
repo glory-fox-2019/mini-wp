@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  props : ['content'],
   data() {
     return {
       text: "",
@@ -34,7 +35,7 @@ export default {
       console.log(this.file);
     },
     clear() {
-      (this.text = ""), (this.title = ""), (this.file = "");
+      this.text = content.content
       const input = this.$refs.inputFile;
     },
     create() {
@@ -57,26 +58,15 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            this.createToDb(1)
-            swalWithBootstrapButtons.fire(
-              "Published!",
-              "Your Content sucessfully to publish",
-              "success"
-            );
+            this.updateToDb(1)
           } else if (
             result.dismiss === Swal.DismissReason.cancel
           ) {
-            this.createToDb(2)
-            swalWithBootstrapButtons.fire(
-              "save to draft",
-              "Your content already saved to draft",
-              "success"
-            );
-            
+            this.updateToDb(2)
           }
         });
     }, 
-    createToDb(status){
+    updateToDb(status){
         let formData = new FormData()
         formData.set('image',this.file)
         formData.set('title', this.title)
@@ -84,17 +74,31 @@ export default {
         formData.set('status', status)
         let token = localStorage.getItem('token')
         axios({
-            method: "POST",
-            url: `http://localhost:3000/article/create`,
+            method: "patch",
+            url: `http://localhost:3000/article/update/${this.content._id}`,
             data : formData,
             headers : { token }
         }).then(({data}) => {
-            console.log(data)
+            Swal.fire({
+                type: 'success',
+                title: 'Success',
+                text: 'Update Data Success',
+            })
         }).catch(err => {
-            console.log(err.response)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: err.response.data.message,
+            })
         })
     }
-  }
+  },
+  created(){
+      console.log(this.content)
+      this.text = this.content.content
+      this.title = this.content.title
+
+  },
 };
 </script>
 
