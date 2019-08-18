@@ -1,7 +1,7 @@
 module.exports = {
 
     errorHandler(err, req, res, next) {
-        console.log(err, 'from error handler <<<<<<<<')
+        console.log(err.name, 'from error handler <<<<<<<<')
         if (err.code == 404) {
             res.status(404).json({
                 code: 404,
@@ -17,15 +17,17 @@ module.exports = {
                 code: 401,
                 message: 'Invalid token.'
             })
-        } else if (err.name == "SequelizeValidationError") {
-            res.status(400).json({
-                code: 400,
-                message: err.message.split(',')
-            })
-        } else if (err.message == "Cannot read property 'UserId' of null") {
-            res.status(404).json({
-                code: 404,
-                message: 'Not Found'
+        } else if (err.name == 'ValidationError') {
+            // console.log(err.message,'masuk validation error <<<<<<<<<<')
+            let error = err.message.split('failed:').slice(1)[0].split(',')
+            let message = ``
+            for (let err of error) {
+                message += err.split(':')[1] + '\n'
+            }
+            // console.log(message)
+            res.status(500).json({
+                code: 500,
+                message: message
             })
         } else {
             res.status(500).json({

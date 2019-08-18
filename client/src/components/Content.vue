@@ -32,6 +32,7 @@
               :createdAt="article.createdAt"
               :updatedAt="article.updatedAt"
               :isPublished="article.isPublished"
+              :publishListPage="publishListPage"
               @delete-article="deleteArticle"
               @edit-page="editPage"
               @preview-article="previewArticle"
@@ -42,12 +43,15 @@
 
         <!-- ================== PUBLISHED LIST ================= -->
         <transition name="fading">
-          <div class="publish-list" v-if="publishedListPage">
+          <div class="publish-list" v-if="publishListPage">
             <PublishedList
               :articles="articles"
               :baseUrl="baseUrl"
+              :publishListPage="publishListPage"
               @show-article="$emit('show-article', $event)"
               @search-bytag="$emit('search-bytag-draft', $event)"
+              @search-bytag-global="$emit('search-bytag-global', $event)"
+              @search-articles-global="$emit('search-articles-global', $event)"
             ></PublishedList>
           </div>
         </transition>
@@ -73,7 +77,11 @@
         <!-- =================== FORM EDIT ARTICLE ================ -->
         <transition name="fading">
           <div id="edit-article" v-if="formEdit">
-            <EditForm :currentArticle="currentArticle" @update-article="updateArticle($event)" :baseUrl="baseUrl"></EditForm>
+            <EditForm
+              :currentArticle="currentArticle"
+              @update-article="updateArticle($event)"
+              :baseUrl="baseUrl"
+            ></EditForm>
           </div>
         </transition>
       </div>
@@ -100,7 +108,7 @@ export default {
     "formEdit",
     "preview",
     "isPublish",
-    "publishedListPage"
+    "publishListPage"
   ],
   components: {
     Article,

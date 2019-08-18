@@ -27,11 +27,13 @@
       :preview="preview"
       @search-article="searchArticle"
       @search-bytag-draft="searchByTagDraft"
+      @search-bytag-global="searchByTagDraft"
       @see-draft="getArticle"
       @see-published="seePublished($event)"
       @publish-article="publishArticle()"
-      :publishedListPage="publishedListPage"
-      @show-article="previewArticle($event)"
+      :publishListPage="publishedListPage"
+      @show-article="previewGlobalArticle($event)"
+      @search-articles-global="searchArticlesGlobal($event)"
     ></Content>
     <!-- landing page -->
     <LandingPage
@@ -77,7 +79,6 @@ export default {
   },
   methods: {
     register: function(payload) {
-      // console.log(payload, "dari app vue nih <<<<<<<<<<<<<");
       axios({
         method: "post",
         url: `${this.baseUrl}/users/register`,
@@ -90,18 +91,26 @@ export default {
         .then(({ data }) => {
           this.modalForm = false;
           Swal.fire({
-            title: "Thank you!",
-            text: "Please login to continue your journey..",
+            title: "Thank you for register!",
+            text: "Let's start your journey..",
             type: "success",
-            timer: 1300
+            timer: 1500
           });
-          console.log(data);
+          // console.log(data);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("username", data.username);
+
+          this.isLogin = true;
+
+          this.publishedListPage = false;
+          this.userpage = true;
+          this.getArticle();
         })
         .catch(err => {
           console.log(err);
           Swal.fire({
             title: "Oops!",
-            text: "Please use different email address.",
+            text: err.response.data.message,
             type: "error",
             timer: 2500
           });
@@ -121,9 +130,12 @@ export default {
             title: "Login Success!",
             text: "Let's start your journey..",
             type: "success",
-            timer: 1300
+            timer: 1500
           });
-          localStorage.setItem("token", data);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("username", data.username);
+          this.publishedListPage = false;
+          this.userpage = true;
           this.isLogin = true;
           this.getArticle();
         })
@@ -137,8 +149,11 @@ export default {
           });
         });
     },
-    loginGoogle: function(token) {
-      localStorage.setItem("token", token);
+    loginGoogle: function(data) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.username);
+      this.publishedListPage = false;
+      this.userpage = true;
       this.isLogin = true;
       this.getArticle();
     },
@@ -179,6 +194,21 @@ export default {
       axios({
         method: "get",
         url: `${this.baseUrl}/articles/published`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          this.articles = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getPublishedGlobal() {
+      axios({
+        method: "get",
+        url: `${this.baseUrl}/articles/published-global`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -295,11 +325,30 @@ export default {
           console.log(err);
         });
     },
+    previewGlobalArticle(id) {
+      axios({
+        method: "get",
+        url: `${this.baseUrl}/articles/${id}`,
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
+        .then(({ data }) => {
+          this.currentArticle = data;
+          this.preview = true;
+
+          this.userpage = false;
+          this.publishedListPage = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     searchArticle: function(search) {
       this.articles = [];
       axios({
         method: "get",
-        url: `${this.baseUrl}/articles/search?keyword=${search.keyword}&&by=${search.by}&&page=${search.page}`,
+        url: `http://localhost:3000/articles/search?keyword=${search.keyword}&&by=${search.by}&&page=${search.page}`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -310,6 +359,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    searchArticlesGlobal(payload) {
+      this.articles = payload;
     },
     viewCreate: function(condition) {
       this.formCreate = true;
@@ -346,7 +398,7 @@ export default {
       this.preview = false;
 
       this.publishedListPage = true;
-      this.getPublishedArticle();
+      this.getPublishedGlobal();
     }
   },
   created: function() {

@@ -1,29 +1,35 @@
 <template>
   <div class="published-list">
+    <!-- ================ SEARCH NAV ================= -->
     <div class="search-bar d-flex align-items-center justify-content-between">
+      <!-- ---------------title---------------- -->
       <div class="title-nav d-flex align-items-center">
         <i class="fas fa-globe-asia mr-1 globe-icon mr-3"></i>
         <h3>Discover</h3>
       </div>
-      <div class="search-section d-flex justify-content-end align-items-center">
-        <b-input-group class="search">
-          <b-input-group-prepend>
-            <span class="input-group-text">
-              <font-awesome-icon icon="search"></font-awesome-icon>
-            </span>
-          </b-input-group-prepend>
-          <b-form-input class="LoginInput" size="lg" placeholder="Search ..." v-model="search"></b-form-input>
-        </b-input-group>
-        <div class="align-self-stretch">
-          <b-form-select v-model="selectedBy" :options="options" class="ml-1 by">
-            <template slot="first">
-              <option :value="null" disabled>Choose</option>
-            </template>
-          </b-form-select>
+      <!-- ----------------search section----------------- -->
+      <div class="search-bundle">
+        <small class="info text-danger" v-if="info">Please select one of search type..</small>
+        <div class="search-section d-flex justify-content-end align-items-center">
+          <b-input-group class="search">
+            <b-input-group-prepend>
+              <span class="input-group-text">
+                <font-awesome-icon icon="search"></font-awesome-icon>
+              </span>
+            </b-input-group-prepend>
+            <b-form-input class="LoginInput" size="lg" placeholder="Search ..." v-model="search"></b-form-input>
+          </b-input-group>
+          <div class="align-self-stretch">
+            <b-form-select v-model="selectedBy" :options="options" class="ml-1 by">
+              <template slot="first">
+                <option :value="null" disabled>Choose</option>
+              </template>
+            </b-form-select>
+          </div>
         </div>
       </div>
     </div>
-    <!-- global published article list -->
+    <!-- ================ GLOBAL PUBLISHED ARTICLES ================= -->
     <div class="main-list-and-trending d-flex">
       <div class="pub-list col-9">
         <PublishCard
@@ -35,6 +41,7 @@
           @search-bytag="$emit('search-bytag', $event)"
         ></PublishCard>
       </div>
+      <!-- ----------- trending tags --------------- -->
       <div class="trending-tags col">
         <div class="tags d-flex flex-column align-items-center p-3">
           <h5 class="mb-4">Trending Tags</h5>
@@ -48,7 +55,8 @@
               :count="tag.count"
               :isPublished="true"
               :baseUrl="baseUrl"
-              @search-bytag="$emit('search-bytag', $event)"
+              :publishListPage="publishListPage"
+              @search-bytag="$emit('search-bytag-global', $event)"
             ></TagCard>
           </div>
         </div>
@@ -63,7 +71,7 @@ import axios from "axios";
 import TagCard from "./TagCard.vue";
 
 export default {
-  props: ["articles", "baseUrl"],
+  props: ["articles", "baseUrl", "publishListPage"],
   components: {
     PublishCard,
     TagCard
@@ -76,7 +84,8 @@ export default {
         { value: "title", text: "By Title" },
         { value: "tag", text: "By Tag" }
       ],
-      tags: []
+      tags: [],
+      info: false
     };
   },
   methods: {
@@ -105,6 +114,32 @@ export default {
   },
   created() {
     this.getAllPublishedTags();
+  },
+  watch: {
+    search(newVal, oldVald) {
+      if (this.selectedBy == null) {
+        this.info = true;
+      } else {
+        this.info = false;
+        axios({
+          method: "get",
+          url: `${this.baseUrl}/articles/search-global?keyword=${this.search}&&by=${this.selectedBy}`,
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+          .then(({ data }) => {
+            // console.log(data);
+            this.$emit("search-articles-global", data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    selectedBy(newVal, oldVal) {
+      this.info = false;
+    }
   }
 };
 </script>
@@ -134,7 +169,7 @@ h3 {
 }
 
 .tags {
-  background-color: #19476d;
+  background-color: #2d5474;
   position: fixed;
   width: 250px;
   height: 300px;

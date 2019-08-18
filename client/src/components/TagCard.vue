@@ -10,13 +10,20 @@
 import axios from "axios";
 
 export default {
-  props: ["id", "tagName", "isPublished", "baseUrl", "count"],
+  props: [
+    "id",
+    "tagName",
+    "isPublished",
+    "baseUrl",
+    "count",
+    "publishListPage"
+  ],
   methods: {
     searchRelatedTag() {
-      console.log('mashok pak eko <<<<<<<<<')
+      console.log(this.publishListPage, "masok pak ekooo <<<<<<<<<<<<");
       axios({
         method: "get",
-        url: `${this.baseUrl}/articles/by-tag/${this.id}?isPublished=${this.isPublished}`,
+        url: `${this.baseUrl}/articles/by-tag/${this.id}?isPublished=${this.isPublished}&&isGlobalPage=${this.publishListPage}`,
         headers: {
           token: localStorage.getItem("token")
         }
@@ -35,7 +42,7 @@ export default {
 
 <style scoped>
 .tag-card {
-  padding: 2px 10px;
+  padding: 1px 10px;
   background-color: rgb(230, 228, 228);
   margin-right: 10px;
   border-radius: 10px;

@@ -8,9 +8,9 @@
       <a href class="title" @click.prevent="showArticle(article._id)">
         <h2>{{article.title}}</h2>
       </a>
-      <div class="paragraph" v-html="clampedParagraph"></div>
+      <p class="paragraph" v-line-clamp="2" v-html="article.content" style="height:45px"></p>
       <div class="footer-card d-flex justify-content-between">
-        <div class="tags-list d-flex">
+        <div class="tags-list d-flex align-items-center">
           <TagCard
             v-for="tag in article.tags"
             :key="tag._id"
@@ -22,9 +22,12 @@
             @search-bytag="$emit('search-bytag', $event)"
           ></TagCard>
         </div>
-        <div class="publish-info d-flex align-items-center">
-          <i class="fas fa-globe-asia mr-1"></i>
-          <small>published {{moment(`${formatDate}`).fromNow()}}</small>
+        <div class="publish-info d-flex flex-column align-items-end">
+          <div class="published-time d-flex align-items-center">
+            <i class="fas fa-globe-asia mr-1"></i>
+            <small>published {{moment(`${formatDate}`).fromNow()}}</small>
+          </div>
+          <small>by {{article.author.username}}</small>
         </div>
       </div>
     </div>

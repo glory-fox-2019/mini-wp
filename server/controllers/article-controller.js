@@ -11,11 +11,18 @@ const storage = new Storage({
 class ArticleController {
 
     static async createArticle(req, res, next) {
-        let tags = req.body.tags.split(',')
-        let tagsId = []
 
         try {
+            let tags = req.body.tags.split(',')
+            let tagsId = []
             // ================== create new tags if new tags found
+            if (tags[0] == "") {
+                console.log('masuk ga ada ,<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+                next({
+                    code: 400,
+                    message: 'Please input at least one tag'
+                })
+            }
             for (const tag of tags) {
                 let foundTag = await Tag.findOne({
                     name: tag
@@ -87,9 +94,22 @@ class ArticleController {
             .catch(next)
     }
 
-    static getAllPublished(req, res, next) {
+    static getAllPublishedUser(req, res, next) {
         Article.find({
                 author: req.headers.decode.id,
+                isPublished: true
+            })
+            .populate('tags')
+            .populate('author')
+            .then(articles => {
+                articles.sort((a, b) => b.updatedAt - a.updatedAt)
+                res.status(200).json(articles)
+            })
+            .catch(next)
+    }
+
+    static getAllPublishedGlobal(req, res, next) {
+        Article.find({
                 isPublished: true
             })
             .populate('tags')
@@ -137,7 +157,17 @@ class ArticleController {
         }
     }
 
-    static editPage(req, res, next) {
+    static getOne(req, res, next) {
+        Article.findById(req.params.articleId)
+            .populate('tags')
+            .populate('author')
+            .then(article => {
+                res.status(200).json(article)
+            })
+            .catch(next)
+    }
+
+    static preview(req, res, next) {
         Article.findById(req.params.articleId)
             .populate('tags')
             .populate('author')
@@ -154,6 +184,7 @@ class ArticleController {
             let willUpdated = await Article.findById(req.params.articleId)
 
             if (tags[0] == "") {
+                console.log('masuk ga ada ,<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
                 next({
                     code: 400,
                     message: 'Please input at least one tag'
@@ -253,14 +284,20 @@ class ArticleController {
 
     static searchBySelectTag(req, res, next) {
         let tagId = req.params.tagId
+        let config = {
+            isPublished: req.query.isPublished
+        }
+
+        if (req.query.isGlobalPage == 'false') {
+            config.author = req.headers.decode.id
+        }
+
         Tag.findById(tagId)
             .then(tag => {
                 return Promise.all([
-                    Article.find({
-                        author: req.headers.decode.id,
-                        isPublished: req.query.isPublished
-                    })
-                    .populate('tags'),
+                    Article.find(config)
+                    .populate('tags')
+                    .populate('author'),
                     tag
                 ])
             })
@@ -276,8 +313,8 @@ class ArticleController {
             .catch(next)
     }
 
-    static normalSearchDraft(req, res, next) {
-        console.log(req.query.page)
+    static normalSearch(req, res, next) {
+
         Article.find({
                 author: req.headers.decode.id,
                 isPublished: req.query.page == 'published' ? true : false
@@ -297,7 +334,32 @@ class ArticleController {
                         if (find) return true
                     })
                 }
-                found.sort((a, b) => b.createdAt - a.createdAt)
+                found.sort((a, b) => b.updatedAt - a.updatedAt)
+                res.status(200).json(found)
+            })
+            .catch(next)
+    }
+
+    static normalSearchGlobal(req, res, next) {
+        Article.find({
+                isPublished: true
+            })
+            .populate('tags')
+            .then(articles => {
+                let found = []
+                if (req.query.by == 'title') {
+                    found = articles.filter(article => {
+                        return article.title.toLowerCase().includes(req.query.keyword)
+                    })
+                    res.status(200).json(found)
+                } else if (req.query.by == 'tag') {
+                    found = articles.filter(article => {
+                        let tags = article.tags
+                        let find = tags.find(tag => tag.name.includes(req.query.keyword))
+                        if (find) return true
+                    })
+                }
+                found.sort((a, b) => b.updatedAt - a.updatedAt)
                 res.status(200).json(found)
             })
             .catch(next)

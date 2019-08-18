@@ -65,57 +65,29 @@
             <input type="password" placeholder="Enter your Password" v-model="formLogin.password" />
             <button class="btn btn-primary" type="submit">LOGIN</button>
           </form>
-          <a href data-toggle="modal" data-target="#exampleModalCenter">Didn't have an Account?</a>
+          <a href="#" v-b-modal.modal-1>Didn't have an Account?</a>
           <a href @click.prevent="onSignIn">
             <h5 class="signingoogle">Signin with Google Account</h5>
           </a>
           <div class="g-signin2"></div>
-          <!-- <a href="#" @click.prevent="signOut">Sign out</a> -->
         </div>
         <!-- ========================== REGISTER MODAL -->
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="exampleModalCenter"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
-          aria-hidden="true"
-          v-if="changeView"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document" v-if="changeView">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Register New Account</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form class="d-flex flex-column" @submit.prevent="register">
-                <div class="modal-body">
-                  <h5>Username:</h5>
-                  <input
-                    type="text"
-                    placeholder="Enter your Username"
-                    v-model="formRegister.username"
-                  />
-                  <h5>Email:</h5>
-                  <input type="text" placeholder="Enter your Email" v-model="formRegister.email" />
-                  <h5>Password:</h5>
-                  <input
-                    type="password"
-                    placeholder="Enter your Password"
-                    v-model="formRegister.password"
-                  />
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        <!-- ------------ Modal -->
+        <b-modal id="modal-1" title="Sign Up" @ok="register">
+          <form @submit="register">
+            <h5>Username:</h5>
+            <input type="text" placeholder="Enter your Username" v-model="formRegister.username" />
+            <h5>Email:</h5>
+            <input type="text" placeholder="Enter your Email" v-model="formRegister.email" />
+            <h5>Password:</h5>
+            <input
+              type="password"
+              placeholder="Enter your Password"
+              v-model="formRegister.password"
+            />
+            <input type="submit" style="display: none" />
+          </form>
+        </b-modal>
       </div>
     </div>
   </div>
@@ -187,7 +159,7 @@ div.container-row {
 }
 
 div.banner-home {
-  background-color: rgb(121, 31, 31);
+  background-color: #19476d;
   font-family: "Lobster";
   color: azure;
   padding: 0;

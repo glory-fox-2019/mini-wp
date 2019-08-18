@@ -25,7 +25,7 @@
       <!-- tags input -->
       <h3 class="tag-title">Tags:</h3>
       <small class="small-info">
-        <i>required; ex: vacation, holiday, ... (press Enter to input tags)</i>
+        <i>required; ex: vacation, holiday, ... (press Enter to input tags); Maximum tags limit is 5</i>
       </small>
       <tags-input
         class="input-tags"
@@ -33,6 +33,7 @@
         v-model="selectedTags"
         :existing-tags="existingTags"
         :typeahead="true"
+        :limit="5"
       ></tags-input>
 
       <Editor
@@ -92,27 +93,43 @@ export default {
       formData.append("image", this.formCreate.featured_image);
       formData.append("tags", this.formCreate.tags);
 
-      axios({
-        method: "post",
-        url: `${this.baseUrl}/articles`,
-        data: formData,
-        headers: {
-          token: localStorage.getItem("token")
-        }
-      })
-        .then(({ data }) => {
-          this.isLoading = false;
-          this.$emit("create-article");
-        })
-        .catch(err => {
-          console.log(err);
-          this.isLoading = false;
-          Swal.fire({
-            type: "error",
-            title: "Oops",
-            text: err.response.data.message
-          });
+      if (this.formCreate.tags.length == 0) {
+        this.isLoading = false;
+        Swal.fire({
+          type: "error",
+          title: "Oops",
+          text: "Please input at least one tag."
         });
+      } else if (this.formCreate.featured_image == "") {
+        this.isLoading = false;
+        Swal.fire({
+          type: "error",
+          title: "Oops",
+          text: "Please input featured image."
+        });
+      } else {
+        axios({
+          method: "post",
+          url: `${this.baseUrl}/articles`,
+          data: formData,
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+          .then(({ data }) => {
+            this.isLoading = false;
+            this.$emit("create-article");
+          })
+          .catch(err => {
+            console.log(err);
+            this.isLoading = false;
+            Swal.fire({
+              type: "error",
+              title: "Oops",
+              text: err.response.data.message
+            });
+          });
+      }
     }
   },
   created() {

@@ -23,7 +23,7 @@
       <h3 class="tag-title">Tags:</h3>
       <small class="small-info">
         ex:
-        <i>vacation, holiday, ... (press Enter to input tags)</i>
+        <i>vacation, holiday, ... (press Enter to input tags); Maximum tags limit is 5</i>
       </small>
       <tags-input
         class="input-tags"
@@ -31,6 +31,7 @@
         v-model="selectedTags"
         :existing-tags="existingTags"
         :typeahead="true"
+        :limit="5"
       ></tags-input>
       <!-- text editor -->
       <Editor
@@ -89,26 +90,35 @@ export default {
       formData.append("tags", this.formEdit.tags);
       formData.append("imageEdit", this.formEdit.featured_image);
 
-      axios({
-        method: "put",
-        url: `${this.baseUrl}/articles/edit/${id}`,
-        data: formData,
-        headers: {
-          token: localStorage.getItem("token")
-        }
-      })
-        .then(({ data }) => {
-          this.isLoading = false;
-          this.$emit("update-article", data);
-        })
-        .catch(err => {
-          console.log(err);
-          Swal.fire({
-            type: "error",
-            title: "Oops",
-            text: err.response.data.message
-          });
+      if (this.formEdit.tags.length == 0) {
+        this.isLoading = false;
+        Swal.fire({
+          type: "error",
+          title: "Oops",
+          text: "Please input at least one tag."
         });
+      } else {
+        axios({
+          method: "put",
+          url: `${this.baseUrl}/articles/edit/${id}`,
+          data: formData,
+          headers: {
+            token: localStorage.getItem("token")
+          }
+        })
+          .then(({ data }) => {
+            this.isLoading = false;
+            this.$emit("update-article", data);
+          })
+          .catch(err => {
+            console.log(err);
+            Swal.fire({
+              type: "error",
+              title: "Oops",
+              text: err.response.data.message
+            });
+          });
+      }
     }
   },
   watch: {

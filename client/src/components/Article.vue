@@ -14,6 +14,7 @@
           :tagName="tag.name"
           :id="tag._id"
           :isPublished="isPublished"
+          :publishListPage="publishListPage"
           class="tag-component"
           :baseUrl="baseUrl"
           :count="tag.count"
@@ -49,7 +50,8 @@ export default {
     "createdAt",
     "updatedAt",
     "isPublished",
-    "baseUrl"
+    "baseUrl",
+    "publishListPage"
   ],
   components: {
     Tag

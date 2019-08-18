@@ -15,7 +15,16 @@ class UserController {
                 password: req.body.password
             })
             .then(user => {
-                res.status(200).json(user)
+                let payload = {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email
+                }
+                let token = jwt.signToken(payload)
+                res.status(200).json({
+                    token,
+                    username: user.username
+                })
             })
             .catch(next)
     }
@@ -35,7 +44,10 @@ class UserController {
                             email: user.email
                         }
                         let token = jwt.signToken(payload)
-                        res.status(200).json(token)
+                        res.status(200).json({
+                            token,
+                            username: user.username
+                        })
                     } else {
                         throw new Error('Wrong email/ password.')
                     }
@@ -74,7 +86,10 @@ class UserController {
                 // console.log(user)
                 payload.id = user._id
                 let token = jwt.signToken(payload)
-                res.status(200).json(token)
+                res.status(200).json({
+                    token,
+                    username: user.username
+                })
             })
             .catch(next)
     }

@@ -3,6 +3,8 @@ import App from './App.vue';
 import BootstrapVue from 'bootstrap-vue'
 import GAuth from "vue-google-oauth2"
 import VoerroTagsInput from '@voerro/vue-tagsinput';
+import lineClamp from 'vue-line-clamp'
+
 import {
     library
 } from '@fortawesome/fontawesome-svg-core'
@@ -37,5 +39,8 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(GAuth, gauthOption)
+Vue.use(lineClamp, {
+    // plugin options
+})
 
 new Vue(App).$mount('#app');

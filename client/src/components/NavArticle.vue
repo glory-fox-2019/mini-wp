@@ -93,7 +93,7 @@ export default {
         this.$emit("search-article", {
           keyword: this.search,
           by: this.selectedBy,
-          page: this.isDraft ? "draft" : "published"
+          page: this.isPublished ? "published" : "draft"
         });
       }
     }

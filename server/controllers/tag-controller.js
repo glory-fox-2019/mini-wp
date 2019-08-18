@@ -18,6 +18,9 @@ class TagController {
                     $gt: 0
                 }
             })
+            .sort({
+                count: -1
+            })
             .limit(10)
             .then(tags => {
                 res.status(200).json(tags)
