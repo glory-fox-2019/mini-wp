@@ -1,13 +1,12 @@
-const article = require('./article')
-// const users = require('./router-user')
+const articles = require('./route-article')
+const users = require('./route-user')
+const tags = require('./route-tag');
 const express = require('express');
 const routes = express.Router();
+const authentication = require('../middleware/authenticate');
 
-// routes.use('/users', users)
-routes.use('/article', article) // authentication
-
-routes.get('*', (req, res) => {
-    res.status(404).json({ msg: 'Page not found' })
-})
+routes.use('/user', users)
+routes.use('/article', authentication, articles) // authentication
+routes.use('/tag', tags)
 
 module.exports = routes

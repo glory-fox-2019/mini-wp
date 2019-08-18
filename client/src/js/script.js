@@ -76,6 +76,9 @@ const app = new Vue({
                 .then(({ data }) => {
                     this.dashboardCreate = false
                     this.cardList2 = true
+
+                    this.article.push(data) // update tanpa render
+                    
                     console.log(data);
                 })
                 .catch(err => {
@@ -89,9 +92,13 @@ const app = new Vue({
                 url: baseUrl + '/article/' + id
             })
                 .then(({ data }) => {
-                    this.cardList2 = true
-                    this.sideNav = false // ------------------------------------------- jangan lupa nanati di ubah
                     console.log(data);
+                    this.article = this.article.filter(el=> el._id !== data._id) // mengambildata ulang yang tidak di delete
+
+                    // this.cardList2 = true
+                    // this.sideNav = false // ------------------------------------------- jangan lupa nanati di ubah
+                    
+                    // console.log(data);
                 })
                 .catch(err => {
                     console.log(err);
@@ -138,7 +145,6 @@ const app = new Vue({
         })
             .then(({ data }) => {
                 this.article = data
-                console.log(data);
             })
             .catch(err => {
                 console.log(err, 'error dari fetch data');
