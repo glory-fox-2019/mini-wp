@@ -80,7 +80,7 @@
          let fullname = this.form.fullname
          axios({
             method: 'POST',
-            url : "http://localhost:3000/user/register",
+            url : "http://34.87.63.195/user/register",
             data: {email,password,fullname}
         }).then(({data}) => {
             Swal.fire({

@@ -75,7 +75,7 @@ export default {
         let token = localStorage.getItem('token')
         axios({
             method: "patch",
-            url: `http://localhost:3000/article/update/${this.content._id}`,
+            url: `http://34.87.63.195/article/update/${this.content._id}`,
             data : formData,
             headers : { token }
         }).then(({data}) => {

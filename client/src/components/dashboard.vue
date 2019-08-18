@@ -56,13 +56,17 @@ export default {
         },
         getMyArticle(status){
             let token = localStorage.getItem('token')
+            Swal.showLoading()
             axios({
                 method: 'GET',
-                url: `http://localhost:3000/article/myarticle/${status}`,
+                url: `http://34.87.63.195/article/myarticle/${status}`,
                 headers : { token }
             }).then(({data}) => {
+                console.log(data)
+                Swal.close()
                 this.user.articles = data
             }).catch(err => {
+                Swal.close()
                 console.log(err)
             })
         },
@@ -92,7 +96,7 @@ export default {
         let token = localStorage.getItem('token')
         axios({
             method: 'get',
-            url : 'http://localhost:3000/user/myprofile',
+            url : 'http://34.87.63.195/user/myprofile',
             headers: { token }
         })
         .then(({data}) => {

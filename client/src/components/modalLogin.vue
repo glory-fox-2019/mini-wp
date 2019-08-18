@@ -65,7 +65,7 @@ import GoogleSignInButton from 'vue-google-signin-button-directive'
          let password = this.form.password
          axios({
             method: 'POST',
-            url : "http://localhost:3000/user/login",
+            url : "http://34.87.63.195/user/login",
             data: {email,password}
         }).then(({data}) => {
             localStorage.setItem('token',data.token)
@@ -88,10 +88,9 @@ import GoogleSignInButton from 'vue-google-signin-button-directive'
       },
       OnGoogleAuthSuccess (idToken) {
       // Receive the idToken and make your magic with the backend
-      console.log(idToken)
       axios({
             method: 'POST',
-            url : "http://localhost:3000/user/loginOauth",
+            url : "http://34.87.63.195/user/loginOauth",
             data: {token : idToken}
         }).then(({data}) => {
             localStorage.setItem('token',data.token)

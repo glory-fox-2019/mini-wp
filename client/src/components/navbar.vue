@@ -9,7 +9,7 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-              <b-nav-item> <b-form-input size="md" class="mr-sm-2" placeholder="Search"></b-form-input> </b-nav-item>
+              <b-nav-item> <b-form-input size="md" class="mr-sm-2" placeholder="Search" v-model="search"></b-form-input> </b-nav-item>
               <b-nav-item><b-button size="md" class="my-2 my-sm-0" v-b-modal.modal-prevent-closing @click.prevent="showModal" variant="outline-success" right v-if="!isLogin">Login</b-button></b-nav-item>
               <b-nav-item><b-button size="md" class="my-2 my-sm-0" v-b-modal.modal-register-prevent @click.prevent="showModalRegister" variant="outline-primary" right v-if="!isLogin">Register</b-button></b-nav-item>
               <b-nav-item><b-button size="md" class="my-2 my-sm-0" @click.prevent="dashboard" variant="primary" right v-if="isLogin">Dashboard</b-button></b-nav-item>
@@ -32,6 +32,7 @@ export default {
   },
   data() {
     return {
+      search : ' '
     }; 
   },
   methods : {
@@ -65,6 +66,11 @@ export default {
       modalLogin,
       modalRegister
   },
+  watch: {
+    search(val){
+      this.$emit('search',val)
+    }
+  }
 };
 </script>
 

@@ -85,7 +85,7 @@ export default {
         let token = localStorage.getItem('token')
         axios({
             method: "POST",
-            url: `http://localhost:3000/article/create`,
+            url: `http://34.87.63.195/article/create`,
             data : formData,
             headers : { token }
         }).then(({data}) => {

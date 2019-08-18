@@ -39,7 +39,7 @@ export default {
                 let status = 3
                 axios({
                     method: 'patch',
-                    url : `http://localhost:3000/article/update/${id}`,
+                    url : `http://34.87.63.195/article/update/${id}`,
                     data : {status},
                     headers : {token}
                 })
@@ -78,7 +78,7 @@ export default {
                 let status = 3
                 axios({
                     method: 'delete',
-                    url : `http://localhost:3000/article/delete/${id}`,
+                    url : `http://34.87.63.195/article/delete/${id}`,
                     data : {status},
                     headers : {token}
                 })

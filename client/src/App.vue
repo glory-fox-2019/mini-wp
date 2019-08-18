@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="p-0">
-      <navbar :isLogin="pages.isLogin" @actionLogin="loginStatus" @home="homeClick" @dashboard="toDashboard"></navbar>
+      <navbar :isLogin="pages.isLogin" @actionLogin="loginStatus" @home="homeClick" @dashboard="toDashboard" @search="search"></navbar>
       <b-container>
       <div v-if="!pages.isDashboard">
           <listContent v-if="!pages.isReadMode" :contents="datas.contents" @read="read"></listContent>
@@ -44,10 +44,16 @@ export default {
          this.pages.isLogin = status
          this.pages.isDashboard = false;
       },
+      search(val){
+          console.log(val)
+          const regex = new RegExp(val,'i')
+          this.datas.contents = this.datas.tempContents.filter(el => { return regex.test(el.title)})
+          console.log(this.datas.contents)
+      },    
       read(object){
           axios({
               method: "GET",
-              url : `http://localhost:3000/article/view/${object._id}`,
+              url : `http://34.87.63.195/article/view/${object._id}`,
           }).then(({data}) => {
               this.datas.content = data
               this.pages.isReadMode = true;
@@ -57,13 +63,14 @@ export default {
          
       },
       getHome(){
+        Swal.showLoading()
         axios({
             method: 'GET',
-            url : "http://localhost:3000/article/home",
+            url : "http://34.87.63.195/article/home",
         }).then(({data}) => {
-            console.log(data)
+            Swal.close()
             this.datas.contents = data
-            this.tempContents = data
+            this.datas.tempContents = data
         }).catch(err => {
             console.log(err)
         })
