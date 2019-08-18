@@ -10109,7 +10109,6 @@ var _default = {
       });
     },
     clickEdit: function clickEdit(id) {
-      axios({});
       this.$emit("update-file", id);
     }
   }
@@ -23998,7 +23997,8 @@ exports.default = _default;
                     return _vm.handlefileupload($event)
                   }
                 }
-              })
+              }),
+              _vm._v(" jpeg only!\n        ")
             ]),
             _vm._v(" "),
             _vm._m(0)
@@ -24114,7 +24114,7 @@ var _default = {
     editItem: function editItem() {
       var _this = this;
 
-      var id = updateid;
+      var id = this.updateid;
       var token = localStorage.getItem("token");
       var formData = new FormData();
       formData.set("featured_image", this.featured_image);
@@ -24126,17 +24126,23 @@ var _default = {
         headers: {
           token: token
         },
-        data: {
-          id: id,
-          title: title,
-          content: content,
-          featured_image: featured_image
-        }
+        data: formData
       }).then(function (data) {
-        response = data.data.data;
-        Swal.fire("Success", "Your Article is Successfully Edited", "success");
+        var response = data.data.data;
 
-        _this.$emit("editArticle", response);
+        if (response) {
+          Swal.fire("Success", "Your Article is Successfully Edited", "success");
+
+          _this.$emit("edit-me");
+        } else {
+          Swal.fire({
+            position: "center",
+            type: "error",
+            title: "Forbidden",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
       }).catch(function (err) {
         console.log(err);
       });
@@ -24171,7 +24177,7 @@ exports.default = _default;
             on: {
               submit: function($event) {
                 $event.preventDefault()
-                return _vm.editItem(_vm.article._id)
+                return _vm.editItem()
               }
             }
           },
@@ -24360,7 +24366,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 var _default = {
   components: {
     beforein: _beforein.default,
@@ -24461,20 +24466,10 @@ var _default = {
         return el._id !== id;
       });
     },
-    getUpdate: function getUpdate(data) {
+    updateMe: function updateMe() {
       this.isWrite = false;
       this.isBody = true;
       this.isEdit = false;
-
-      for (var i = 0; i < this.articles.length; i++) {
-        var article = this.articles[i];
-
-        if (article._id == data._id) {
-          this.articles[i] = data;
-        }
-      }
-
-      this.getArticles();
     },
     getMine: function getMine() {
       var _this2 = this;
@@ -24496,11 +24491,11 @@ var _default = {
         console.log(err);
       });
     },
-    updateData: function updateData(id) {
+    updateData: function updateData(e) {
+      this.updateid = e;
       this.isWrite = false;
       this.isBody = false;
       this.isEdit = true;
-      this.updateid = id;
     }
   },
   created: function created() {
@@ -24725,8 +24720,8 @@ exports.default = _default;
               ],
               attrs: { updateid: _vm.updateid },
               on: {
-                editArticle: function($event) {
-                  return _vm.getUpdate($event)
+                "edit-me": function($event) {
+                  return _vm.updateMe()
                 }
               }
             })
@@ -29511,7 +29506,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49498" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49438" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

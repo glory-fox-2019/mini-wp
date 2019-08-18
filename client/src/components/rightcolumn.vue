@@ -75,7 +75,6 @@ export default {
         });
     },
     clickEdit(id) {
-      axios({});
       this.$emit("update-file", id);
     }
   },

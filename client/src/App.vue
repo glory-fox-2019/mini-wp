@@ -35,9 +35,8 @@
             ></rightcolumn>
           </div>
         </div>
-
         <write v-show="isWrite" @uploadFile="getFile($event)"></write>
-        <edit v-show="isEdit" @editArticle="getUpdate($event)" :updateid="updateid"></edit>
+        <edit v-show="isEdit" :updateid="updateid" @edit-me="updateMe()"></edit>
       </div>
     </div>
   </div>
@@ -85,7 +84,7 @@ export default {
       image: "",
       name: "",
       updateid: "",
-      filter:""
+      filter: ""
     };
   },
   methods: {
@@ -153,17 +152,10 @@ export default {
     removeArticle(id) {
       this.articles = this.articles.filter(el => el._id !== id);
     },
-    getUpdate(data) {
+    updateMe() {
       this.isWrite = false;
       this.isBody = true;
       this.isEdit = false;
-      for (let i = 0; i < this.articles.length; i++) {
-        let article = this.articles[i];
-        if (article._id == data._id) {
-          this.articles[i] = data;
-        }
-      }
-      this.getArticles();
     },
     getMine() {
       let token = localStorage.getItem("token");
@@ -185,11 +177,11 @@ export default {
           console.log(err);
         });
     },
-    updateData(id) {
+    updateData(e) {
+      this.updateid = e;
       this.isWrite = false;
       this.isBody = false;
       this.isEdit = true;
-      this.updateid = id;
     }
   },
   created() {
@@ -204,7 +196,7 @@ export default {
       this.afterin = false;
     }
   },
-    watch: {
+  watch: {
     filter(a, b) {
       let regex = new RegExp(a, "i");
       this.articles = this.tempArticles.filter(el => regex.test(el.title));
@@ -255,6 +247,6 @@ export default {
   margin-left: 5%;
 }
 .write {
-    color: #21759b;
+  color: #21759b;
 }
 </style>

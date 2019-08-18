@@ -10,7 +10,7 @@
             <editor v-model="content"></editor>
           </div>
           <div>
-            <input type="file" ref="file" v-on:change="handlefileupload($event)" />
+            <input type="file" ref="file" v-on:change="handlefileupload($event)"/> jpeg only!
           </div>
           <div class="tombol">
             <div class="submitbutton">
