@@ -12,8 +12,11 @@ const getPublicUrl = (filename) => {
 }
 
 const sendUploadToGCS = (req, res, next) => {
-
-    if (!req.file) {
+    if(req.body.image && !req.file) {
+        console.log(req.body.image)
+        next()
+    }
+    else if (!req.file) {
         throw({
             status: 406,
             message: "Image cannot be empty"
@@ -25,30 +28,31 @@ const sendUploadToGCS = (req, res, next) => {
             message: "File type should be image"
         })
     }
-
-  const gcsname = Date.now() + req.file.originalname
-  const file = bucket.file(gcsname)
-
-  const stream = file.createWriteStream({
-    metadata: {
-      contentType: req.file.mimetype
+    else {
+          const gcsname = Date.now() + req.file.originalname
+          const file = bucket.file(gcsname)
+        
+          const stream = file.createWriteStream({
+            metadata: {
+              contentType: req.file.mimetype
+            }
+          })
+        
+          stream.on('error', (err) => {
+            req.file.cloudStorageError = err
+            next(err)
+          })
+        
+          stream.on('finish', () => {
+            req.file.cloudStorageObject = gcsname
+            file.makePublic().then(() => {
+              req.body.image = getPublicUrl(gcsname)
+              next()
+            })
+          })
+        
+          stream.end(req.file.buffer)
     }
-  })
-
-  stream.on('error', (err) => {
-    req.file.cloudStorageError = err
-    next(err)
-  })
-
-  stream.on('finish', () => {
-    req.file.cloudStorageObject = gcsname
-    file.makePublic().then(() => {
-      req.body.image = getPublicUrl(gcsname)
-      next()
-    })
-  })
-
-  stream.end(req.file.buffer)
 }
 
 const Multer = require('multer'),

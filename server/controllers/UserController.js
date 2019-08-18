@@ -76,14 +76,15 @@ class UserController {
         .then(user => {
             if (comparePassword(process.env.SECRET_PASSWORD,user.password)){
                 const payload = {
-                    id: user._id,
+                    _id: user._id,
                     username: user.username,
                     email: user.email
                 }
                 const token = generateToken(payload)
-                res.status(200).json({
+                res.status(201).json({
                     token,
-                    username: user.username
+                    username: user.username,
+                    id: user._id
                 })
             }
             else {

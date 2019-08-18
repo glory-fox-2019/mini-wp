@@ -2,7 +2,12 @@
     <div>
         <b-container>
             <b-row style="align-content: center; display: flex; flex-direction: column;">
-                <Card :articles="articles" style="width: 70%;" :isEdit="isEdit" @deleteArticle="deleteArticle"></Card>
+                <Card :articles="articles" style="width: 70%; " 
+                :isEdit="isEdit" 
+                @deleteArticle="deleteArticle" 
+                @seeDetails="seeDetails"
+                @editArticle="editArticle"
+                ></Card>
             </b-row>
         </b-container>
     </div>
@@ -22,6 +27,12 @@ export default {
     methods: {
         deleteArticle(id) {
             this.$emit('deleteArticle',id)
+        },
+        seeDetails(id) {
+            this.$emit('seeDetails',id)
+        },
+        editArticle(id) {
+            this.$emit('editArticle', id)
         }
     }
 }

@@ -21,7 +21,10 @@ class ArticleController {
         const id = req.params.id
         Article.findByIdAndDelete(id)
         .then(results => {
-            res.status(200).json(results.title)
+            let image_name = results.featured_image.split('/')
+            image_name = image_name[image_name.length - 1]
+            req.file = image_name
+            next()
         })
         .catch(next)
     }
@@ -37,9 +40,17 @@ class ArticleController {
     }
 
     static update(req, res, next) {
-        Article.findByIdAndDelete()
-        .then(deleted => {
-            res.status(200).json(deleted)
+        const { title, content } = req.body
+        const author = req.decode._id;
+        const featured_image = req.body.image
+        Article.findByIdAndUpdate(req.params.id,{
+            title,
+            content,
+            featured_image,
+            author
+        })
+        .then(updated => {
+            res.status(200).json(updated)
         })
         .catch(next)
     }

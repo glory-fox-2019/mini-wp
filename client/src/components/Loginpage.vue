@@ -30,25 +30,32 @@
             v-model="loginForm.password"
           ></b-form-input>
         </b-form-group>
-        <div style="display: flex; justify-content: space-between; flex-direction: column; height:35%">
-          <b-button type="submit" variant="primary" style="width: 100%;">Sign In</b-button>
-          <b-button @click.prevent="register" variant="secondary" style="width: 100%">Register</b-button>
+        <div style="display: flex;flex-direction: column; height:45%; align-items: center;">
+          <b-button type="submit" variant="primary" style="width: 100%; margin-bottom: 5px;">Sign In</b-button>
+          <b-button @click.prevent="register" variant="secondary" style="width: 100%; margin-bottom: 5px;">Register</b-button>
         </div>
       </b-form>
+      <div>
+        <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
+      </div>
     </b-container>
   </div>
 </template>
 
 <script>
 import image from '../../png/friends-talking.png'
-
+import GoogleSignInButton from 'vue-google-signin-button-directive'
 export default {
+    directives:{
+        GoogleSignInButton
+    },
     data() {
         return {
             loginForm: {
                 email: '',
                 password: '',
             },
+            clientId: '552587421887-16nnsk6qohvfi0psso6l7cma0s329scb.apps.googleusercontent.com',
             image: image
         }
     },
@@ -58,11 +65,26 @@ export default {
         },
         register() {
             this.$emit('registerButton')
+        },
+        OnGoogleAuthSuccess (idToken) {
+            this.$emit('googleSignIn', idToken)
+        },
+        OnGoogleAuthFail (error) {
+            console.log(error)
         }
     }
 }
 </script>
 
 <style scoped>
-
+.google-signin-button {
+    width: 100%;
+  color: #797a7a;
+  background-color: white;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 20px 25px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 </style>

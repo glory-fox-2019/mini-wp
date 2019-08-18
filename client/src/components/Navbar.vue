@@ -10,7 +10,7 @@
           <b-navbar-nav tabs fill style="display:flex; width:40%;">
             <b-nav-item @click.prevent="allArticles">Home</b-nav-item>
             <b-nav-item @click.prevent="userArticles">Your Articles</b-nav-item>
-            <b-nav-item href="#">Create Articles</b-nav-item>
+            <b-nav-item @click.prevent="createArticle">Create Articles</b-nav-item>
           </b-navbar-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav style="display: flex; justify-content: flex-end; width: 60%;">
@@ -42,6 +42,9 @@ export default {
         },
         allArticles() {
             this.$emit('allArticles')
+        },
+        createArticle() {
+            this.$emit('createArticle')
         },
         signOut() {
             this.$emit('signOut')
