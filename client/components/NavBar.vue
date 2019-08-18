@@ -89,7 +89,7 @@ export default {
                 localStorage.removeItem('user')
                 Swal.fire(
                     'Logging Out',
-                    'You are now logged in',
+                    'You are now logged out',
                     'info'
                 )
                 this.$emit('logout', false)

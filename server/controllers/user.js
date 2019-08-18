@@ -26,6 +26,9 @@ class UserController {
     }
 
     static register(req, res, next) {
+        if(!req.body.password) {
+            next({status: 400, message: "Please enter your password"})
+        }
         const newUser = {
             name: req.body.name,
             email: req.body.email.toLowerCase(),
