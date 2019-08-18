@@ -294,7 +294,10 @@ Response (Example):
 	title: 'Mr Postman',
 	content: 'Maybe you never hear about mr postman, but...',
 	thumbnail: 'http://url-of-thumbnail',
-	userId: 5d58e9c460b7cf5884523a52,
+	user: {
+			name: 'Just Arya',
+			role: 'author'
+		},
 	createdAt: 2019-07-18T06:37:47.194Z,
 	updatedAt: 2019-08-18T06:37:47.194Z
 }
