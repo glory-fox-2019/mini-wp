@@ -1,10 +1,16 @@
 <template>
     <div>
         <navbarLogin @loginStatus="logout($event)" @on_page="toPage($event)"></navbarLogin>
-        <dashboard v-if=" page == 'dashboard'"></dashboard>
+        <dashboard 
+            v-if=" page == 'dashboard'"
+            @readmoree="to_readmore($event)"
+        
+        
+        ></dashboard>
         <story v-if="page == 'story'" 
             @on_page="toPage($event)" 
             @dataToUpdate="toUpdate($event)"
+            @readmoree="to_readmore($event)"
             v-bind:new_data="new_data"
         > 
         </story>
@@ -22,6 +28,13 @@
             @newdata="toAdd($event)"
         >
         </createStory>
+
+        <readmore
+            v-if="page == 'readmore'"
+            v-bind:id_to_read="id_to_read"
+
+        >
+        </readmore>
     </div>
 
 </template>
@@ -32,13 +45,15 @@ import dashboard from './afterLogin-child/dashboard'
 import story from './afterLogin-child/story'
 import updateStory from './afterLogin-child/updateStory'
 import createStory from './afterLogin-child/createStory'
+import readmore from './afterLogin-child/readMore'
 export default {
     data(){
         return{
             updateTitle : "",
             updateId : "",
             updateContent : "",
-            new_data : null
+            new_data : null,
+            id_to_read : ""
         }
     }
     ,components : {
@@ -46,7 +61,8 @@ export default {
         dashboard,
         story,
         updateStory,
-        createStory
+        createStory,
+        readmore
     },
     methods:{
         logout(status){
@@ -63,6 +79,10 @@ export default {
         },
         toAdd(data){
             this.new_data = data
+        },
+        to_readmore(data){
+            this.$emit('on_page','readmore')
+            this.id_to_read = data.id
         }
     },
     props: ['page']

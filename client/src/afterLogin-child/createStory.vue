@@ -19,16 +19,21 @@
                                     </div>
 
                                 </div>
-
-                                <form enctype="multipart/form-data" @submit.prevent = "onSubmitImage()">
-                                    <input 
-                                        type="file"
-                                        ref="file"
-                                    >
-                                    <div class="fields">
-                                        <button>Submit</button>
+                                <div class = "card mb-2">
+                                    <div class = "card-body">
+                                        <h5>Your featured image...</h5>
+                                        <form enctype="multipart/form-data">
+                                            <input 
+                                                type="file"
+                                                 @change="previewFile()" 
+                                                 id="file" 
+                                                 ref="myFiles"
+                                                 accept="image/*"
+                                            >
+                                        </form>
                                     </div>
-                                    </form>
+
+                                </div>
 
                                 <div class = "card mb-4">
                                     <div class = "card-body">
@@ -55,31 +60,56 @@ export default {
         return{
             inputTitle : "",
             inputContent : "",
+            image : ""
         }
 
     },
     methods : {
         createArticle(){
-            this.axios.post(baseUrl+'/articles',{
-                title : this.inputTitle,
-                content : this.inputContent
-            })
-            .then( ({data}) => {
-                // this.items.unshift(data)
-                this.$emit('newdata',data)
+            console.log(this.image , ' ini')
+            var bodyFormData = new FormData();
+            bodyFormData.append('image', this.image[0]); 
+            this.axios({
+                method : 'POST',
+                url : baseUrl+'/images/upload',
+                data : bodyFormData
+                ,
+                config : {headers: {
+                    token : localStorage.getItem('token')
+                }}
+             })
+             .then(({data})=>{
                 console.log(data);
-              })
-            .catch(function (error) {
-                console.log(error);
-              });
-              this.inputTitle = ""
-              this.inputContent = ""
-              this.$emit('on_page','story')
-            //   this.toStory()
+                this.image = data.link
+                console.log(this.inputTitle);
+                console.log(this.inputContent);
+                return this.axios.post(baseUrl+'/articles',
+                    {   title : this.inputTitle,
+                        content : this.inputContent,
+                        image : this.image
+                    },
+                    { headers : {
+                        token : localStorage.getItem('token')
+                    }}
+            )})
+                .then( ({data}) => {
+                    this.$emit('newdata',data)
+                    console.log(data);
+                    this.inputTitle = ""
+                    this.inputContent = ""
+                    this.image = ""
+                    this.$emit('on_page','story')
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
 
-        }
-
-    }
+            },
+            previewFile(){
+                console.log(this.$refs.myFiles.files)
+                this.image = this.$refs.myFiles.files
+            }
+    },
  
 }
 </script>

@@ -7,15 +7,6 @@
             <div class = "navbar-collapse justify-content-end">
                 <ul class="nav nav-pills ">
                     <li class="nav-item" >
-                            <a class="nav-link" href="#" style = "color: black" >Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style = "color: black">Notifications</a>
-                    </li>
-                    <li class="nav-item" >
-                            <a class="nav-link" href="#" style = "color: black">Profile</a>
-                    </li>
-                    <li class="nav-item" >
                         <a class="nav-link active"  style="background-color: rgb(155, 103, 55)" href="#" v-on:click="logout()">sign out</a>
                     </li>
                 </ul>
@@ -26,11 +17,8 @@
                 <a class="nav-link active" href="#" style = "color: black" v-on:click="toPage('dashboard')">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style = "color: black" v-on:click="toPage('story')">Story</a>
+                <a class="nav-link" href="#" style = "color: black" v-on:click="toPage('story')">My Story</a>
             </li>
-            <li class="nav-item">
-                    <a class="nav-link" href="#" style = "color: black">Friends</a>
-                </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" style = "color: black" v-on:click="toPage('create')">Create Story</a>
             </li>
@@ -56,6 +44,9 @@ export default {
                         localStorage.clear()
                         this.$emit('loginStatus',false)
                         this.$emit('on_page','dashboard')
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function () {
+                            console.log('User signed out.')})
                     }
                 })
         },

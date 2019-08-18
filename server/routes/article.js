@@ -5,12 +5,17 @@ const uploadImage = multer({
 })
 const router = express.Router()
 const controllerArticle = require('../controllers/controllerArticle')
+const auth= require('../middleware/auth')
 
-router.post('/',controllerArticle.create)
+router.use(auth.authentication)
+router.get('/home',controllerArticle.allPosts)
+router.get('/all-articles',controllerArticle.allPostsNoFilter)
 router.get('/',controllerArticle.findAll)
-router.delete('/:id',controllerArticle.delete)
+router.post('/',controllerArticle.create)
+router.delete('/:id',auth.authorization,controllerArticle.delete)
 router.get('/:id',controllerArticle.findOne)
-router.patch('/:id',controllerArticle.update)
+router.patch('/:id',auth.authorization,controllerArticle.update)
+
 router.post('/upload',uploadImage.single('file'),controllerArticle.upload)
 
 

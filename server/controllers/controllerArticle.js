@@ -1,8 +1,14 @@
 Article = require('../models/Article')
 class ControllerArticle{
     static create(req,res,next){
-        const{title,content} = req.body
-        Article.create({title,content})
+        const{title,content,image} = req.body
+        console.log(req.body);
+        Article.create({
+            title,
+            content,
+            image,
+            user : req.decoded._id
+        })
         .then(data=>res.status(201).json(data)
         )
         .catch(err=>{
@@ -11,8 +17,26 @@ class ControllerArticle{
     }
 
     static findAll(req,res,next){
+        Article.find({user: req.decoded._id})
+        .sort({created_at : -1})
+        .then(data=> res.json(data))
+        .catch(err=>next(err))
+    }
+
+    static allPosts(req,res,next){
         Article.find()
         .sort({created_at : -1})
+        .limit(5)
+        .populate('user')
+        .then(data=> res.json(data))
+        .catch(err=>next(err))
+    }
+
+
+    static allPostsNoFilter(req,res,next){
+        Article.find()
+        .sort({created_at : -1})
+        .populate('user')
         .then(data=> res.json(data))
         .catch(err=>next(err))
     }
@@ -25,6 +49,7 @@ class ControllerArticle{
 
     static findOne(req,res,next){
         Article.findOne({_id:req.params.id})
+        .populate('user')
         .then((data)=> res.json(data))
         .catch(err=>next(err))
     }

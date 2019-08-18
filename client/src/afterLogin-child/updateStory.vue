@@ -44,15 +44,21 @@ export default {
     data(){
         return{
           inputTitle : this.updateTitle,
-          inputContent : this.updateContent
+          inputContent : this.updateContent,
+          story : ""
         }
     },
     methods:{
        updateArticle(){
-           this.axios.patch(baseUrl+'/articles/'+this.updateId,{
-               title : this.inputTitle,
-               content : this.inputContent
-           })
+           this.axios.patch(baseUrl+'/articles/'+this.updateId,
+              { 
+                title : this.inputTitle,
+                content : this.inputContent
+                },
+            {headers : {
+                    token : localStorage.getItem('token')
+                }}
+           )
            .then(({data})=> {
                 console.log(data)
                 this.inputTitle = ""

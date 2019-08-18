@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-md-6 mt-md-0 mt-3">
                         <h5 class="text-uppercase">Anxietext</h5>
-                        <p>Fancy todo is web-app-based to help you in maintain and organize your daily live. Supporting young generation to be more productive and efficiently use their time. This application is still in development.</p>
+                        <p>Anxietext is a simple platform where people can share their story, feelings, though, and anxiety to their community. By this platform, there are many hopes that we can grow to help each other due struggling in life. </p>
                     </div>
                     <hr class="clearfix w-100 d-md-none pb-3">
                         <div class="col-md-3 mb-md-0 mb-3">

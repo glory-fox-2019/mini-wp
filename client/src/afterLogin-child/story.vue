@@ -24,10 +24,11 @@
                                         <div class = "card-body">
                                             <h5 class="card-title"> <b>Title: </b>{{item.title}}</h5>
                                             <h6 class="card-title"> <b>Created at: </b>{{String(item.created_at)}} </h6>
-                                            <p class="card-text" v-html = "item.content"></p>
+                                            <p class="card-text" v-html = "item.content.substring(0,200)"></p>
                                             <ul class="list-group list-group-flush">
                                                 <center>
                                                     <li class="list-group-item" v-on:click="editElement(item._id)"><a href=#>Edit</a></li>
+                                                    <li class="list-group-item" v-on:click="readmore(item._id)"><a href=#>Read More...</a></li>
                                                     <li class="list-group-item" v-on:click="removeElement(item._id)"><a href=# style="color:red">Delete</a></li>
                                                 </center>
                                             </ul>
@@ -56,7 +57,11 @@ export default {
             this.$emit('on_page',page)
         },
         editElement(id){
-            this.axios.get(baseUrl+'/articles/'+id)
+            this.axios.get(baseUrl+'/articles/'+id,{
+                headers : {
+                    token : localStorage.getItem('token')
+                }
+            })
             .then(({data})=>{
                 let objEdit = {
                     _id : data._id,
@@ -80,7 +85,11 @@ export default {
                 })
                 .then((isConfirm)=>{
                     if(isConfirm.value){
-                        this.axios.delete(baseUrl+'/articles/'+index)
+                        this.axios.delete(baseUrl+'/articles/'+index,{
+                            headers : {
+                                token : localStorage.getItem('token')
+                                }
+                        })
                         .then(data=>{
                             console.log(data);
                             this.items = this.items.filter(e=>e._id != index)
@@ -91,13 +100,21 @@ export default {
 
                     }
                 })
+        },
+        readmore(id){
+            let data = {id,page:"readmore"}
+            this.$emit('readmoree',data)
         }
     }
     ,
     props : ["new_data"]
     ,
     created(){
-        this.axios.get(baseUrl+'/articles/')
+        this.axios.get(baseUrl+'/articles/',{
+            headers : {
+                    token : localStorage.getItem('token')
+                }
+        })
         .then(({data}) => {
             console.log(data);
             this.items = data
