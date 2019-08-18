@@ -54,7 +54,7 @@ export default {
       formData.set("content", this.content);
       axios({
         method: "PATCH",
-        url: `http://localhost:3000/articles/update/${id}`,
+        url: `http://34.87.37.210/articles/update/${id}`,
         headers: {
           token
         },
