@@ -1,3 +1,4 @@
+
 var baseUrl = "http://localhost:3000/api"
 var app = new Vue({
     el: '#app',
@@ -15,7 +16,8 @@ var app = new Vue({
       items : [],
       search : "",
       updateId : "",
-      inputContent : ""
+      inputContent : "",
+      file :  ""
      
     }
 
@@ -41,7 +43,7 @@ var app = new Vue({
             //axios
             this.loginForm = true;
 
-        },
+        },          
 
         toStory(){
             this.story = true
@@ -140,6 +142,24 @@ var app = new Vue({
                 this.toStory()
             })
            .catch(err=> console.log(err))
+        },
+
+        onSelectImage(){
+            const file = this.$refs.file.files[0];
+            this.file = file
+        },
+
+        async onSubmitImage(){
+            const formData = new FormData()
+            formData.append('file',this.file)
+            try{
+                await axios.post(baseUrl+'/articles/upload',formData)
+                console.log('UPLOADEDDDDD');
+
+            }catch(err){
+                console.log(err);
+            }
+            
         }
     },
 

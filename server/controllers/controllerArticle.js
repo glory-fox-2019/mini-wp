@@ -12,6 +12,7 @@ class ControllerArticle{
 
     static findAll(req,res,next){
         Article.find()
+        .sort({created_at : -1})
         .then(data=> res.json(data))
         .catch(err=>next(err))
     }
@@ -36,6 +37,13 @@ class ControllerArticle{
         Article.update({_id:req.params.id},obj)
         .then((data)=>res.json({message:"data is updated",data}))
         .catch(err=>next(err))
+    }
+
+    static upload(req,res,next){
+       res.json({file:req.file})
+       console.log(req.file);
+
+
     }
 
 
