@@ -13,7 +13,7 @@
           <div class="col-7 d-flex align-items-stretch">
             <div class="card-body">
               <h4 class="card-title">{{article.title}}</h4>
-              <p class="card-text">{{article.content.substring(0,200)}}...</p>
+              <p class="card-text" v-html="article.content"> </p>
               <hr />
               <div class="card-meta">
                 <span>

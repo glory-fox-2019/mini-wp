@@ -62,16 +62,16 @@ class ArticleController {
   }
   
   static top(req, res, next){
-    // axios({
-    //   method: 'get',
-    //   url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=${process.env.API_KEY}`
-    // })
-    // .then(({ data }) => {
-    //   // console.log(data.articles);
-    //   const articles = data.articles.filter((el,index) => index < 5)
-    //   res.status(200).json(articles)
-    // })
-    // .catch(next)
+    axios({
+      method: 'get',
+      url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=${process.env.API_KEY}`
+    })
+    .then(({ data }) => {
+      // console.log(data.articles);
+      const articles = data.articles.filter((el,index) => index < 5)
+      res.status(200).json(articles)
+    })
+    .catch(next)
   }
 
   static myArticle(req, res, next){

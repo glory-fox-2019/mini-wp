@@ -8,7 +8,7 @@
         <div class="card" style="height: 100%; width: 100%;">
           <div class="card-body">
             <h5 class="card-title">{{title}}</h5>
-            <p class="card-text">{{content}}</p>
+            <p class="card-text"  v-html="content"></p>
             <p class="card-text">
               <small class="text-muted">Lastes updated {{new Date(updated)}}</small>
             </p>
