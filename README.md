@@ -1,6 +1,6 @@
 # mini-wp
 Best Mini Wordpress in Town
-link: miniwp.jackbloo.com
+link: http://miniwp.jackbloo.com
 
 # Routing
 
@@ -176,8 +176,8 @@ User can update thei articles
             status: 201
         },
         error: {
-            message: 'internal server error'
-            status: 500
+            message: 'Article not found'
+            status: 404
         }
     }
 
@@ -201,8 +201,8 @@ User can update thei articles
             status: 200
         },
         error: {
-            message: 'internal server error'
-            status: 500
+            message: 'Article not found'
+            status: 404
         }
     }
 
