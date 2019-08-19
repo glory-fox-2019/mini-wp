@@ -7,7 +7,7 @@
                 <label for="title">Title</label>
                 <input v-model="editData.eTitle" type="text" name="title" placeholder="Title" required autofocus><br>
                 <label for="content">Content</label><br>
-                <quill-editor ref="myTextEditor" v-model="editData.eContent" :options="editorOption"></quill-editor>
+                <quill-editor style="margin-top: 26px; margin-bottom: 60px; height: 120px;" ref="myTextEditor" v-model="editData.eContent" :options="editorOption"></quill-editor>
                 <label for="image">Featured Image</label>
                 <input ref="file" type="file" name="file" @change="imageUpload"><br>
                 <input type="submit" value="Submit">
@@ -122,6 +122,10 @@ form label {
     margin-bottom: 10px;
 }
 
+label[for="image"] {
+    padding-top: 30px;
+}
+
 input {
     padding: 3px;
 }
@@ -140,11 +144,16 @@ input[type='submit'] {
     border-radius: 10px;
     color: white;
     font-weight: 600;
+    margin-top: -18px;
 }
 
 input[type='submit']:hover {
     color: #196191;
     background-color: wheat;
+}
+
+.ql-container{
+  min-height: 1000px;
 }
 
 .loader {

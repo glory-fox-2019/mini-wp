@@ -14,7 +14,7 @@
                     </div>
                     <div class="nav-item nav-right">
                         <div class="nav-right-item">
-                            <div class="write-button">                        
+                            <div class="write-button" @click="changePage('makepage')">                        
                                 <i class="far fa-edit"></i> Write
                             </div>
                         </div>
@@ -81,18 +81,20 @@ export default {
     },
     methods: {
         signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                console.log('User signed out.');
-            });
-                localStorage.removeItem('token')
-                localStorage.removeItem('user')
-                Swal.fire(
-                    'Logging Out',
-                    'You are now logged out',
-                    'info'
-                )
-                this.$emit('logout', false)
+            if(gapi.auth2) {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            Swal.fire(
+                'Logging Out',
+                'You are now logged out',
+                'info'
+            )
+            this.$emit('logout', false)
         },
         changePage(page) {
             this.page = page
@@ -204,6 +206,13 @@ export default {
     border-radius: 7px;
     color: #35b0ab;    
     box-sizing: border-box;
+    cursor: pointer;
+    transition: 0.4s
+}
+
+.write-button:hover {
+    color: white;
+    background-color: #269e9a;
 }
 
 .side-bar p {

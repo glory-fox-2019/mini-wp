@@ -115,4 +115,8 @@ export default {
     color: rgb(52, 52, 138);
 }
 
+.search-header input {
+    padding: 3px;
+}
+
 </style>
