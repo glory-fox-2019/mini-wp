@@ -14,40 +14,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <meta name="google-signin-client_id" content="946070310255-n0n8qvki66k6dgbvj841op0ue125ku3u.apps.googleusercontent.com">
+    <!-- <meta name="google-signin-client_id" content="946070310255-n0n8qvki66k6dgbvj841op0ue125ku3u.apps.googleusercontent.com"> -->
 </head>
 <body>
 
     <div id="app"></div>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <!-- <script >
-        function onSignIn(googleUser) {
-            const idToken= googleUser.getAuthResponse().id_token
-            $.ajax({
-                url: `http://35.232.133.45/users/glogin`,
-                type: 'POST',
-                data: {
-                idToken
-                }
-            })
-            .done(function(data){
-                localStorage.setItem('token', data.token)
-                localStorage.setItem('userId', data.userId)
-            })
-            .fail(function(err){
-                console.log(err)
-            })
-        }
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-            console.log('User signed out.');
-            }); 
-            localStorage.removeItem("token")
-            localStorage.removeItem("userId")
-
-        }
-    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="./src/main.js"></script>

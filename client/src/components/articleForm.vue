@@ -35,7 +35,6 @@
                 @typing="getFilteredTags">
             </b-taginput>
         </b-field>
-        <pre style="max-height: 400px"><b>Tags:</b>{{ tags }}</pre>
     </section>
             
         </form>

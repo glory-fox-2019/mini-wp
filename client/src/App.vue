@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <navbar
+        <navbar v-if="isLogin"
             :currentUser = 'currentUser'
             :isEditing = 'isEditing'
             :isWriting = 'isWriting'
@@ -46,7 +46,7 @@
             @submitSignup = 'signup'
             @signinBtn = 'signinBtn'
         ></signup>
-    <g-signin-button v-if="google" @google="onSignIn">
+    <g-signin-button style="margin-left:525px" v-if="google" @google="onSignIn">
         </g-signin-button>
     </div>
 
@@ -149,6 +149,7 @@ export default {
             this.signinForm = true
             this.google = true
             this.contentField = false
+            this.isLogin = localStorage.token
         },
     //forms
         login(email, password){
@@ -170,6 +171,7 @@ export default {
                 this.signinForm = false
                 this.google = false
                 this.contentField = true
+                this.isLogin = localStorage.token
             })
         },
         signup(username, email, password){
@@ -185,9 +187,8 @@ export default {
             .then(data => {
                 console.log('SUKSES REGISTER')
                 this.signupForm = false
-                this.signinForm = false
-                this.google = false
-                this.contentField = true
+                this.signinForm = true
+                this.contentField = false
             })
             .catch(({ data }) => {
                 console.log(data)
@@ -209,6 +210,7 @@ export default {
                     this.signinForm = false
                     this.google = false
                     this.contentField = true
+                    this.isLogin = localStorage.token
                 })
                 .catch(function(err){
                     console.log(err)
