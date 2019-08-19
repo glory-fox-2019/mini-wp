@@ -17,7 +17,7 @@ export default {
   methods: {
     OnGoogleAuthSuccess (idToken) {
       // Receive the idToken and make your magic with the backend
-            axios.post('http://localhost:3000/user/google-sign-in', {id_token: idToken})
+            axios.post('http://miniwp-api.tediyaki.site/user/google-sign-in', {id_token: idToken})
                 .then(({data}) => {
                     localStorage.setItem('token', data.token)
                     localStorage.setItem('user', data.name)
