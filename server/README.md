@@ -16,7 +16,7 @@ Method: `POST`
 Status Code:  **`201`**
 
 Request (Example): 
-```javascript
+```
 {
 	name : "Just Arya",
 	username : "justarya",
@@ -26,7 +26,7 @@ Request (Example):
 ```
 
 Respond (Example):
-```javascript
+```
 {
 	token : "slkdfjsadfjoi290r302r3u320jf.3420r230h832h89.23f9h824f",
 	payload : {
@@ -47,7 +47,7 @@ Method: `POST`
 Status Code:  **`200`**
 
 Request (Example): 
-```javascript
+```
 {
 	email : "justarya@mail.com",
 	password : "password"
@@ -55,7 +55,7 @@ Request (Example):
 ```
 
 Respond (Example):
-```javascript
+```
 {
 	token : "slkdfjsadfjoi290r302r3u320jf.3420r230h832h89.23f9h824f",
 	payload : {
@@ -75,14 +75,14 @@ Method: `POST`
 Status Code:  **`200`**
 
 Request (Example): 
-```javascript
+```
 {
 	idToken : "token_from_google_oauth",
 }
 ```
 
 Respond (Example):
-```javascript
+```
 {
 	token : "slkdfjsadfjoi290r302r3u320jf.3420r230h832h89.23f9h824f",
 	payload : {
@@ -104,7 +104,7 @@ Status Code:  **`200`**
 Authentication: `TRUE`
 
 Respond (Example):
-```javascript
+```
 {
 	id:  5d58e9c460b7cf5884523a52,
 	name : "Just Arya",
@@ -124,7 +124,7 @@ Status Code: **`200`**
 Authentication: `REQUIRED`
 
 Response (Example):
-```javascript
+```
 [
 	{
 		tags: [ 'postman' ],
@@ -147,7 +147,7 @@ Status Code: **`200`**
 Authentication: `REQUIRED`
 
 Response (Example):
-```javascript
+```
 [
 	{
 		tags: [ 'postman' ],
@@ -170,7 +170,7 @@ Status Code: **`200`**
 Authentication: `REQUIRED`
 
 Response (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	_id: 5d58f23b25cf7759b1e46c39,
@@ -190,7 +190,7 @@ Status Code: **`201`**
 Authentication: `REQUIRED`
 
 Request (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	title: 'Mr Postman',
@@ -200,7 +200,7 @@ Request (Example):
 ```
 
 Response (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	_id: 5d58f23b25cf7759b1e46c39,
@@ -220,7 +220,7 @@ Status Code: **`200`**
 Authentication: `REQUIRED`
 
 Request (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	title: 'Mr Postman',
@@ -230,7 +230,7 @@ Request (Example):
 ```
 
 Response (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	_id: 5d58f23b25cf7759b1e46c39,
@@ -250,7 +250,7 @@ Status Code: **`200`**
 Authentication: `REQUIRED`
 
 Response (Example):
-```javascript
+```
 {
 	message: 'Successfully delete post',
 }
@@ -265,7 +265,7 @@ Method: `GET`
 Status Code: **`200`**
 
 Response (Example):
-```javascript
+```
 [
 	{
 		tags: [ 'postman' ],
@@ -287,7 +287,7 @@ Method: `GET`
 Status Code: **`200`**
 
 Response (Example):
-```javascript
+```
 {
 	tags: [ 'postman' ],
 	_id: 5d58f23b25cf7759b1e46c39,
@@ -314,7 +314,7 @@ Error Status:
 
 
 Error (Example):
-```javascript
+```
 {
 	httpStatus: 500,
 	message: 'Internal Server Error'
