@@ -1,5 +1,10 @@
 # Minipress
 
+deployed URL:
+```javascript
+http://minipress.yogautomo.com
+```
+
 All the APIs endpoint using base URL:
 ```javascript
 http://localhost:3000
