@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar{
+    background-color: #202421;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 8;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+  
+.sticky + .content {
+    padding-top: 60px;
+}
+
+.navigasi{
+    width: 40%;
+}
+
+.navlink{
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.navlink li a{
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.navlink li a:hover{
+    color: #2b5ec4;
+    text-decoration: none;
+    transition: 0.3s all;   
+}
+
+.logoImage{
+    width: 80px;
+}
+
+.userBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.btn-sign{
+    color: #2b5ec4;
+    border: 2px solid #2b5ec4;
+    border-radius: 7%;
+}
+
+.btn-sign:hover{
+    color: whitesmoke;
+    background-color: #2b5ec4;
+    border: 2px solid #2b5ec4;
+    border-radius: 7%;
+    transition: 0.3s all;
+}
+
+#homeBackground{
+    background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.1), 
+      rgba(0, 0, 0, 0.9)
+    ),
+    url('./pics/homebg.jpeg');
+    height: 700px; 
+    background-attachment: fixed;
+    background-position: center;
+    background-position-y: -0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    padding-top: 5rem;
+    /* align-items: center; */
+}
+
+#userBackground{
+    padding-top: 48px;
+    background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.1), 
+      rgba(0, 0, 0, 0.9)
+    );
+    background-color: #d9d9d9;
+    padding: 20px;
+    background-attachment: fixed;
+    background-position: center;
+    background-position-y: -0%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between  ;
+}
+
+#userProfile{
+    background-color: white;
+    width: 30%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#userNavigation{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#navigationList{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#navigationList li{
+    margin: 5% 0;
+    text-decoration: none;
+}
+
+#navigationList hr{
+    width: 100%;
+    margin: 0;
+}
+
+#navigationList li button{
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+    font-weight: bold;  
+}
+
+#navigationList li button:hover{
+    color: #2b5ec4;
+    text-decoration: none;
+    font-weight: bold;  
+    transition: 1s all;   
+}
+
+#navigationList{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.profilePhoto{
+    border: 5px solid white;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#articlesList{
+    background-color: white;
+    height: 700px;
+    width: 69%;
+}
+
+#articlefeeds{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.articleCard{
+    background-color: whitesmoke;
+    width: 100%;
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: flex-start;
+}
+
+.articleImage{
+    width: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.articleInfo{
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.articleInfo hr{
+    width: 50%;
+    margin: 0;
+}
+
+.articleDescription{
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-height: 20px;
+}
+
+.articleInfo a{
+    color: #2b5ec4;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.articleName{
+    font-family: 'Roboto', sans-serif;
+}
+
+.commandBtn{
+    display: flex;
+    justify-content: center;
+}
+
+.newArtileBtn{
+    width: 200px;
+    color: #202421;
+    font-weight: bold;
+    border: 2px solid #202421;
+}
+
+.newArtileBtn:hover{
+    color: #d9d9d9;
+    background-color: #202421;
+    transition: 0.5s all;
+}
+
+.labelName{
+    color: #202421;
+    font-weight: bold;
+}
+
+footer{
+    width: 100%;
+    background-color: #202421;
+    color: whitesmoke;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contactList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;   
+}
+
+.contactList li a{
+    color: whitesmoke;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+.contactList li a:hover{
+    color: #2b5ec4;
+    text-decoration: none;
+    transition: 0.3s all;   
+}
+
+#copyrights{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contactBox{
+    width: 70%;
+}
+
+.quoteBox{
+    width: 50%;
+    height: 50%;
+    background-color: whitesmoke;
+    opacity: 0.7;
+}
+
+.signUpBox{
+    width: 70%;
+    height: 70%;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.quoteText{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.quoteText h1{
+    font-weight: bolder;
+    font-size: 400%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.quoteBox p{
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.backdrop {
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s all;
+}
+
+.cardCommand{
+    display: flex;
+    justify-content: space-between;
+}
+
+body.open-modal .backdrop {
+    z-index: 9;
+    background-color: black;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: all;
+}
+
+  .form-popup {
+    font-family: 'Roboto', sans-serif;
+    top: 75px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: none;
+    position: fixed;
+    right: 0px;
+    border-radius: 3%;
+    z-index: 10;
+  }
+
+  .signUpForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    margin: 0 !important;
+  }
+
+  .articleTitle{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* justify-content: center; */
+  }
+
+  .lableTitle{
+      font: 30px;
+      font-weight: bolder;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }

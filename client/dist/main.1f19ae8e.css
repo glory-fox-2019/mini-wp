@@ -1,0 +1,103 @@
+.navbar[data-v-225085]{
+    background-color: #202421;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 8;
+}
+.sticky[data-v-225085] {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.sticky + .content[data-v-225085] {
+    padding-top: 60px;
+}
+.navigasi[data-v-225085]{
+    width: 40%;
+}
+.navlink[data-v-225085]{
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.navlink li a[data-v-225085]{
+    color: whitesmoke;
+    text-decoration: none;
+}
+.navlink li a[data-v-225085]:hover{
+    color: #2b5ec4;
+    text-decoration: none;
+    transition: 0.3s all;
+}
+.logoImage[data-v-225085]{
+    width: 80px;
+}
+.userBtn[data-v-225085]{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.btn-sign[data-v-225085]{
+    color: #2b5ec4;
+    border: 2px solid #2b5ec4;
+    border-radius: 7%;
+}
+.btn-sign[data-v-225085]:hover{
+    color: whitesmoke;
+    background-color: #2b5ec4;
+    border: 2px solid #2b5ec4;
+    border-radius: 7%;
+    transition: 0.3s all;
+}
+footer[data-v-5c7677] {
+  width: 100%;
+  background-color: #202421;
+  color: whitesmoke;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contactBox[data-v-5c7677] {
+  width: 70%;
+}
+footer[data-v-5c7677] {
+  width: 100%;
+  background-color: #202421;
+  color: whitesmoke;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contactList[data-v-5c7677] {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+}
+.contactList li a[data-v-5c7677] {
+  color: whitesmoke;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+}
+.contactList li a[data-v-5c7677]:hover {
+  color: #2b5ec4;
+  text-decoration: none;
+  transition: 0.3s all;
+}
+#copyrights[data-v-5c7677] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
