@@ -1,7 +1,7 @@
 module.exports = {
 
     errorHandler(err, req, res, next) {
-        console.log(err.name, 'from error handler <<<<<<<<')
+        console.log(err, 'from error handler <<<<<<<<')
         if (err.code == 404) {
             res.status(404).json({
                 code: 404,

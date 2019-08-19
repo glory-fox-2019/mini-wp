@@ -89,6 +89,7 @@ class ArticleController {
             .then(articles => {
                 let allArticles = articles
                 allArticles.sort((a, b) => b.updatedAt - a.updatedAt)
+                console.log(allArticles)
                 res.status(200).json(allArticles)
             })
             .catch(next)
