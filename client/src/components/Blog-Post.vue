@@ -10,7 +10,7 @@
             <h1>{{post.title}}</h1>
           </div>
           <div class="post--content">
-            <p>{{post.description}}</p>
+            <p v-html="post.content"></p>
           </div>
           <div class="post--tag">
             <div class="post--tag--label">
@@ -26,8 +26,8 @@
             <div class="account--avatar__img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png')"></div>
           </div>
           <div class="account--detail">
-            <p class="account--detail__avatar">Just Arya</p>
-            <p class="account--detail__description">Author</p>
+            <p class="account--detail__avatar">{{post.user.name}}</p>
+            <p class="account--detail__description">{{post.user.role}}</p>
           </div>
         </div>
       </div>

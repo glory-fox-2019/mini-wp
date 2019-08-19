@@ -75,12 +75,25 @@ export default {
   },
   methods: {
     fetchPost(){
+      let loader = this.$loading.show({
+        // Optional parameters
+        container: this.$refs.loadingContainer,
+        canCancel: false,
+        loader: 'spinner',
+        width: 150,
+        height: 150,
+        color: '#1A75FF',
+        backgroundColor: '#ffffff',
+        opacity: 0.5,
+        zIndex: 999,
+      });
       axios.get('/user/posts/'+this.id, {
         headers: {
           token: localStorage.getItem('token')
         }
       })
         .then(({data}) => {
+          loader.hide();
           this.post.title = data.title;
           this.post.content = data.content;
           this.post.thumbnail = '';
@@ -90,6 +103,7 @@ export default {
           this.fetch = true;
         })
         .catch(({response}) => {
+          loader.hide();
           this.$swal({
             type: 'error',
             title: 'Oops...',
