@@ -1,5 +1,5 @@
 <template>
-    <div v-show="false" class="form-edit col-md-10 ">
+    <div class="form-edit col-md-10 ">
         <div class="col-md-9">
             <h2>Edit your article</h2>
             <div class="edit-title">

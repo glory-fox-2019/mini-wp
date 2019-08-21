@@ -7,7 +7,7 @@
                     <input v-model="formCreate.title" type="text" value="" placeholder="title ....">
                     <input v-model="formCreate.tag" type="text" value="" placeholder="tag ....">
                 </div>
-
+ 
                 <div class="mt-5 mb-5">
                     <wysiwyg v-model="formCreate.content" type="text" class="mt-5"></wysiwyg>
                 </div>
@@ -16,7 +16,6 @@
                     type="file"
                     @change="handlefileupload($event)"
                     lang="es"
-                    customeFileLang
                 />
 
                 <div class="button-dashboard-edit">
@@ -53,25 +52,8 @@
 
             },
             createArticle(){
+                // console.log(this.formCreate);
                 this.$emit('create-article', this.formCreate)
-                // // console.log(data);
-                // let formArticle = new FormData()
-                // formArticle.set('title', this.formCreate.title)
-                // formArticle.set('content', this.formCreate.content)
-                // formArticle.set('file', this.formCreate.file)
-
-                // axios
-                //     .post({
-                //         method:'post',
-                //         url:`http://localhost:3000/article`,
-                //         data: formArticle
-                //     })
-                //     .then(({ data }) => {
-                //         this.$emit('create-article', data)
-                //     })
-                //     .catch(err => {
-                //         console.log(err);
-                //     })
             }
         }
     }

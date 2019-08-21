@@ -1,10 +1,10 @@
 <template>
     <div>
-        <section v-show="register">
+        <section class="register" v-show="register">
             <h4>Register</h4>
-            <form v-on:submit.prevent="submitRegister" class=" p-4" >
+            <form v-on:submit.prevent="submitRegister" class="mt-3" >
                 <div class="form-group">
-                    <label >Email address</label>
+                    <label >Username</label>
                     <input v-model="userForm.name" type="text" class="form-control" placeholder="lala">
                 </div>
                 <div class="form-group">
@@ -16,8 +16,8 @@
                     <input v-model="userForm.password" type="password" class="form-control" placeholder="Password">
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Register</button>
-                <a @click="toLogin">have acount</a>
+                <button type="submit" class="btn btn-primary mr-3">Register</button>
+                <span @click="toLogin">have acount (login)</span>
                 <div id="google-signin-button"></div>
             </form>
         </section>
@@ -53,5 +53,23 @@
 </script>
 
 <style scoped>
-
+    .register{
+        border: 1px solid whitesmoke;
+        border-radius: 1rem;
+        width: 25rem;
+        padding: 1rem;
+        top: 40%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+    }
+    .form-control:-moz-input-placeholder {
+        color: aliceblue;
+    }
+    span {
+        cursor: pointer;
+    }
+    span:hover {
+        color: blue;
+    }
 </style>

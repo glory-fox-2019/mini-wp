@@ -1,23 +1,25 @@
 <template>
-    <div class="col-md-9 card-list2">
-        <div class="col-md-2">
-            <img :src="article.image" alt="">
-        </div>
-        <div class="content-list col-md-9">
-            <!-- <h4>{{ article.title }}</h4> -->
-            <h5>{{article.title}}</h5>
-            <p>{{article.content}}</p>
-        </div>
-        <div class="options col-md-1">
-            <span @click="deleteArticle(article._id)"><i class="fas fa-trash"></i></span>
-            <span @click="toEditArticle(article._id)"><i class="fa fa-edit"></i></span>
+    <div>
+        <div class="col-md-9 card-list2" v-for="(article, index) in articles" :key="index">
+            <div class="col-md-2">
+                <img :src="article.image" alt="">
+            </div>
+            <div class="content-list col-md-9">
+                <!-- <h4>{{ article.title }}</h4> -->
+                <h5>{{article.title}}</h5>
+                <p v-html="article.content"></p>
+            </div>
+            <div class="options col-md-1">
+                <span @click="deleteArticle(article._id)"><i class="fas fa-trash"></i></span>
+                <span @click="toEditArticle(article._id)"><i class="fa fa-edit"></i></span>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['list-article', 'article'],
+        props: ['list-article', 'articles', 'pages'],
         data() {
             return {
                 

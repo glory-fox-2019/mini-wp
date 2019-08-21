@@ -1,15 +1,15 @@
 <template>
   <!-- card-list 1 home-->
-  <div v-show="landing" >
+  <div >
     
     <div class="main-title mt-3">
         <!-- <h1>haloooooooo</h1> -->
     </div>
     <div class="container">
-        <div id="card-list1" class="card m-5" v-for="article in articles" :key="article._id">
+        <div id="card-list1" class="card m-5" v-for="(article, index) in articles" :key="index">
             <div class="row no-gutters">
                 <div class="col-md-5">
-                    <img src="../img/img3.png" class="card-img" alt="..." />
+                    <img :src="article.image" class="card-img" alt="..." />
                     </div>
                     <div class="card-containt col-md-7 p-3">
                         <div class="d-flex card-label">
@@ -38,7 +38,7 @@
                             </a>
                         </div>
                         <div>
-                        <button type="button" class="btn btn-outline-secondary btn-sm mr-3">read more</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm mr-3 disable">read more</button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 
 <style scoped>
     .card {
-        max-height: 250px auto;
+        max-height: 250px auto; 
         box-shadow: 0 0 5px silver;
     }
 
@@ -92,7 +92,7 @@
     }
 
     .card-main p {
-        height: 100px;
+        height: 17rem;
         margin-top: 10px;
         overflow: hidden;
     }
@@ -108,8 +108,7 @@
     }
 
     .card-comment button:hover {
-        background-color:#4285F4;
-        
+        background-color:#4285F4;     
     }
 
 </style>

@@ -12,8 +12,8 @@ function authentication(req, res, next) {
                 email: decoded.email
             })
             .then(user => {
-                req.decoded = decoded,
-                    req.headers.is = decoded.id
+                req.decoded = decoded
+                //req.headers.is = decoded.id
                 next()
             })
             .catch(err => {

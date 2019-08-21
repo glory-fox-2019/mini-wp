@@ -9,10 +9,11 @@ routes.get('/article-owner', controllerArticle.getAllByOwner)
 routes.get('/:id', controllerArticle.getOne)
 
 routes.post('/', Upload.multer.single('image'),
-    Upload.uploadToGCS, 
+    Upload.sendUploadToGCS,
     controllerArticle.create
 )
 
+// routes.use(Authorize)
 routes.patch('/:id', controllerArticle.update)
 routes.delete('/:id', controllerArticle.delete)
 

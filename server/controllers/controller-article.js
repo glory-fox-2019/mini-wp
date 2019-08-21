@@ -22,7 +22,7 @@ class ControllerArticle {
         console.log('---------------msuk owner---- ');
         Article
             .find({
-                owner: req.headers.id
+                owner: req.decoded.id
             })
             .populate('owner', 'name')
             .then(articles => {
@@ -65,41 +65,6 @@ class ControllerArticle {
             })
             .then(article => {
                 newArticle = article
-
-                // if (parserTags.length > 0) {
-                    // parserTags.forEach(el => {
-                        // tag = tag.toLowerCase()
-                        // Tag.findOne({ name: tag })
-                        //     .then(tagFind => {
-                        //         if (tagFind) {
-                        //             return Tag
-                        //                 .findByIdAndUpdate(tagFind._id,
-                        //                     {
-                        //                         '$push': { 'articleId': newArticle._id }
-                        //                     },
-                        //                     {
-                        //                         'new': true,
-                        //                         'upsert': true
-                        //                     }
-                        //                 )
-                        //         }
-                        //         else {
-                        //             return Tag
-                        //                 .create({
-                        //                     name: tag,
-                        //                     articleId: [newArticle._id]
-                        //                 })
-                        //         }
-                        //     })
-                    //         .then(data => {
-                    //         })
-                    //         .catch(err => {
-                    //             res.status(500).json(err)
-                    //         })
-            //         })
-            //     }
-            // })
-            // .then(data => {
                 res.status(201).json(newArticle)
             })
             .catch(err => {
@@ -110,29 +75,35 @@ class ControllerArticle {
 
     static update(req, res) {
 
-        let object = {}
+        let updatedValue = {}
 
-        for(let key in req.body) {
-            if(key == 'tags'){
-                object.tags = []
-                JSON.parse(req.body[key]).forEach(el => {
-                    object.tags.push(el)
-                })
-            }
-            else {
-                obj[key] = req.body[key]
-            }
-        }
+        // for(let key in req.body) {
+        //     if(key == 'tags'){
+        //         object.tags = []
+        //         JSON.parse(req.body[key]).forEach(el => {
+        //             object.tags.push(el)
+        //         })
+        //     }
+        //     else {
+        //         obj[key] = req.body[key]
+        //     }
+        // }
+
+        const {title, content } = req.body
+
+        updatedValue.title = title
+        updatedValue.content = content        
+        
 
         if(req.file){
-            object.feature_image=req.file.cloudStoragePublicUrl
+            updatedValue.feature_image=req.file.cloudStoragePublicUrl
         }
 
         Article
             .findOneAndUpdate(
-                object,
                 { _id: req.params.id }, 
-                { new: true}
+                updatedValue,
+                { new: true, runValidators : true}
             )
             .then(article => {
                 res.status(200).json(article)

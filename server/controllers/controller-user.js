@@ -2,7 +2,7 @@ const { User } = require('../models');
 const JWT = require('../helper/jwt');
 const Bcrypt = require('../helper/bcrypt');
 const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID)
+const Client = new OAuth2Client(process.env.CLIENT_ID)
 
 class ControllerUser {
     static list(req, res) {
@@ -36,8 +36,10 @@ class ControllerUser {
     static googleSignin(req, res) {
 
         let googlePayload
+        console.log(req.headers ,'<========== headers');
+        console.log(req.body ,'<========== body');
 
-        User
+        Client
             .verifyIdToken({ // syncronus
                 idToken: req.body.id_token,
                 audience: process.env.CLIENT_ID
@@ -45,7 +47,6 @@ class ControllerUser {
             .then(ticket => {
 
                 googlePayload = ticket.getPayload()
-
                 return User
                     .findOne({
                         email: googlePayload.email

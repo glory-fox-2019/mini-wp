@@ -2,7 +2,8 @@
 
     <div>
         <Login
-            :pages="pages.login"
+            v-if="pages.login"
+            @login-google="onSignIn($event)"
             :user="user"
             @login="login"
             @to-register="toRegister"    
@@ -34,13 +35,14 @@
             :pages="pages.readMore"
         ></ReadMore>
         
-        <Dashboard 
+        <Dashboard
+            
+            @to-home="toHomePage"
             :dashboard="pages.dashboard"
-            @create-article="createArticle"
+            @create-article="createArticle($event)"
             :articles="articles"
             @delete-article="deleteArticle"
             @edit-article="getEditArticle"
-            
         ></Dashboard>
     </div>
 
@@ -58,7 +60,8 @@
     import Register from './components/register.vue'
 
     import axios from 'axios'
-    import Swal from 'sweetalert';
+    import GAuth from 'vue-google-oauth2'
+    // import Swal from 'sweetalert';
 
     export default {
         components: {
@@ -108,20 +111,10 @@
             toLogin() {
                 this.pages.login = true
                 this.pages.register = false
-                this.pages.dashboard = false
-                this.pages.landing = false
-                this.pages.readMore = false
-                this.pages.navbar = false
-                this.pages.tagbar = false
             },
             toRegister() {
                 this.pages.login = false
                 this.pages.register = true
-                this.pages.dashboard = false
-                this.pages.landing = false
-                this.pages.readMore = false
-                this.pages.navbar = false
-                this.pages.tagbar = false
             },
             toDashboard() {
                 this.pages.navbar = true
@@ -159,10 +152,10 @@
                         localStorage.id = user.data.id
                         localStorage.email = user.data.email
                         this.user.name = localStorage.name
-                        this.user.loggedIn = true
-                        // this.getTags()
-                        // this.getArticles()
+                        
+                        this.getArticles()
                         this.toHomePage()
+                        this.pages.login = false
                     })
                     .catch(err => {
                         // console.log(err);
@@ -171,23 +164,6 @@
                             type: 'error',
                             text: `${err.respons.data.err}`
                         })      
-                    })
-            },
-            onSignin(userGoogle) {
-                const token = googleUser.getAuthResponse().id_token
-                let config = { headers: { token } }
-
-                axios
-                    .post(`${baseUrl}/user/googlesignin`)
-                    .then(({ data })=> {
-                        localStorage.token = data.token
-                        localStorage.name = data.name
-                        this.user.name = data.name
-                        this.user.loggedIn = true
-                        this.toHomePage()
-                    })
-                    .catch(err => {
-                        console.log(err);
                     })
             },
             register(userForm) {
@@ -265,18 +241,27 @@
                         console.log(err);
                     })
             },
-            
+            onSignIn(data) {
+                axios
+                    .post()
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("username", data.username);
+                this.publishedListPage = false;
+                this.userpage = true;
+                this.isLogin = true;
+                this.getArticle();
+            },
             editArticle(){
                 let formArticle = new FormArticle()
                 formArticle.append('title', this.newArticle.title)
                 formArticle.append('content', this.newArticle.content)
 
-                if(this.newArticle.image) {
-                    formArticle.append('fatured_image', this.newArticle.image)
-                }
-                if(this.newArticle.tags.length > 0){
-                    formArticle.append('tags', this.newArticle.tags)
-                }
+                // if(this.newArticle.image) {
+                //     formArticle.append('fatured_image', this.newArticle.image)
+                // }
+                // if(this.newArticle.tags.length > 0){
+                //     formArticle.append('tags', this.newArticle.tags)
+                // }
                 let config = {
                     headers : {
                         token: localStorage.token,
@@ -363,49 +348,49 @@
                         console.log(err);
                     })
             },
-            createArticle(){
-                // this.$emit('create-articwle', this.formCreate)
-                console.log('========');
+            createArticle(data){
+
+                let config = {
+                    headers : {
+                        token: localStorage.token,
+                        id: localStorage.id
+                    }
+                }
+
+                // console.log(data);
                 let formArticle = new FormData()
-                formArticle.append('title', this.newArticle.title)
-                formArticle.append('content', this.newArticle.content)
-                formArticle.append('file', this.newArticle.file)
-                console.log(formArticle);
+
+                formArticle.append('title', data.title)
+                formArticle.append('content', data.content)
+                formArticle.append('image', data.image)
+
+                // console.log(formArticle,'<================');
+
                 axios
-                    .post({
-                        method:'post',
-                        url:`http://localhost:3000/article`,
-                        data: formArticle
-                    })
+                    .post(`${baseUrl}/article`, formArticle, config)
                     .then(({ data }) => {
+                        // console.log(data);
                         this.articles.push(data)
+                        // 
                     })
                     .catch(err => {
                         console.log(err);
                     })
             }
-
         },
-        mounted() {
+        created() {
 
             if(localStorage.token){
                 this.pages.login = false
                 this.pages.register = false
                 this.pages.landing = true
                 this.pages.dashboard = false
-                this.pages.readMore = false
                 this.pages.navbar = true
                 this.pages.tagbar = true
                 this.getArticles()
                 // localStorage.clear()
-            }
-            else {
+            } else {
                 this.pages.login = true
-                this.pages.register = false
-                this.pages.dashboard = false
-                this.pages.landing = false
-                this.pages.readMore = false
-                this.pages.navbar = false
             }
         },
         

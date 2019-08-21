@@ -6,25 +6,24 @@
             @to-create-article="toCreateArticle"
             @to-my-article="toMyArticle"
         ></SideNavbar>
-        <div class="row" v-if="dashboard">
-            <ListArticle
-                v-for="(a, index) in articles"
-                :key="index"
-                :article="a"    
-                :list-article="pages.listArticle"
-                @to-edit-article="toEditArticle"
-                @to-delete-article="toDeleteArticle"
-            ></ListArticle>
-        </div>
+        
+        <ListArticle
+            v-if="dashboard"
+            :articles="articles"   
+            :list-article="pages.listArticle"
+            @to-edit-article="toEditArticle"
+            @to-delete-article="toDeleteArticle"
+        ></ListArticle>
+    
 
         <FormCreate
             @create-article="createArticle"
             :pages="pages.formCreate"
         ></FormCreate>
 
-        <form-edit
-        
-        ></form-edit>
+        <FormEdit
+            v-if="pages.formEdit"
+        ></FormEdit>
 
     </div>
 
@@ -58,11 +57,12 @@
         },
         methods: {
             toHomePage(){
-                this.dashboard = false
-                this.pages.formCreate = false
-                this.pages.listArticle = false
-                this.pages.formEdit = false
-                this.pages.sideNavbar = false
+                // this.dashboard = false
+                // this.pages.formCreate = false
+                // this.pages.listArticle = false
+                // this.pages.formEdit = false
+                // this.pages.sideNavbar = false
+                this.$emit('to-home')
             },
             toCreateArticle(){
                 this.pages.formCreate = true
@@ -81,6 +81,7 @@
                 this.$emit('edit-article', id)
             },
             createArticle(data){
+                // console.log(data);
                 this.$emit('create-article', data)
             },
             toDeleteArticle(id){
