@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
-mongoose.connect("mongodb://localhost:27017/mini-wp", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://billy:Thunder123@clustertype40-z9sli.mongodb.net/mini-wp?retryWrites=true&w=majority", { useNewUrlParser: true })
 .then(success => {
     console.log('mongoose connected')
 })
