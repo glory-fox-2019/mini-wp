@@ -1,5 +1,13 @@
 # MINI WORDPRESS
 
+```
+Deploy Server :
+http://35.240.252.139
+
+Deploy Client :
+http://miniwp.nurfitrys.com
+```
+
 ## Basic Routes
 
 ### Register New User
