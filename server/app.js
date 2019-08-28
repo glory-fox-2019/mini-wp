@@ -8,7 +8,7 @@ const PORT     = process.env.PORT || 3000
 const routes   = require('./routes')
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017/miniwp1', { useNewUrlParser : true })
+mongoose.connect('mongodb+srv://admin:admin@cluster0-yen5q.gcp.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser : true })
 .then(() => {
     console.log(`Connect to mongoose database`)
 })

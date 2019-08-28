@@ -17,16 +17,16 @@ Vue.component('signup-form', {
                     password: this.passwordRegister
                 }
             })
-                .then(({ data }) => {
-                    this.$parent.page = 'login form';
+            .then(({ data }) => {
+                this.$parent.page = 'login form';
 
-                    this.nameRegister = '';
-                    this.emailRegister = '';
-                    this.passwordRegister = '';
-                })
-                .catch(err => {
-                    swal(err.response.data.message)
-                })
+                this.nameRegister = '';
+                this.emailRegister = '';
+                this.passwordRegister = '';
+            })
+            .catch(err => {
+                swal(err.response.data)
+            })
         },
     },
     template: `

@@ -10,12 +10,14 @@ class AuthController {
             .catch(err => {
                 console.log(err)
                 if (err.message == 'Email has been taken') {
-                    res.status(409).json({
+                    next({
+                        code: 400,
                         message: err.message
                     })
                 }
                 else if (RegExp('validation').test(err.message)) {
-                    res.status(403).json({
+                    next({
+                        code: 403,
                         message: err.message
                     })
                 }
@@ -31,8 +33,9 @@ class AuthController {
         })
         .then(foundUser => {
             if (!foundUser) {
-                res.status(404).json({
-                    message: 'User not found'
+                next({
+                    code: 404,
+                    message: `User not found`
                 })
             }
             else {
@@ -43,8 +46,9 @@ class AuthController {
                     })
                 }
                 else {
-                    res.status(401).json({
-                        message: 'Wrong password'
+                    next({
+                        code: 401,
+                        message: `Wrong password`
                     })
                 }
             }
@@ -79,7 +83,9 @@ class AuthController {
             }
         })
         .then(newUser => {
-            token = sign(newUser._id, newUser.name);
+            req.body.name = newUser.name
+            next()
+            token = sign(newUser._id, newUser.name)
             res.status(200).json({
                 accesstoken: token
             })

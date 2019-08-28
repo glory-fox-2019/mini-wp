@@ -6,63 +6,51 @@ module.exports = {
     authentication: function (req, res, next) {
         try {
             const token = req.headers.accesstoken
-            if (token) {
-                const decoded = decode(req.headers.accesstoken)
-                req.authenticatedUser = decoded
-                if (process.env.NODE_ENV == 'test') {
+            const decoded  = decode(req.headers.accesstoken)
+            req.authenticatedUser = decoded
+            User.findById(decoded._id)
+            .then(user => {
+                if (user) {
                     next()
                 }
                 else {
-                    User.findById(req.authenticatedUser._id)
-                        .then(user => {
-                            if (user) {
-                                next()
-                            }
-                            else {
-                                res.status(401).json({
-                                    message: 'Token is not valid'
-                                })
-                            }
-                        })
-                        .catch(err => {
-                            next(err)
-                        })
+                    next({
+                        code : 401,
+                        message : "User not found"
+                    })
                 }
-            }
-            else {
-                res.status(401).json({
-                    message: 'Please login to continue'
-                })
-            }
+            })
+            .catch(next)
         }
         catch (err) {
-            res.status(401).json({
-                message: 'Please login to continue'
+            next({
+                code: 401,
+                message: `Please login to continue`
             })
         }
     },
 
     authorization: function (req, res, next) {
         Article.findById(req.params.id)
-            .then(article => {
-                if (article) {
-                    if (String(article.owner) !== req.authenticatedUser._id) {
-                        res.status(403).json({
-                            message: 'Forbidden'
-                        })
-                    }
-                    else {
-                        next()
-                    }
-                }
-                else {
-                    res.status(404).json({
-                        message: 'Article not found'
+        .then(article => {
+            if (article) {
+                if (String(article.owner) !== req.authenticatedUser._id) {
+                    next({
+                        code: 403,
+                        message: `Forbidden`
                     })
                 }
-            })
-            .catch(err => {
-                next(err)
-            })
+                else {
+                    next()
+                }
+            }
+            else {
+                next({
+                    code: 404,
+                    message: `Article not found`
+                })
+            }
+        })
+        .catch(next)
     }
 }

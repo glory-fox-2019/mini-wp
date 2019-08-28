@@ -17,12 +17,12 @@ let App = new Vue({
             method: 'get',
             url: baseUrl + '/articles'
         })
-            .then(({ data }) => {
-                this.articles = data
-            })
-            .catch(err => {
-                swal(err.response.data.message)
-            })
+        .then(({ data }) => {
+            this.articles = data
+        })
+        .catch(err => {
+            swal(err.response.data)
+        })
     },
     computed: {
         showLoginForm() {
@@ -52,24 +52,24 @@ let App = new Vue({
                 method: 'get',
                 url: baseUrl + '/articles' + query
             })
-                .then(({ data }) => {
-                    this.articles = data
-                    this.search = ''
-                })
-                .catch(err => {
-                    console.log(err)
-                    swal(err.response.data.message)
-                })
+            .then(({ data }) => {
+                this.articles = data
+                this.search = ''
+            })
+            .catch(err => {
+                console.log(err)
+                swal(err.response.data)
+            })
         },
         createdAt(date) {
             return new Date(date).toString().substring(0, 10)
         },
         logout() {
-            localStorage.clear();
-            this.isLogin = false;
+            localStorage.clear()
+            this.isLogin = false
         },
         showHomePage() {
-            this.fetchArticles();
+            this.fetchArticles()
             this.page = 'home'
         },
         showArticleForm() {
@@ -93,35 +93,36 @@ let App = new Vue({
                 buttons: true,
                 dangerMode: true,
             })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        axios({
-                            url: baseUrl + `/articles/${id}`,
-                            method: 'delete',
-                            headers: {
-                                accesstoken: localStorage.getItem('accesstoken')
-                            }
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios({
+                        url: baseUrl + `/articles/${id}`,
+                        method: 'delete',
+                        headers: {
+                            accesstoken: localStorage.getItem('accesstoken')
+                        }
+                    })
+                    .then(({ data }) => {
+                        this.showHomePage()
+                        this.fetchArticles()
+                            
+                        swal("Article deleted!", {
+                            icon: "success",
                         })
-                            .then(({ data }) => {
-                                this.showHomePage();
-                                this.fetchArticles();
-                                
-                                swal("Article deleted!", {
-                                    icon: "success",
-                                });
-                            })
-                            .catch(err => {
-                                if (err.response) {
-                                    swal(err.response.data.message)
-                                } else {
-                                    console.log(err)
-                                }
-                            })
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+                    })
+                    .catch(err => {
+                        if (err.response) {
+                            swal(err.response.data)
+                        }
+                        else {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
 })

@@ -62,19 +62,24 @@ Vue.component('article-form', {
                 },
                 data: newArticle
             })
-                .then(({ data }) => {
-                  this.$emit('show-home-page')
-                  this.$emit('old-article', '')
-                  this.$emit('fetch-articles')
+            .then(({ data }) => {
+                swal({
+                    title: "Success",
+                    icon: "success",
+                    buttons: true,
                 })
-                .catch(err => {
-                    if (err.response) {
-                        swal(err.response.data.message)
-                    } else {
-                        console.log(err)
-                    }
-                })
-
+                this.$emit('show-home-page')
+                this.$emit('old-article', '')
+                this.$emit('fetch-articles')
+            })
+            .catch(err => {
+                if (err.response) {
+                    swal(err.response.data)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         },
     },
     template: `
@@ -85,7 +90,7 @@ Vue.component('article-form', {
               <div class="ui form">
                 <div class="field">
                   <label for="title">Title</label>
-                  <input type="text" placeholder="Title" v-model="newTitle" />
+                  <input type="text" placeholder="Title" v-model="newTitle"/>
                 </div>
                 <div class="field">
                   <label for="subtitle">Subtitle</label>

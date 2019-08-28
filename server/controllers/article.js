@@ -34,8 +34,9 @@ class ArticleController {
                     res.status(200).json(article)
                 }
                 else {
-                    res.status(404).json({
-                        message: 'Article not found'
+                    next({
+                        code: 404,
+                        message: `Article not found`
                     })
                 }
             })
@@ -46,17 +47,21 @@ class ArticleController {
         if (req.body.tags.length > 1) {
             req.body.tags = req.body.tags.split(',').map(tag => tag.replace(/ /g,''))
         }
-        // featured_image = req.file.cloudStoragePublicUrl
         const obj = {
-            ...req.body,
-            // featured_image,
+            title: req.body.title,
+            subtitle: req.body.subtitle,
+            content: req.body.content,
+            tag: req.body.tag,
             owner: req.authenticatedUser._id,
         }
+        if(req.file) {
+            obj.featured_image = req.file.cloudStoragePublicUrl
+        }
         Article.create(obj)
-            .then(newArticle => {
-                res.status(201).json(newArticle)
-            })
-            .catch(next)
+        .then(newArticle => {
+            res.status(201).json(newArticle)
+        })
+        .catch(next)
     }
 
     static deleteArticle(req, res, next) {
@@ -66,12 +71,13 @@ class ArticleController {
             .then(result => {
                 if (result.n && result.ok) {
                     res.status(200).json({
-                        message: 'Article deleted'
+                        message: `Article deleted`
                     })
                 }
                 else {
-                    res.status(404).json({
-                        message: 'Article not found'
+                    next({
+                        code: 404,
+                        message: `Article not found`
                     })
                 }
             })
@@ -98,8 +104,9 @@ class ArticleController {
                     })
                 }
                 else {
-                    res.status(404).json({
-                        message: 'Article not found'
+                    next({
+                        code: 404,
+                        message: `Article not found`
                     })
                 }
             })

@@ -18,24 +18,25 @@ Vue.component('loginForm', {
                     token: id_token
                 }
             })
-                .then(({ data }) => {
-                    localStorage.setItem('accesstoken', data.accesstoken)
-                    localStorage.setItem('email', this.emailLogin)
+            .then(({ data }) => {
+                localStorage.setItem('accesstoken', data.accesstoken)
+                localStorage.setItem('email', this.emailLogin)
 
-                    this.$emit('show-home-page');
-                    this.$emit('is-login', true)
-                    swal({
-                        title: 'Login Success',
-                        icon: 'success'
-                    })
+                this.$emit('show-home-page');
+                this.$emit('is-login', true)
+                swal({
+                    title: 'Login Success',
+                    icon: 'success'
                 })
-                .catch(err => {
-                    if (err.response) {
-                        swal(err.response.data.message)
-                    } else {
-                        console.log(err)
-                    }
-                })
+            })
+            .catch(err => {
+                if (err.response) {
+                    swal(err.response.data)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         },
         login() {
             axios({
@@ -46,27 +47,28 @@ Vue.component('loginForm', {
                     password: this.passwordLogin
                 }
             })
-                .then(({ data }) => {
-                    localStorage.setItem('accesstoken', data.accesstoken)
-                    localStorage.setItem('email', this.emailLogin)
+            .then(({ data }) => {
+                localStorage.setItem('accesstoken', data.accesstoken)
+                localStorage.setItem('email', this.emailLogin)
 
-                    this.$emit('show-home-page')
-                    this.$emit('is-login', true)
+                this.$emit('show-home-page')
+                this.$emit('is-login', true)
 
-                    this.emailLogin = ''
-                    this.passwordLogin = ''
-                    swal({
-                        title: 'Login Success',
-                        icon: 'success'
-                    })
+                this.emailLogin = ''
+                this.passwordLogin = ''
+                swal({
+                    title: 'Login Success',
+                    icon: 'success'
                 })
-                .catch(err => {
-                    if (err.response) {
-                        swal(err.response.data.message)
-                    } else {
-                        console.log(err)
-                    }
-                })
+            })
+            .catch(err => {
+                if (err.response) {
+                    swal(err.response.data)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         },
     },
     template: `
