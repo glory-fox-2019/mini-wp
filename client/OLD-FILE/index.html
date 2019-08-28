@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/index.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <script src="../node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./style/login.css">
+    
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg flex-row justify-content-between">
+            <div>
+                <ul >
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/">Reader</a> </li>
+                    <li>{{  message }}</li>
+                </ul>
+            </div>
+            <div>
+                <button class="btn btn-primary" style="height: 43px; width: 100px;" v-on:click="showCreateFn">Create</button>
+                <button class="btn btn-danger" style="height: 43px; width: 100px;" v-on:click="showLogin" >Login</button>
+                <i class="fas fa-couch"></i>
+            </div>
+        </nav>
+        <div class="content-1" >
+            <div class="side-bar overflow-auto">
+                <!-- <j -->
+                <ul class="ul2">
+                    <li class="li2"><i class="far fa-address-card"></i> View Site</li>
+                    <li class="li2">Stats</li>
+                    <li class="li2">Activity</li>
+                    <li class="li2">Plan</li>
+                </ul>
+            </div>
+            <div class="container" v-if="onPage == 'home' ">
+                <div class="content-center">
+                    <div class="content-value">
+                        <h2>Published</h2>
+                    </div>
+                    <div class="content-value">
+                        <h2><a href="/" style="color: blue;">Draft</a></h2>
+                    </div>
+                    <div class="content-value-rigth">
+                        <i class="fa fa-search" aria-hidden="true" style="font-size: 34px;"></i>
+                    </div>
+                </div>
+                <div class="content-wp" v-for="i in articles">
+                    <div class="content-wp-2">
+                            <div class="content-value">
+                                <h3>{{i.title}}</h3>
+                            </div>
+                            <div class="content-value">
+                                <h6>2 minutes ago</h6>
+                            </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" v-on:click="findArticle(i._id)" >
+                            Edit
+                        </button>
+                    </div>
+                    <!-- <img src="./img/gambar1.jpg" style="max-height: 78px;"> -->
+                   
+                </div>
+            </div>
+            <div  v-else-if="onPage == 'add-article'" style="display: flex; justify-content : center;" >
+                <div  id="input-todo" >
+                    <form id="input-todo2-form" style="opacity: 0.7; color: #000000;" v-on:submit.prevent="addToServer()">
+                        <h1>Insert your Article</h1>
+                        <input class="form-control" type="text" placeholder="name.." id="todo-name" v-model="title"  >
+                        <br>
+                        <ckeditor :editor="editor" :config="editorConfig" v-model="text"></ckeditor>
+                        <br><br>
+                        <!-- <input type="file" v-model="image" name="myFile"><br> -->
+                        <input type="submit" class="btn btn-primary" >
+                    </form>
+                </div>
+            </div>
+            <div  v-else-if="onPage == 'editForm' " style="display: flex; justify-content : center;" >
+                <div  id="input-todo" >
+                    <form id="input-todo2-form" style="opacity: 0.7; color: #000000;" v-on:submit.prevent="updateArticle(editedId)">
+                        <h1>Edit your Article</h1>
+                        <input class="form-control" type="text" placeholder="name.." id="todo-name"  v-model="title"   >
+                        <br>
+                        <ckeditor :editor="editor" :config="editorConfig"  v-model="text"  ></ckeditor>
+                        <br><br>
+                        <!-- <input type="file" v-model="image" name="myFile"><br> -->
+                        <input type="submit" class="btn btn-primary" >
+                    </form>
+                </div>
+            </div>
+            <div class="container" v-else-if="onPage == 'login' ">
+                <div class="offset-md-4" id="login-form" style="padding-top: 20px;" >
+                    <div class="myform form" style=" opacity: 0.9;">
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1>Login</h1>
+                            </div>
+                        </div>
+                        <form id="login-click" style="height: 440px; " v-on:submit.prevent="login()" >
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" name="email" class="form-control" id="email-login" aria-describedby="emailHelp"
+                                    placeholder="Enter email" v-model="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Password</label>
+                                <input type="password" name="password" id="password-login" class="form-control"
+                                    aria-describedby="emailHelp" placeholder="Enter Password" v-model="password">
+                            </div>
+                            <div class="form-group">
+                                <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                            </div>
+                            <div class="col-md-12 text-center ">
+                                <input type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" value="login" />
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="login-or">
+                                    <hr class="hr-or">
+                                    <span class="span-or">or</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <center>
+                                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                </center>
+                            </div>
+                            <div class="form-group">
+                                <p class="text-center">Don't have account? <a href="#" onclick="RenderRegisterForm()" id="signup">Sign up here</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div> 
+            </div>
+            <div>
+          
+                
+            </div>
+        </div>
+        
+        
+    </div>
+    <script src="./main.js">
+       
+    </script>
+    
+</body>
+</html>
