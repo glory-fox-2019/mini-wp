@@ -36,7 +36,7 @@
           </div>
         </div>
         <write v-show="isWrite" @uploadFile="getFile($event)"></write>
-        <edit v-show="isEdit" :updateid="updateid" @edit-me="updateMe()"></edit>
+        <edit v-show="isEdit" v-bind:arc="artic" @edit-me="updateMe()"></edit>
       </div>
     </div>
   </div>
@@ -84,7 +84,8 @@ export default {
       image: "",
       name: "",
       updateid: "",
-      filter: ""
+      filter: "",
+      artic:{}
     };
   },
   methods: {
@@ -151,11 +152,13 @@ export default {
     },
     removeArticle(id) {
       this.articles = this.articles.filter(el => el._id !== id);
+      this.getArticles()
     },
     updateMe() {
       this.isWrite = false;
       this.isBody = true;
       this.isEdit = false;
+      this.getArticles();
     },
     getMine() {
       let token = localStorage.getItem("token");
@@ -178,7 +181,7 @@ export default {
         });
     },
     updateData(e) {
-      this.updateid = e;
+      this.artic = e;
       this.isWrite = false;
       this.isBody = false;
       this.isEdit = true;
@@ -190,6 +193,7 @@ export default {
       this.atHome = false;
       this.beforein = false;
       this.afterin = true;
+      this.isBody = true;
     } else {
       this.atHome = true;
       this.beforein = true;
@@ -216,7 +220,7 @@ export default {
   height: 90vh;
   background-color: #0001;
   width: 80%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   justify-content: center;
 }

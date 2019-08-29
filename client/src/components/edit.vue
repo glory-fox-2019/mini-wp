@@ -4,10 +4,10 @@
       <div class="bottom">
         <form action @submit.prevent="editItem()">
           <div>
-            <input type="text" v-model="title" placeholder="insert title" />
+            <input type="text" v-model="arc.title" placeholder="insert title" />
           </div>
           <div class="textarea">
-            <editor placeholder="insert content" v-model="content"></editor>
+            <editor placeholder="insert content" v-model="arc.content"></editor>
           </div>
           <div>
             <input type="file" id="file" ref="file" v-on:change="handlefileupload($event)" />
@@ -28,8 +28,9 @@
 
 <script>
 import editor from "./editor.vue";
+import axios from "axios";
 export default {
-  props: ["updateid"],
+  props: ["arc"],
   components: {
     editor
   },
@@ -39,6 +40,9 @@ export default {
       title: "",
       content: ""
     };
+  },
+  created(){
+    console.log(this.arc)
   },
   methods: {
     handlefileupload() {
@@ -87,8 +91,24 @@ export default {
       this.title = "";
       this.content = "";
       this.image = "";
+    },
+    getOne(id) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: `http://34.87.37.210/filter/${id}`,
+        headers: {
+          token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
-  }
+  },
 };
 </script>
 
