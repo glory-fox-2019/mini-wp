@@ -10,6 +10,7 @@ const userRouter = require('./routes/user')
 const mongoose = require('mongoose');
 const morgan = require('morgan')
 const authentication = require('./middleware/authentication')
+const errorHandler = require('./helpers/errohandler')
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended: false}))
@@ -25,9 +26,6 @@ mongoose.connect(process.env.LINK, {useNewUrlParser: true})
 })
 
 app.use(function(err,req,res,next){
-    res.json({
-        status: res.status || 500,
-        message: err.message || 'Error'
-    })
+errorHandler(err)
 })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

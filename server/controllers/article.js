@@ -26,7 +26,7 @@ class articleController {
     static findOne(req, res, next) {
         let {
             id
-        } = req.body
+        } = req.params
         Article.findById(id)
             .then(data => {
                 res.status(200).json({
@@ -55,6 +55,7 @@ class articleController {
             UserId: id,
             author: name
         }).then(data => {
+            
             res.status(201).json({
                 data,
                 message: 'article is successfully created'

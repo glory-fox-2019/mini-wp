@@ -185,7 +185,6 @@ a[data-v-3da874] {
 }
 .isi[data-v-99a450] {
   height: 50vh;
-  overflow: auto;
 }
 .bottom[data-v-99a450] {
   margin-bottom: 5%;
@@ -289,7 +288,7 @@ input[type="text"][data-v-1bc436] {
   height: 90vh;
   background-color: #0001;
   width: 80%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   justify-content: center;
 }

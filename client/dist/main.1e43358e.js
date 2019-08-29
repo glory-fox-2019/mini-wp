@@ -10108,8 +10108,8 @@ var _default = {
         console.log(err);
       });
     },
-    clickEdit: function clickEdit(id) {
-      this.$emit("update-file", id);
+    clickEdit: function clickEdit(article) {
+      this.$emit("update-file", article);
     }
   }
 };
@@ -10172,7 +10172,7 @@ exports.default = _default;
                     attrs: { href: "#" },
                     on: {
                       click: function($event) {
-                        return _vm.clickEdit(article._id)
+                        return _vm.clickEdit(article)
                       }
                     }
                   },
@@ -24054,728 +24054,7 @@ render._withStripped = true
       
       }
     })();
-},{"./editor.vue":"src/components/editor.vue","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/edit.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _editor = _interopRequireDefault(require("./editor.vue"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = {
-  props: ["updateid"],
-  components: {
-    editor: _editor.default
-  },
-  data: function data() {
-    return {
-      featured_image: "",
-      title: "",
-      content: ""
-    };
-  },
-  methods: {
-    handlefileupload: function handlefileupload() {
-      var file = event.target.files || event.dataTransfer.files;
-      this.featured_image = file[0];
-    },
-    editItem: function editItem() {
-      var _this = this;
-
-      var id = this.updateid;
-      var token = localStorage.getItem("token");
-      var formData = new FormData();
-      formData.set("featured_image", this.featured_image);
-      formData.set("title", this.title);
-      formData.set("content", this.content);
-      axios({
-        method: "PATCH",
-        url: "http://34.87.37.210/articles/update/".concat(id),
-        headers: {
-          token: token
-        },
-        data: formData
-      }).then(function (data) {
-        var response = data.data.data;
-
-        if (response) {
-          Swal.fire("Success", "Your Article is Successfully Edited", "success");
-
-          _this.$emit("edit-me");
-        } else {
-          Swal.fire({
-            position: "center",
-            type: "error",
-            title: "Forbidden",
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    clearItem: function clearItem() {
-      this.title = "";
-      this.content = "";
-      this.image = "";
-    }
-  }
-};
-exports.default = _default;
-        var $1bc436 = exports.default || module.exports;
-      
-      if (typeof $1bc436 === 'function') {
-        $1bc436 = $1bc436.options;
-      }
-    
-        /* template */
-        Object.assign($1bc436, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "column-right-edit" } }, [
-    _c("div", { staticClass: "container2" }, [
-      _c("div", { staticClass: "bottom" }, [
-        _c(
-          "form",
-          {
-            attrs: { action: "" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.editItem()
-              }
-            }
-          },
-          [
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.title,
-                    expression: "title"
-                  }
-                ],
-                attrs: { type: "text", placeholder: "insert title" },
-                domProps: { value: _vm.title },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.title = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "textarea" },
-              [
-                _c("editor", {
-                  attrs: { placeholder: "insert content" },
-                  model: {
-                    value: _vm.content,
-                    callback: function($$v) {
-                      _vm.content = $$v
-                    },
-                    expression: "content"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                ref: "file",
-                attrs: { type: "file", id: "file" },
-                on: {
-                  change: function($event) {
-                    return _vm.handlefileupload($event)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "tombol" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", [
-                _c("button", { on: { click: _vm.clearItem } }, [
-                  _vm._v("clear")
-                ])
-              ])
-            ])
-          ]
-        )
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "submitbutton" }, [
-      _c("button", [_vm._v("submit")])
-    ])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: "data-v-1bc436",
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$1bc436', $1bc436);
-          } else {
-            api.reload('$1bc436', $1bc436);
-          }
-        }
-
-        
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-      }
-    })();
-},{"./editor.vue":"src/components/editor.vue","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/App.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _beforein = _interopRequireDefault(require("./components/beforein.vue"));
-
-var _navout = _interopRequireDefault(require("./components/navout.vue"));
-
-var _home = _interopRequireDefault(require("./components/home.vue"));
-
-var _formsignin = _interopRequireDefault(require("./components/formsignin.vue"));
-
-var _formsignup = _interopRequireDefault(require("./components/formsignup.vue"));
-
-var _navin = _interopRequireDefault(require("./components/navin.vue"));
-
-var _leftcolumn = _interopRequireDefault(require("./components/leftcolumn.vue"));
-
-var _rightcolumn = _interopRequireDefault(require("./components/rightcolumn.vue"));
-
-var _write = _interopRequireDefault(require("./components/write.vue"));
-
-var _edit = _interopRequireDefault(require("./components/edit.vue"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = {
-  components: {
-    beforein: _beforein.default,
-    navout: _navout.default,
-    home: _home.default,
-    formsignin: _formsignin.default,
-    formsignup: _formsignup.default,
-    navin: _navin.default,
-    leftcolumn: _leftcolumn.default,
-    rightcolumn: _rightcolumn.default,
-    edit: _edit.default,
-    write: _write.default
-  },
-  data: function data() {
-    return {
-      beforein: false,
-      login: false,
-      atHome: false,
-      signup: false,
-      afterin: false,
-      isBody: false,
-      isWrite: false,
-      isEdit: false,
-      articles: [],
-      tempArticles: [],
-      title: "",
-      content: "",
-      image: "",
-      name: "",
-      updateid: "",
-      filter: ""
-    };
-  },
-  methods: {
-    changeLogin: function changeLogin() {
-      this.login = true;
-      this.atHome = false;
-      this.signup = false;
-    },
-    changeSignUp: function changeSignUp() {
-      this.login = false;
-      this.atHome = false;
-      this.signup = true;
-    },
-    changeHome: function changeHome() {
-      this.login = false;
-      this.atHome = true;
-      this.signup = false;
-    },
-    signingOut: function signingOut() {
-      this.afterin = false;
-      this.beforein = true;
-      this.home = true;
-    },
-    getIn: function getIn() {
-      this.getArticles();
-      this.afterin = true;
-      this.beforein = false;
-      this.isBody = true;
-    },
-    getWrite: function getWrite() {
-      this.isBody = false;
-      this.isWrite = true;
-      this.isEdit = false;
-    },
-    getBody: function getBody() {
-      this.getArticles();
-      this.isBody = true;
-      this.isWrite = false;
-      this.isEdit = false;
-    },
-    getFile: function getFile(e) {
-      this.articles.unshift(e);
-      this.isWrite = false;
-      this.isBody = true;
-      this.isEdit = false;
-    },
-    getArticles: function getArticles() {
-      var _this = this;
-
-      var token = localStorage.getItem("token");
-      axios({
-        method: "GET",
-        url: "http://34.87.37.210/articles/",
-        headers: {
-          token: token
-        }
-      }).then(function (data) {
-        _this.name = data.data.name;
-        _this.articles = data.data.data;
-        _this.tempArticles = data.data.data;
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    removeArticle: function removeArticle(id) {
-      this.articles = this.articles.filter(function (el) {
-        return el._id !== id;
-      });
-    },
-    updateMe: function updateMe() {
-      this.isWrite = false;
-      this.isBody = true;
-      this.isEdit = false;
-    },
-    getMine: function getMine() {
-      var _this2 = this;
-
-      var token = localStorage.getItem("token");
-      axios({
-        method: "GET",
-        url: "http://34.87.37.210/articles/myArticles",
-        headers: {
-          token: token
-        }
-      }).then(function (data) {
-        _this2.isWrite = false;
-        _this2.isBody = true;
-        _this2.isEdit = false;
-        _this2.articles = data.data.data;
-        _this2.tempArticles = data.data.data;
-      }).catch(function (err) {
-        console.log(err);
-      });
-    },
-    updateData: function updateData(e) {
-      this.updateid = e;
-      this.isWrite = false;
-      this.isBody = false;
-      this.isEdit = true;
-    }
-  },
-  created: function created() {
-    if (localStorage.token) {
-      this.getArticles();
-      this.atHome = false;
-      this.beforein = false;
-      this.afterin = true;
-    } else {
-      this.atHome = true;
-      this.beforein = true;
-      this.afterin = false;
-    }
-  },
-  watch: {
-    filter: function filter(a, b) {
-      var regex = new RegExp(a, "i");
-      this.articles = this.tempArticles.filter(function (el) {
-        return regex.test(el.title);
-      });
-    }
-  }
-};
-exports.default = _default;
-        var $3c6d3b = exports.default || module.exports;
-      
-      if (typeof $3c6d3b === 'function') {
-        $3c6d3b = $3c6d3b.options;
-      }
-    
-        /* template */
-        Object.assign($3c6d3b, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.beforein,
-            expression: "beforein"
-          }
-        ]
-      },
-      [
-        _c("navout", {
-          on: {
-            changeToLogin: function($event) {
-              return _vm.changeLogin()
-            },
-            changeToSignUp: function($event) {
-              return _vm.changeSignUp()
-            },
-            changeToHome: function($event) {
-              return _vm.changeHome()
-            },
-            pageGIn: function($event) {
-              return _vm.getIn()
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("home", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.atHome,
-              expression: "atHome"
-            }
-          ]
-        }),
-        _vm._v(" "),
-        _c("formsignin", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.login,
-              expression: "login"
-            }
-          ],
-          on: { pageIn: _vm.getIn }
-        }),
-        _vm._v(" "),
-        _c("formsignup", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.signup,
-              expression: "signup"
-            }
-          ],
-          on: { register: _vm.changeLogin }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.afterin,
-            expression: "afterin"
-          }
-        ]
-      },
-      [
-        _c("navin", {
-          on: { "sign-out": _vm.signingOut, writeArticle: _vm.getWrite }
-        }),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "container" },
-          [
-            _c("leftcolumn", {
-              attrs: { name: _vm.name },
-              on: { seeArticles: _vm.getBody, myArticles: _vm.getMine }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.isBody,
-                    expression: "isBody"
-                  }
-                ],
-                attrs: { id: "column-right" }
-              },
-              [
-                _c(
-                  "div",
-                  { staticClass: "container2" },
-                  [
-                    _c("div", { attrs: { id: "top" } }, [
-                      _c("div", { staticClass: "atas" }),
-                      _vm._v(" "),
-                      _c("div", { attrs: { id: "searchbar" } }, [
-                        _c("div", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.filter,
-                                expression: "filter"
-                              }
-                            ],
-                            attrs: { type: "text", placeholder: "Type Title" },
-                            domProps: { value: _vm.filter },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.filter = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(0)
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("rightcolumn", {
-                      attrs: { articles: _vm.articles },
-                      on: {
-                        "delete-article": function($event) {
-                          return _vm.removeArticle($event)
-                        },
-                        "update-file": function($event) {
-                          return _vm.updateData($event)
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("write", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.isWrite,
-                  expression: "isWrite"
-                }
-              ],
-              on: {
-                uploadFile: function($event) {
-                  return _vm.getFile($event)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("edit", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.isEdit,
-                  expression: "isEdit"
-                }
-              ],
-              attrs: { updateid: _vm.updateid },
-              on: {
-                "edit-me": function($event) {
-                  return _vm.updateMe()
-                }
-              }
-            })
-          ],
-          1
-        )
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "search" } }, [
-      _c("i", { staticClass: "fas fa-search write" })
-    ])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: "data-v-3c6d3b",
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$3c6d3b', $3c6d3b);
-          } else {
-            api.reload('$3c6d3b', $3c6d3b);
-          }
-        }
-
-        
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-      }
-    })();
-},{"./components/beforein.vue":"src/components/beforein.vue","./components/navout.vue":"src/components/navout.vue","./components/home.vue":"src/components/home.vue","./components/formsignin.vue":"src/components/formsignin.vue","./components/formsignup.vue":"src/components/formsignup.vue","./components/navin.vue":"src/components/navin.vue","./components/leftcolumn.vue":"src/components/leftcolumn.vue","./components/rightcolumn.vue":"src/components/rightcolumn.vue","./components/write.vue":"src/components/write.vue","./components/edit.vue":"src/components/edit.vue","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"./editor.vue":"src/components/editor.vue","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -26488,7 +25767,752 @@ module.exports.default = axios;
 
 },{"./utils":"node_modules/axios/lib/utils.js","./helpers/bind":"node_modules/axios/lib/helpers/bind.js","./core/Axios":"node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"node_modules/axios/lib/core/mergeConfig.js","./defaults":"node_modules/axios/lib/defaults.js","./cancel/Cancel":"node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"node_modules/axios/lib/helpers/spread.js"}],"node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"node_modules/sweetalert2/dist/sweetalert2.all.js":[function(require,module,exports) {
+},{"./lib/axios":"node_modules/axios/lib/axios.js"}],"src/components/edit.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _editor = _interopRequireDefault(require("./editor.vue"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = {
+  props: ["arc"],
+  components: {
+    editor: _editor.default
+  },
+  data: function data() {
+    return {
+      featured_image: "",
+      title: "",
+      content: ""
+    };
+  },
+  created: function created() {
+    console.log(this.arc);
+  },
+  methods: {
+    handlefileupload: function handlefileupload() {
+      var file = event.target.files || event.dataTransfer.files;
+      this.featured_image = file[0];
+    },
+    editItem: function editItem() {
+      var _this = this;
+
+      var id = this.updateid;
+      var token = localStorage.getItem("token");
+      var formData = new FormData();
+      formData.set("featured_image", this.featured_image);
+      formData.set("title", this.title);
+      formData.set("content", this.content);
+      (0, _axios.default)({
+        method: "PATCH",
+        url: "http://34.87.37.210/articles/update/".concat(id),
+        headers: {
+          token: token
+        },
+        data: formData
+      }).then(function (data) {
+        var response = data.data.data;
+
+        if (response) {
+          Swal.fire("Success", "Your Article is Successfully Edited", "success");
+
+          _this.$emit("edit-me");
+        } else {
+          Swal.fire({
+            position: "center",
+            type: "error",
+            title: "Forbidden",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    clearItem: function clearItem() {
+      this.title = "";
+      this.content = "";
+      this.image = "";
+    },
+    getOne: function getOne(id) {
+      var token = localStorage.getItem("token");
+      (0, _axios.default)({
+        method: "GET",
+        url: "http://34.87.37.210/filter/".concat(id),
+        headers: {
+          token: token
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+};
+exports.default = _default;
+        var $1bc436 = exports.default || module.exports;
+      
+      if (typeof $1bc436 === 'function') {
+        $1bc436 = $1bc436.options;
+      }
+    
+        /* template */
+        Object.assign($1bc436, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "column-right-edit" } }, [
+    _c("div", { staticClass: "container2" }, [
+      _c("div", { staticClass: "bottom" }, [
+        _c(
+          "form",
+          {
+            attrs: { action: "" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.editItem()
+              }
+            }
+          },
+          [
+            _c("div", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.arc.title,
+                    expression: "arc.title"
+                  }
+                ],
+                attrs: { type: "text", placeholder: "insert title" },
+                domProps: { value: _vm.arc.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.arc, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "textarea" },
+              [
+                _c("editor", {
+                  attrs: { placeholder: "insert content" },
+                  model: {
+                    value: _vm.arc.content,
+                    callback: function($$v) {
+                      _vm.$set(_vm.arc, "content", $$v)
+                    },
+                    expression: "arc.content"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", [
+              _c("input", {
+                ref: "file",
+                attrs: { type: "file", id: "file" },
+                on: {
+                  change: function($event) {
+                    return _vm.handlefileupload($event)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "tombol" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", [
+                _c("button", { on: { click: _vm.clearItem } }, [
+                  _vm._v("clear")
+                ])
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "submitbutton" }, [
+      _c("button", [_vm._v("submit")])
+    ])
+  }
+]
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: "data-v-1bc436",
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$1bc436', $1bc436);
+          } else {
+            api.reload('$1bc436', $1bc436);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"./editor.vue":"src/components/editor.vue","axios":"node_modules/axios/index.js","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/App.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _beforein = _interopRequireDefault(require("./components/beforein.vue"));
+
+var _navout = _interopRequireDefault(require("./components/navout.vue"));
+
+var _home = _interopRequireDefault(require("./components/home.vue"));
+
+var _formsignin = _interopRequireDefault(require("./components/formsignin.vue"));
+
+var _formsignup = _interopRequireDefault(require("./components/formsignup.vue"));
+
+var _navin = _interopRequireDefault(require("./components/navin.vue"));
+
+var _leftcolumn = _interopRequireDefault(require("./components/leftcolumn.vue"));
+
+var _rightcolumn = _interopRequireDefault(require("./components/rightcolumn.vue"));
+
+var _write = _interopRequireDefault(require("./components/write.vue"));
+
+var _edit = _interopRequireDefault(require("./components/edit.vue"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = {
+  components: {
+    beforein: _beforein.default,
+    navout: _navout.default,
+    home: _home.default,
+    formsignin: _formsignin.default,
+    formsignup: _formsignup.default,
+    navin: _navin.default,
+    leftcolumn: _leftcolumn.default,
+    rightcolumn: _rightcolumn.default,
+    edit: _edit.default,
+    write: _write.default
+  },
+  data: function data() {
+    return {
+      beforein: false,
+      login: false,
+      atHome: false,
+      signup: false,
+      afterin: false,
+      isBody: false,
+      isWrite: false,
+      isEdit: false,
+      articles: [],
+      tempArticles: [],
+      title: "",
+      content: "",
+      image: "",
+      name: "",
+      updateid: "",
+      filter: "",
+      artic: {}
+    };
+  },
+  methods: {
+    changeLogin: function changeLogin() {
+      this.login = true;
+      this.atHome = false;
+      this.signup = false;
+    },
+    changeSignUp: function changeSignUp() {
+      this.login = false;
+      this.atHome = false;
+      this.signup = true;
+    },
+    changeHome: function changeHome() {
+      this.login = false;
+      this.atHome = true;
+      this.signup = false;
+    },
+    signingOut: function signingOut() {
+      this.afterin = false;
+      this.beforein = true;
+      this.home = true;
+    },
+    getIn: function getIn() {
+      this.getArticles();
+      this.afterin = true;
+      this.beforein = false;
+      this.isBody = true;
+    },
+    getWrite: function getWrite() {
+      this.isBody = false;
+      this.isWrite = true;
+      this.isEdit = false;
+    },
+    getBody: function getBody() {
+      this.getArticles();
+      this.isBody = true;
+      this.isWrite = false;
+      this.isEdit = false;
+    },
+    getFile: function getFile(e) {
+      this.articles.unshift(e);
+      this.isWrite = false;
+      this.isBody = true;
+      this.isEdit = false;
+    },
+    getArticles: function getArticles() {
+      var _this = this;
+
+      var token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: "http://34.87.37.210/articles/",
+        headers: {
+          token: token
+        }
+      }).then(function (data) {
+        _this.name = data.data.name;
+        _this.articles = data.data.data;
+        _this.tempArticles = data.data.data;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    removeArticle: function removeArticle(id) {
+      this.articles = this.articles.filter(function (el) {
+        return el._id !== id;
+      });
+      this.getArticles();
+    },
+    updateMe: function updateMe() {
+      this.isWrite = false;
+      this.isBody = true;
+      this.isEdit = false;
+      this.getArticles();
+    },
+    getMine: function getMine() {
+      var _this2 = this;
+
+      var token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: "http://34.87.37.210/articles/myArticles",
+        headers: {
+          token: token
+        }
+      }).then(function (data) {
+        _this2.isWrite = false;
+        _this2.isBody = true;
+        _this2.isEdit = false;
+        _this2.articles = data.data.data;
+        _this2.tempArticles = data.data.data;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    updateData: function updateData(e) {
+      this.artic = e;
+      this.isWrite = false;
+      this.isBody = false;
+      this.isEdit = true;
+    }
+  },
+  created: function created() {
+    if (localStorage.token) {
+      this.getArticles();
+      this.atHome = false;
+      this.beforein = false;
+      this.afterin = true;
+      this.isBody = true;
+    } else {
+      this.atHome = true;
+      this.beforein = true;
+      this.afterin = false;
+    }
+  },
+  watch: {
+    filter: function filter(a, b) {
+      var regex = new RegExp(a, "i");
+      this.articles = this.tempArticles.filter(function (el) {
+        return regex.test(el.title);
+      });
+    }
+  }
+};
+exports.default = _default;
+        var $3c6d3b = exports.default || module.exports;
+      
+      if (typeof $3c6d3b === 'function') {
+        $3c6d3b = $3c6d3b.options;
+      }
+    
+        /* template */
+        Object.assign($3c6d3b, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.beforein,
+            expression: "beforein"
+          }
+        ]
+      },
+      [
+        _c("navout", {
+          on: {
+            changeToLogin: function($event) {
+              return _vm.changeLogin()
+            },
+            changeToSignUp: function($event) {
+              return _vm.changeSignUp()
+            },
+            changeToHome: function($event) {
+              return _vm.changeHome()
+            },
+            pageGIn: function($event) {
+              return _vm.getIn()
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("home", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.atHome,
+              expression: "atHome"
+            }
+          ]
+        }),
+        _vm._v(" "),
+        _c("formsignin", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.login,
+              expression: "login"
+            }
+          ],
+          on: { pageIn: _vm.getIn }
+        }),
+        _vm._v(" "),
+        _c("formsignup", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.signup,
+              expression: "signup"
+            }
+          ],
+          on: { register: _vm.changeLogin }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.afterin,
+            expression: "afterin"
+          }
+        ]
+      },
+      [
+        _c("navin", {
+          on: { "sign-out": _vm.signingOut, writeArticle: _vm.getWrite }
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "container" },
+          [
+            _c("leftcolumn", {
+              attrs: { name: _vm.name },
+              on: { seeArticles: _vm.getBody, myArticles: _vm.getMine }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isBody,
+                    expression: "isBody"
+                  }
+                ],
+                attrs: { id: "column-right" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "container2" },
+                  [
+                    _c("div", { attrs: { id: "top" } }, [
+                      _c("div", { staticClass: "atas" }),
+                      _vm._v(" "),
+                      _c("div", { attrs: { id: "searchbar" } }, [
+                        _c("div", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.filter,
+                                expression: "filter"
+                              }
+                            ],
+                            attrs: { type: "text", placeholder: "Type Title" },
+                            domProps: { value: _vm.filter },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.filter = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("rightcolumn", {
+                      attrs: { articles: _vm.articles },
+                      on: {
+                        "delete-article": function($event) {
+                          return _vm.removeArticle($event)
+                        },
+                        "update-file": function($event) {
+                          return _vm.updateData($event)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("write", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isWrite,
+                  expression: "isWrite"
+                }
+              ],
+              on: {
+                uploadFile: function($event) {
+                  return _vm.getFile($event)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("edit", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isEdit,
+                  expression: "isEdit"
+                }
+              ],
+              attrs: { arc: _vm.artic },
+              on: {
+                "edit-me": function($event) {
+                  return _vm.updateMe()
+                }
+              }
+            })
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "search" } }, [
+      _c("i", { staticClass: "fas fa-search write" })
+    ])
+  }
+]
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: "data-v-3c6d3b",
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$3c6d3b', $3c6d3b);
+          } else {
+            api.reload('$3c6d3b', $3c6d3b);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
+},{"./components/beforein.vue":"src/components/beforein.vue","./components/navout.vue":"src/components/navout.vue","./components/home.vue":"src/components/home.vue","./components/formsignin.vue":"src/components/formsignin.vue","./components/formsignup.vue":"src/components/formsignup.vue","./components/navin.vue":"src/components/navin.vue","./components/leftcolumn.vue":"src/components/leftcolumn.vue","./components/rightcolumn.vue":"src/components/rightcolumn.vue","./components/write.vue":"src/components/write.vue","./components/edit.vue":"src/components/edit.vue","_css_loader":"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"node_modules/sweetalert2/dist/sweetalert2.all.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /*!
@@ -29506,7 +29530,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55746" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54320" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

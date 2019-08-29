@@ -15,7 +15,7 @@
               <div class="more">
                 <div class="dots">
                   <a class="publish" href="#" @click="deleteItem(article._id)">delete</a>
-                  <a class="publish" href="#" @click="clickEdit(article._id)">edit</a>
+                  <a class="publish" href="#" @click="clickEdit(article)">edit</a>
                 </div>
               </div>
             </div>
@@ -74,8 +74,8 @@ export default {
           console.log(err);
         });
     },
-    clickEdit(id) {
-      this.$emit("update-file", id);
+    clickEdit(article) {
+      this.$emit("update-file", article);
     }
   },
 };
@@ -100,7 +100,6 @@ export default {
 
 .isi {
   height: 50vh;
-  overflow: auto;
 }
 .bottom {
   margin-bottom: 5%;
