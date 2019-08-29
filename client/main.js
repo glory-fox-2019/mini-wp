@@ -74,7 +74,7 @@ new Vue ({
             this.page = 'edit'
         },
         login() {
-            axios.post('http://localhost:3000/users/signin', {
+            axios.post('http://35.247.171.113/users/signin', {
                 email: this.email,
                 password: this.password
             }).then(data=>{
@@ -105,7 +105,7 @@ new Vue ({
         },
 
         register() {
-            axios.post('http://localhost:3000/users/register', {
+            axios.post('http://35.247.171.113/users/register', {
                 name: this.name,
                 email : this.email,
                 password: this.password
@@ -129,11 +129,11 @@ new Vue ({
             bodyFormData.append('image', image[0])
             console.log(bodyFormData)
             
-            axios.post('http://localhost:3000/images/upload', bodyFormData, {
+            axios.post('http://35.247.171.113/images/upload', bodyFormData, {
                 headers: {token}
             })
             .then(({data}) => {
-                axios.post('http://localhost:3000/articles', {
+                axios.post('http://35.247.171.113/articles', {
                     title: this.title,
                     content: this.content,
                     image: data.link
@@ -142,7 +142,7 @@ new Vue ({
                 })
             .then(result => {
                 this.articles.unshift(result)
-                this.allArticles.unshift(result)
+                this.all.unshift(result)
                 Swal.fire({
                     position: 'center',
                     type: 'success',
@@ -170,7 +170,7 @@ new Vue ({
         editArticle() {
             let token = localStorage.getItem('token')
             let id = this.editId
-            axios.patch(`http://localhost:3000/articles/${id}`, {
+            axios.patch(`http://35.247.171.113/articles/${id}`, {
                 title: this.editTitle,
                 content: this.editContent,
                 articleId : this.editId
@@ -198,7 +198,7 @@ new Vue ({
         deleteArticle(input) {
             let token = localStorage.getItem('token')
             let id = input._id
-            axios.delete(`http://localhost:3000/articles/${id}`, {headers: {token}})
+            axios.delete(`http://35.247.171.113/articles/${id}`, {headers: {token}})
             .then(function(data) {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -231,7 +231,7 @@ new Vue ({
     },
     // created() {
     //     let token = localStorage.getItem('token')
-    //     axios.get('http://localhost:3000/articles', {headers: {token}})
+    //     axios.get('http://35.247.171.113/articles', {headers: {token}})
     //     .then(data => {
     //         this.articles = data.data
     //         this.isLogin = false
@@ -240,11 +240,11 @@ new Vue ({
 
     created() {
         let token = localStorage.getItem('token')
-        axios.get('http://localhost:3000/articles/all', {headers: {token}})
+        axios.get('http://35.247.171.113/articles/all', {headers: {token}})
         .then(data => {
             this.all = data.data
             this.tempArticles = data.data
-            axios.get('http://localhost:3000/articles', {headers: {token}})
+            axios.get('http://35.247.171.113/articles', {headers: {token}})
             .then(data2 => {
             this.articles = data2.data
             this.isLogin = false
