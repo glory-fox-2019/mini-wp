@@ -1,0 +1,129 @@
+// const baseUrl = 'http://localhost:3000'
+const baseUrl = 'http://35.240.252.139'
+
+let App = new Vue({
+    el: '#app',
+    data: {
+        isLogin: localStorage.getItem('accesstoken') ? true : false,
+        userEmail: localStorage.getItem('email'),
+        page: 'home',
+        search: '',
+
+        articles: [],
+        oldArticle: '',
+        article: '',
+    },
+    created() {
+        axios({
+            method: 'get',
+            url: baseUrl + '/articles'
+        })
+        .then(({ data }) => {
+            this.articles = data
+        })
+        .catch(err => {
+            swal(err.response.data)
+        })
+    },
+    computed: {
+        showLoginForm() {
+            return this.loginForm;
+        }
+    },
+    methods: {
+        fetchArticles(tag) {
+            this.oldArticle = ''
+            let query = '';
+            let searching = false
+
+            if (this.search.length > 0) {
+                query = `?title=${this.search}`
+                searching = true
+            }
+            else if (tag) {
+                this.search = '';
+                query = `?tags=${tag}`
+                searching = true
+                this.search = tag
+            }
+            if (searching) {
+                this.page = 'search'
+            }
+            axios({
+                method: 'get',
+                url: baseUrl + '/articles' + query
+            })
+            .then(({ data }) => {
+                this.articles = data
+                this.search = ''
+            })
+            .catch(err => {
+                console.log(err)
+                swal(err.response.data)
+            })
+        },
+        createdAt(date) {
+            return new Date(date).toString().substring(0, 10)
+        },
+        logout() {
+            localStorage.clear()
+            this.isLogin = false
+        },
+        showHomePage() {
+            this.fetchArticles()
+            this.page = 'home'
+        },
+        showArticleForm() {
+            this.page = 'article form'
+            this.oldArticle = ''
+        },
+        viewArticle(i) {
+            const article = this.articles[i]
+            this.article = article
+            this.page = 'article'
+        },
+        editArticle() {
+            this.oldArticle =  this.article
+            this.page = 'article form'
+        },
+        deleteArticle(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios({
+                        url: baseUrl + `/articles/${id}`,
+                        method: 'delete',
+                        headers: {
+                            accesstoken: localStorage.getItem('accesstoken')
+                        }
+                    })
+                    .then(({ data }) => {
+                        this.showHomePage()
+                        this.fetchArticles()
+                            
+                        swal("Article deleted!", {
+                            icon: "success",
+                        })
+                    })
+                    .catch(err => {
+                        if (err.response) {
+                            swal(err.response.data)
+                        }
+                        else {
+                            console.log(err)
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+    },
+})
