@@ -30,9 +30,9 @@ example :
 
 | Route  | HTTP | Headers(s) | Body | Sucess Response | Error Response  | Description         |
 | ------ | ---- | ---------- | - |-| ---- | ----- | ------------------- |
-| `/users/register` | POST | `none` | `name (string, required), email (string, required), password (string, required)` | (201) json(data) | (500) validation error  | Sign up with new user info |
-| `/users/login` | POST | `none` | `email (string, required), password (string, required)` |  (200) json(data) | (500) validation error, (404) wrong email/password  | Sign in and get an access token based on credentials |
-| `/users/loginGoogle` | POST | `none`  | `none`|  (200) json(data) | (500) internal server error | Sign in and get an access token based on credentials |
+| `/users/register` | POST | `none` | `name (string, required), email (string, required), password (string, required)` | (201) json(_id, name, email, password (encrypted), createdAt, updatedAt, __v) | (500) json(code, message)  | Sign up with new user info |
+| `/users/login` | POST | `none` | `email (string, required), password (string, required)` |  (200) json(token, _id, name, email) | (500) json(code, message), (401) json(code, message)  | Sign in and get an access token based on credentials |
+| `/users/loginGoogle` | POST | `none`  | `none`|  (200) json(token, _id, name, email) | (500) json(code, message) | Sign in and get an access token based on credentials |
 
 
 ## List of Article routes:
@@ -44,14 +44,14 @@ example :
 
 | Route | HTTP | Headers(s) | Body | Sucess Response | Error Response | Description |
 | ----- | ---- | ---------- | ---- | ----------------| -------------- | ---|
-| `/all` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Get all article |
-| `/search/:title` | GET | `none` | `none` | (200) json( [data)] | (500) internal server error | Get all article based on title search |
-| `/article/:id` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Find article details based on id |
-| `//tags/:id` | GET | `token` | `none` | (200) json( [data] )| (500) internal server error, (400) unauthorized | find list article based on tags |
-| `/own` | GET | `token` | `none` | (200) json(data)| (500) internal server error, (400) unauthorized | Get user's created article |
-| `/create` | POST | `token` | `title(string), content(string), tags(string), fileUrl(string)` |(200) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) ) | (500) internal server error, (400) unauthorized | create new article |
-| `/:id` | PATCH | `token` | `title(string), content(string), tags(string), fileUrl(string)` | json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) | (500) internal server error, (400) unauthorized | update article data by id |
-| `/:id` | DELETE | `token` | `none` | (200) json(n(number),modified(number),ok(number))| (500) internal server error, (400) unauthorized | delete article by id |
+| `/all` | GET | `none` | `none` | (200) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) )| (500) json(code, message) | Get all article |
+| `/search/:title` | GET | `none` | `none` | (200) [json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data)  | (500) json(code, message)] | Get all article based on title search |
+| `/article/:id` | GET | `none` | `none` | (200) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) | (500) json(code, message) | Find article details based on id |
+| `/tags/:id` | GET | `token` | `none` | (200) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) | (500) json(code, message), (403) json(message: unauthorized) | find list article based on tags |
+| `/own` | GET | `token` | `none` | (200) [json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data)] | (500) json(code, message), (403) json(message: unauthorized) | Get user's created article |
+| `/create` | POST | `token` | `title(string), content(string), tags(string), fileUrl(string)` |(201) json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) ) | (500) json(code, message), (403) json(message: unauthorized) | create new article |
+| `/:id` | PATCH | `token` | `title(string), content(string), tags(string), fileUrl(string)` | json( _id(object),title(string),content(string),fileUrl(string),UserId(object),CreatedAt(date),UpdatedAt(data) | (500) json(code, message), (403) json(message: unauthorized) | update article data by id |
+| `/:id` | DELETE | `token` | `none` | (200) json(n(number),modified(number),ok(number))| (500) json(code, message), (403) json(message: unauthorized) | delete article by id |
 
 ## List of Tag routes:
 base url : http//localhost:3000/articles
@@ -62,5 +62,5 @@ example :
 
 | Route | HTTP | Headers(s) | Body | Sucess Response | Error Response | Description |
 | ----- | ---- | ---------- | ---- | ----------------| -------------- | ---|
-| `/findAll` | GET | `none` | `none` | (200) json( [data] )| (500) internal server error | Find all tags name created |
-| `/find/:id` | GET | `none` | `none` | (200) json( [data)] | (500) internal server error | Find all article based on tags |
+| `/findAll` | GET | `none` | `none` | (200) [json( name(string), _id(object),CreatedAt(date),UpdatedAt(data)] | (500) json(code, message)] | Find all tags name created |
+| `/find/:id` | GET | `none` | `none` | (200) json( name(string), _id(object),CreatedAt(date),UpdatedAt(data)] | (500) json(code, message) | (500) json(code, message) | Find all article based on tags |
