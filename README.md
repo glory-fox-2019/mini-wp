@@ -1,5 +1,7 @@
 # mini-wp API
 
+Link Deploy Client: http://anxietext.mromiario.com/ (Semua fitur jalan di lokal, di link suka lama baru kebuka)
+Link Deploy Server: http://34.87.108.229/
 Routes
 ---
 Access : http://localhost:3000/api
