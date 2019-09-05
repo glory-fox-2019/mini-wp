@@ -18,7 +18,8 @@ const articleSchema = new Schema({
     },
     UserId: {
          type: Schema.Types.ObjectId, ref: 'users' 
-    }
+    },
+    tags: []
 }, {
     timestamps: true,
     versionKey: false

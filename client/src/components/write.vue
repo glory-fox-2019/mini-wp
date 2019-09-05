@@ -4,20 +4,24 @@
       <div class="bottom">
         <form action enctype="multipart/form-data" @submit.prevent="submitForm">
           <div>
+            <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags" />
+          </div>
+          <div class="filess">
+            <input type="file" ref="file" v-on:change="handlefileupload($event)" />
+          </div>
+          <div>
             <input type="text" placeholder="Title" v-model="title" />
           </div>
           <div id="textarea">
             <editor v-model="content"></editor>
           </div>
-          <div>
-            <input type="file" ref="file" v-on:change="handlefileupload($event)"/> jpeg only!
-          </div>
+          <br />
           <div class="tombol">
             <div class="submitbutton">
               <button>submit</button>
             </div>
             <div>
-              <button>clear</button>
+              <button @click="clearItem">clear</button>
             </div>
           </div>
         </form>
@@ -28,15 +32,19 @@
 
 <script>
 import editor from "./editor.vue";
+import VueTagsInput from "@johmun/vue-tags-input";
 export default {
   components: {
-    editor
+    editor,
+    VueTagsInput
   },
   data() {
     return {
       title: "",
       content: "",
-      image: ""
+      image: "",
+      tag: "",
+      tags: []
     };
   },
   methods: {
@@ -45,14 +53,20 @@ export default {
       this.image = file[0];
     },
     submitForm() {
+      console.log(this.tags)
+      let taggs = []
+      for(let i = 0; i < this.tags.length;i++){
+        taggs.push(this.tags[i].text)
+      }
       let token = localStorage.getItem("token");
       let formData = new FormData();
       formData.set("featured_image", this.image);
       formData.set("title", this.title);
       formData.set("content", this.content);
+      formData.set("tagku", taggs)
       axios({
         method: "POST",
-        url: "http://34.87.37.210/articles/create",
+        url: "http://localhost:3000/articles/create",
         headers: {
           token
         },
@@ -70,6 +84,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    clearItem() {
+      this.title = "";
+      this.content = "";
+      this.featured_image = "";
     }
   }
 };
@@ -95,9 +114,12 @@ export default {
   -webkit-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 3px 6px 5px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
 }
-.textarea {
-  height: 100px;
+#textarea {
+  height: 500px;
+  margin-bottom: 20px;
 }
 .tombol {
   margin-top: 2%;
@@ -110,6 +132,9 @@ export default {
 input[type="text"] {
   width: 100%;
   height: 5%;
+}
+.filess {
+  margin-top: 20px;
 }
 </style>              
                

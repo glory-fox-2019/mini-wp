@@ -4,10 +4,13 @@
       <div class="bottom">
         <form action @submit.prevent="editItem()">
           <div>
-            <input type="text" v-model="arc.title" placeholder="insert title" />
+            <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags" />
+          </div>
+          <div>
+            <input type="text" v-model="title" placeholder="insert title" />
           </div>
           <div class="textarea">
-            <editor placeholder="insert content" v-model="arc.content"></editor>
+            <editor placeholder="insert content" v-model="content"></editor>
           </div>
           <div>
             <input type="file" id="file" ref="file" v-on:change="handlefileupload($event)" />
@@ -29,20 +32,21 @@
 <script>
 import editor from "./editor.vue";
 import axios from "axios";
+import VueTagsInput from "@johmun/vue-tags-input";
 export default {
   props: ["arc"],
   components: {
-    editor
+    editor,
+    VueTagsInput
   },
   data() {
     return {
       featured_image: "",
       title: "",
-      content: ""
+      content: "",
+      tag: "",
+      tags: []
     };
-  },
-  created(){
-    console.log(this.arc)
   },
   methods: {
     handlefileupload() {
@@ -50,7 +54,7 @@ export default {
       this.featured_image = file[0];
     },
     editItem() {
-      let id = this.updateid;
+      let id = this.arc._id;
       let token = localStorage.getItem("token");
       let formData = new FormData();
       formData.set("featured_image", this.featured_image);
@@ -58,7 +62,7 @@ export default {
       formData.set("content", this.content);
       axios({
         method: "PATCH",
-        url: `http://34.87.37.210/articles/update/${id}`,
+        url: `http://localhost:3000/articles/update/${id}`,
         headers: {
           token
         },
@@ -84,19 +88,19 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.message);
         });
     },
     clearItem() {
       this.title = "";
       this.content = "";
-      this.image = "";
+      this.featured_image = "";
     },
     getOne(id) {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: `http://34.87.37.210/filter/${id}`,
+        url: `http://localhost:3000/filter/${id}`,
         headers: {
           token
         }
@@ -109,6 +113,19 @@ export default {
         });
     }
   },
+  created() {
+    this.title = this.arc.title;
+    this.content = this.arc.content;
+    this.featured_image = this.arc.featured_image;
+    let taggku = []
+    for(let i = 0; i < this.arc.tags.length;i++){
+        let tagg = this.arc.tags[i]
+        let updateTag = {}
+        updateTag.text = tagg
+        taggku.push(updateTag)
+    }
+    this.tags = taggku
+  }
 };
 </script>
 

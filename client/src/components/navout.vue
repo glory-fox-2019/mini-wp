@@ -58,7 +58,7 @@ export default {
     OnGoogleAuthSuccess(idToken) {
       axios({
         method: "POST",
-        url: "http://34.87.37.210/users/Gsignin",
+        url: "http://localhost:3000/users/Gsignin",
         data: {
           idToken
         }
