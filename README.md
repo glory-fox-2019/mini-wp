@@ -289,7 +289,7 @@ Error caused by Token
 
 
 ## 404
-Error caused by Token
+Error caused by Server could found
 
       code: 404,
       'Not Found',
