@@ -46,7 +46,7 @@ export default {
       let name = this.nameSignup;
       axios({
         method: "POST",
-        url: "http://34.87.37.210/users/register",
+        url: "http://localhost:3000/users/register",
         data: {
           email,
           password,
@@ -63,8 +63,9 @@ export default {
           });
           this.$emit('register')
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          let message = error.response.data && error.response.data.message || 'failed to register'
+          Swal.fire("Error!",message, "error");
         });
     }
   }

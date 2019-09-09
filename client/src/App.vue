@@ -31,12 +31,13 @@
             <rightcolumn
               :articles="articles"
               @delete-article="removeArticle($event)"
-              @update-file="updateData($event)"
+              @updateFile="updateData($event)"
+              @tagss="getMeTags($event)"
             ></rightcolumn>
           </div>
         </div>
-        <write v-show="isWrite" @uploadFile="getFile($event)"></write>
-        <edit v-show="isEdit" v-bind:arc="artic" @edit-me="updateMe()"></edit>
+        <write v-if="isWrite" @uploadFile="getFile($event)"></write>
+        <edit v-if="isEdit" v-bind:arc="artic" @edit-me="updateMe()"></edit>
       </div>
     </div>
   </div>
@@ -53,6 +54,7 @@ import leftcolumn from "./components/leftcolumn.vue";
 import rightcolumn from "./components/rightcolumn.vue";
 import write from "./components/write.vue";
 import edit from "./components/edit.vue";
+import Swal from 'sweetalert2'
 
 export default {
   components: {
@@ -85,7 +87,7 @@ export default {
       name: "",
       updateid: "",
       filter: "",
-      artic:{}
+      artic: {}
     };
   },
   methods: {
@@ -136,7 +138,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://34.87.37.210/articles/",
+        url: "http://localhost:3000/articles/",
         headers: {
           token
         }
@@ -152,7 +154,7 @@ export default {
     },
     removeArticle(id) {
       this.articles = this.articles.filter(el => el._id !== id);
-      this.getArticles()
+      this.getArticles();
     },
     updateMe() {
       this.isWrite = false;
@@ -164,7 +166,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://34.87.37.210/articles/myArticles",
+        url: "http://localhost:3000/articles/myArticles",
         headers: {
           token
         }
@@ -185,6 +187,26 @@ export default {
       this.isWrite = false;
       this.isBody = false;
       this.isEdit = true;
+    },
+    getMeTags(name) {
+      let token = localStorage.getItem("token");
+      axios({
+        method: "GET",
+        url: `http://localhost:3000/articles/tags/${name}`,
+        headers: {
+          token
+        }
+      })
+        .then(data => {
+          this.isWrite = false;
+          this.isBody = true;
+          this.isEdit = false;
+          this.articles = data.data.filtered;
+          this.tempArticles = data.data.filtered;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created() {

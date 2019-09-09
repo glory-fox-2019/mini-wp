@@ -91,14 +91,10 @@ To Register
         success: {
             message: 'Account is successfully created'
             status: 201
-        },
-        error: {
-            message: 'internal server error'
-            status: 500
         }
     }
 
-    # Article Routes
+# Article Routes
 
 Includes, CRUD of articles, Getting current user profile, filtering articles List
 
@@ -128,7 +124,8 @@ User creating articles
         author:{
             type:String,
             required:true
-        }
+        },
+        tags: []
     },
     response status: {
         success: {
@@ -137,14 +134,11 @@ User creating articles
                 content,
                 featured_image,
                 UserId,
-                author
+                author,
+                tags
             },
             message: 'article is successfully created'
             status: 201
-        },
-        error: {
-            message: 'internal server error'
-            status: 500
         }
     }
 
@@ -174,10 +168,6 @@ User can update thei articles
             },
             message: 'Data is successfully updated'
             status: 201
-        },
-        error: {
-            message: 'Article not found'
-            status: 404
         }
     }
 
@@ -199,10 +189,6 @@ User can update thei articles
             },
             message: 'article is successfully deleted'
             status: 200
-        },
-        error: {
-            message: 'Article not found'
-            status: 404
         }
     }
 
@@ -221,10 +207,7 @@ User can update thei articles
             data,
             message: 'articles are found'
             status: 200
-        },  error: {
-            message: 'Wrong token'
-            status: 404
-            }
+        }
     }
 # GET /articles/filter/:id
 
@@ -243,14 +226,11 @@ User can update thei articles
                 content,
                 featured_image,
                 UserId,
-                author
+                author,
+                tags
             },
             message: 'found your article'
             status: 200
-        },
-        error: {
-            message: 'Not Found'
-            status: 404
         }
     }
 
@@ -269,9 +249,54 @@ User can update thei articles
             },
             message: 'found your articles'
             status: 200
-        },
-        error: {
-            message: 'Not Found'
-            status: 404
         }
     }
+
+#ERROR
+
+## Error Handling
+
+Form of Error Handling
+
+
+      code: httpStatus || 406,
+      message,
+
+
+## 400
+Error caused by the Users ('Bad request')
+
+      code: 400,
+      'Email is already Registered',
+
+
+
+## 401
+Error due to the unauthorization
+
+
+      code: 401,
+      'Not Authorized',
+
+
+
+## 403
+Error caused by Token
+
+      code: 403,
+      'Token Undefined',
+
+
+
+## 404
+Error caused by Token
+
+      code: 404,
+      'Not Found',
+
+
+## 500
+Error cause by Internal Server Error
+
+      code: 500,
+      'Internal Server Error',

@@ -12,6 +12,7 @@ router.patch('/update/:id',authorization,images.multer.single('featured_image'),
 images.sendUploadToGCS, articleController.update)
 router.delete('/delete/:id',authorization, articleController.delete)
 router.get('/myArticles', articleController.findMine)
+router.get('/tags/:tag', articleController.tagsbyName)
 
 
 module.exports = router;
