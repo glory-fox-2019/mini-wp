@@ -13,6 +13,7 @@ const {
     OAuth2Client
 } = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
+const emailSent = require('../helpers/emailSent')
 
 class UserController {
     static GsignIn(req, res, next) {
@@ -45,10 +46,7 @@ class UserController {
                     message: 'Login Success'
                 })
             })
-        }).catch(err => {
-            res.status(404)
-            next(err)
-        })
+        }).catch(next)
     }
 
     static signIn(req, res, next) {
@@ -72,9 +70,7 @@ class UserController {
                     })
                 }
             }
-        }).catch(err => {
-            console.log(err)
-        })
+        }).catch(next)
     }
     static register(req, res, next) {
         let {
@@ -82,24 +78,21 @@ class UserController {
             password,
             name
         } = req.body
-        User.findOne({
-            email
+        User.create({
+            name,
+            email,
+            password: encrypt(password)
         }).then(data => {
-            if (!data) {
-                User.create({
-                    name,
-                    email,
-                    password: encrypt(password)
-                }).then(data => {
-                    res.status(201).json({
-                        data
-                    })
-                })
-            }
-        }).catch(err => {
-            res.status(500)
-            next(err)
-        })
+            let text = `Dear Mr./Ms./Mrs. ${data.name}, We would like to express our gratitude for your registration,
+            now you can use iPress Features
+            
+            Best Regards,
+            iPress`
+            emailSent(email, 'Account Registration', text)
+            res.status(201).json({
+                data
+            })
+        }).catch(next)
     }
 
 

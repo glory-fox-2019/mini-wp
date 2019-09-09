@@ -34,6 +34,7 @@ export default {
     signOut() {
       this.$emit("sign-out");
       localStorage.removeItem("token");
+      Swal.fire("Success!","Successfully LoggedOut!", "success");
       let auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function() {
         console.log("User signed out.");

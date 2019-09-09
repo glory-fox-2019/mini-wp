@@ -54,6 +54,7 @@ import leftcolumn from "./components/leftcolumn.vue";
 import rightcolumn from "./components/rightcolumn.vue";
 import write from "./components/write.vue";
 import edit from "./components/edit.vue";
+import Swal from 'sweetalert2'
 
 export default {
   components: {

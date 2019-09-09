@@ -98,10 +98,7 @@ class articleController {
                     data
                 })
             }
-        }).catch(err => {
-            res.status(500)
-            next(err)
-        })
+        }).catch(next)
     }
     static delete(req, res, next) {
         let {
@@ -113,10 +110,7 @@ class articleController {
                     data,
                     message: 'article is successfully deleted'
                 })
-            }).catch(err => {
-                res.status(500)
-                next(err)
-            })
+            }).catch(next)
     }
     static findMine(req, res, next) {
         let {
@@ -130,10 +124,7 @@ class articleController {
                     data,
                     message: 'found your articles'
                 })
-            }).catch(err => {
-                res.status(404)
-                next(err)
-            })
+            }).catch(next)
     }
     static tagsbyName(req,res,next){
         let tagku = req.params.tag
