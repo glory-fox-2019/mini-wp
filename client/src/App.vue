@@ -54,7 +54,7 @@ import leftcolumn from "./components/leftcolumn.vue";
 import rightcolumn from "./components/rightcolumn.vue";
 import write from "./components/write.vue";
 import edit from "./components/edit.vue";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -129,7 +129,7 @@ export default {
       this.isEdit = false;
     },
     getFile(e) {
-      this.articles.unshift(e);
+      this.getArticles();
       this.isWrite = false;
       this.isBody = true;
       this.isEdit = false;
@@ -138,7 +138,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/",
+        url: "http://34.87.37.210/articles/",
         headers: {
           token
         }
@@ -166,7 +166,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/myArticles",
+        url: "http://34.87.37.210/articles/myArticles",
         headers: {
           token
         }
@@ -192,7 +192,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: `http://localhost:3000/articles/tags/${name}`,
+        url: `http://34.87.37.210/articles/tags/${name}`,
         headers: {
           token
         }

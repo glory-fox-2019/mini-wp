@@ -62,7 +62,7 @@ export default {
       formData.set("content", this.content);
       axios({
         method: "PATCH",
-        url: `http://localhost:3000/articles/update/${id}`,
+        url: `http://34.87.37.210/articles/update/${id}`,
         headers: {
           token
         },
@@ -87,8 +87,11 @@ export default {
             });
           }
         })
-        .catch(err => {
-          console.log(err.message);
+        .catch(error => {
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "failed to Edit";
+          Swal.fire("Error!", message, "error");
         });
     },
     clearItem() {
@@ -100,7 +103,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: `http://localhost:3000/filter/${id}`,
+        url: `http://34.87.37.210/filter/${id}`,
         headers: {
           token
         }
@@ -117,14 +120,14 @@ export default {
     this.title = this.arc.title;
     this.content = this.arc.content;
     this.featured_image = this.arc.featured_image;
-    let taggku = []
-    for(let i = 0; i < this.arc.tags.length;i++){
-        let tagg = this.arc.tags[i]
-        let updateTag = {}
-        updateTag.text = tagg
-        taggku.push(updateTag)
+    let taggku = [];
+    for (let i = 0; i < this.arc.tags.length; i++) {
+      let tagg = this.arc.tags[i];
+      let updateTag = {};
+      updateTag.text = tagg;
+      taggku.push(updateTag);
     }
-    this.tags = taggku
+    this.tags = taggku;
   }
 };
 </script>

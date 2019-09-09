@@ -9,7 +9,9 @@
           <p>{{String(new Date(article.createdAt)).substr(0,10)}}</p>
           <div>
             <p>tags:</p>
-            <a href="#" @click="getTags(t)" :key="i" v-for="(t,i) in article.tags" ><vs-chip >{{t}}</vs-chip></a>
+            <a href="#" @click="getTags(t)" :key="i" v-for="(t,i) in article.tags">
+              <vs-chip>{{t}}</vs-chip>
+            </a>
           </div>
         </div>
         <div class="photo">
@@ -29,6 +31,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   props: ["articles", "tempArticles"],
   data() {
@@ -38,7 +41,7 @@ export default {
   },
   methods: {
     getTags(name) {
-      this.$emit('tagss', name)
+      this.$emit("tagss", name);
     },
     deleteItem(input) {
       let id = input;
@@ -56,7 +59,7 @@ export default {
           if (result.value) {
             axios({
               method: "DELETE",
-              url: `http://localhost:3000/articles/delete/${id}`,
+              url: `http://34.87.37.210/articles/delete/${id}`,
               headers: {
                 token
               }
@@ -74,11 +77,19 @@ export default {
                   timer: 1500
                 });
               }
-            });
+            }).catch(error => {
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "failed to Delete";
+          Swal.fire("Error!", message, "error");
+        });
           }
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "failed to Delete";
+          Swal.fire("Error!", message, "error");
         });
     },
     clickEdit(input) {

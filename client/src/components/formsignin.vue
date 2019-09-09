@@ -38,7 +38,7 @@ export default {
       let email = this.emailLogin;
       let password = this.passwordLogin;
       axios({
-        url: "http://localhost:3000/users/signin",
+        url: "http://34.87.37.210/users/signin",
         method: "POST",
         data: {
           email,
