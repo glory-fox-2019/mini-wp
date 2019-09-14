@@ -1,8 +1,5 @@
 const Article = require('../models/article')
-const {
-    Storage
-} = require('@google-cloud/storage')
-const storage = new Storage()
+const deleteFile = require('../helpers/images').deleteFile
 
 class articleController {
 
@@ -10,7 +7,9 @@ class articleController {
         let {
             name
         } = req.decode
-        Article.find().sort({createdAt:-1})
+        Article.find().sort({
+                createdAt: -1
+            })
             .then(data => {
                 res.status(200).json({
                     name,
@@ -57,10 +56,21 @@ class articleController {
             author: name,
         }).then(data => {
             let myId = data._id
-            return Article.findByIdAndUpdate(myId, {$addToSet:{tags:{$each:myTags}}}, {new: true, runValidators: true})
-            .then(data1 => {
-                res.status(201).json({data1})
-            })
+            return Article.findByIdAndUpdate(myId, {
+                    $addToSet: {
+                        tags: {
+                            $each: myTags
+                        }
+                    }
+                }, {
+                    new: true,
+                    runValidators: true
+                })
+                .then(data1 => {
+                    res.status(201).json({
+                        data1
+                    })
+                })
         }).catch(next)
     }
     static update(req, res, next) {
@@ -68,11 +78,11 @@ class articleController {
             id
         } = req.params
         let updatedData = {}
-        if(req.file){
+        if (req.file) {
             req.body.title && (updatedData.title = req.body.title)
             req.body.content && (updatedData.content = req.body.content)
-            req.file.cloudStoragePublicUrl && (updatedData.featured_image = req.cloudStoragePublicUrl )
-        }else {
+            req.file.cloudStoragePublicUrl && (updatedData.featured_image = req.cloudStoragePublicUrl)
+        } else {
             req.body.title && (updatedData.title = req.body.title)
             req.body.content && (updatedData.content = req.body.content)
             req.body.featured_image && (updatedData.featured_image = req.body.featured_image)
@@ -84,16 +94,22 @@ class articleController {
                 runValidators: true
             }
         ).then(data => {
-            if(req.body.tagku){
+            if (req.body.tagku) {
                 let myTags = req.body.tagku.split(',')
                 updatedData.tags = myTags
-                return Article.findByIdAndUpdate(id, {$addToSet:{tags:{$each:myTags}}})
-                .then(data2 => {
-                    res.status(200).json({
-                        data2
+                return Article.findByIdAndUpdate(id, {
+                        $addToSet: {
+                            tags: {
+                                $each: myTags
+                            }
+                        }
                     })
-                })
-            } else{
+                    .then(data2 => {
+                        res.status(200).json({
+                            data2
+                        })
+                    })
+            } else {
                 res.status(200).json({
                     data
                 })
@@ -106,10 +122,13 @@ class articleController {
         } = req.params
         Article.findByIdAndDelete(id)
             .then(data => {
-                res.status(200).json({
-                    data,
-                    message: 'article is successfully deleted'
-                })
+                if (data.featured_image) {
+                    deleteFile(req, res, next, data.featured_image)
+                } else {
+                    res.status(200).json({
+                        data
+                    })
+                }
             }).catch(next)
     }
     static findMine(req, res, next) {
@@ -118,7 +137,9 @@ class articleController {
         } = req.decode
         Article.find({
                 UserId: id
-            }).sort({createdAt:-1})
+            }).sort({
+                createdAt: -1
+            })
             .then(data => {
                 res.status(200).json({
                     data,
@@ -126,15 +147,17 @@ class articleController {
                 })
             }).catch(next)
     }
-    static tagsbyName(req,res,next){
+    static tagsbyName(req, res, next) {
         let tagku = req.params.tag
         Article.find()
-        .then(data => {
-            let filtered = data.filter(el => {return el.tags.includes(tagku)})
-            res.status(200).json({
-                filtered
-            })
-        }).catch(next)
+            .then(data => {
+                let filtered = data.filter(el => {
+                    return el.tags.includes(tagku)
+                })
+                res.status(200).json({
+                    filtered
+                })
+            }).catch(next)
     }
 
 

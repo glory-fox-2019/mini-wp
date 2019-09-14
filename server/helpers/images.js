@@ -1,6 +1,6 @@
 'use strict'
 require('dotenv').config()
-
+const urlToFileName = require('../helpers/urlToFilename')
 const {Storage} = require('@google-cloud/storage')
 const CLOUD_BUCKET = process.env.CLOUD_BUCKET
 
@@ -43,6 +43,26 @@ const sendUploadToGCS = (req, res, next) => {
   stream.end(req.file.buffer)
 }
 
+async function deleteFile(req,res,next,url) {
+  let filename = urlToFileName(url)
+  try {
+    await storage
+      .bucket(CLOUD_BUCKET)
+      .file(filename)
+      .delete();
+      res.status(200).json({
+      message: "Photo is successfully deleted in storage"
+    })
+  }
+  catch{
+    next({status:500, message :"error when deleting the file on google cloud storage"})
+  }
+
+}
+
+
+
+
 const Multer = require('multer'),
       multer = Multer({
         storage: Multer.MemoryStorage,
@@ -61,5 +81,6 @@ const Multer = require('multer'),
 module.exports = {
   getPublicUrl,
   sendUploadToGCS,
-  multer
+  multer,
+  deleteFile
 }
