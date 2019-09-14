@@ -80,8 +80,9 @@ export default {
             "success"
           );
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          let message = error.response.data && error.response.data.message || 'Failed to Create'
+          Swal.fire("Error!",message, "error");
         });
     },
     clearItem() {

@@ -9359,9 +9359,10 @@ var _default = {
         });
         localStorage.setItem("token", data.data.token);
 
-        _this.$emit('pageIn');
+        _this.$emit("pageIn");
       }).catch(function (err) {
-        console.log(err);
+        var message = error.response.data && error.response.data.message || "failed to SignIn";
+        Swal.fire("Error!", message, "error");
       });
     }
   }
@@ -28043,8 +28044,9 @@ var _default = {
         _this.$emit("uploadFile", response);
 
         Swal.fire("Success", "Your Article is Successfully Submitted", "success");
-      }).catch(function (err) {
-        console.log(err);
+      }).catch(function (error) {
+        var message = error.response.data && error.response.data.message || 'Failed to Create';
+        Swal.fire("Error!", message, "error");
       });
     },
     clearItem: function clearItem() {
@@ -30306,6 +30308,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
 var _default = {
   components: {
     beforein: _beforein.default,
@@ -30660,26 +30666,40 @@ exports.default = _default;
               ]
             ),
             _vm._v(" "),
-            _vm.isWrite
-              ? _c("write", {
-                  on: {
-                    uploadFile: function($event) {
-                      return _vm.getFile($event)
-                    }
-                  }
-                })
-              : _vm._e(),
+            _c(
+              "transition",
+              { attrs: { name: "slide-fade" } },
+              [
+                _vm.isWrite
+                  ? _c("write", {
+                      on: {
+                        uploadFile: function($event) {
+                          return _vm.getFile($event)
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ],
+              1
+            ),
             _vm._v(" "),
-            _vm.isEdit
-              ? _c("edit", {
-                  attrs: { arc: _vm.artic },
-                  on: {
-                    "edit-me": function($event) {
-                      return _vm.updateMe()
-                    }
-                  }
-                })
-              : _vm._e()
+            _c(
+              "transition",
+              { attrs: { name: "slide-fade" } },
+              [
+                _vm.isEdit
+                  ? _c("edit", {
+                      attrs: { arc: _vm.artic },
+                      on: {
+                        "edit-me": function($event) {
+                          return _vm.updateMe()
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
           ],
           1
         )
@@ -46304,25 +46324,16 @@ var _vue = _interopRequireDefault(require("vue"));
 
 var _App = _interopRequireDefault(require("./App.vue"));
 
-var _axios = _interopRequireDefault(require("axios"));
-
-var _sweetalert = _interopRequireDefault(require("sweetalert2"));
-
 var _vuesax = _interopRequireDefault(require("vuesax"));
 
 require("vuesax/dist/vuesax.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Vuesax styles
-new _vue.default(_App.default).$mount('#app');
-
 _vue.default.use(_vuesax.default);
 
-_vue.default.use(_axios.default);
-
-_vue.default.use(_sweetalert.default);
-},{"vue":"node_modules/vue/dist/vue.runtime.esm.js","./App.vue":"src/App.vue","axios":"node_modules/axios/index.js","sweetalert2":"node_modules/sweetalert2/dist/sweetalert2.all.js","vuesax":"node_modules/vuesax/dist/vuesax.common.js","vuesax/dist/vuesax.css":"node_modules/vuesax/dist/vuesax.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+new _vue.default(_App.default).$mount('#app');
+},{"vue":"node_modules/vue/dist/vue.runtime.esm.js","./App.vue":"src/App.vue","vuesax":"node_modules/vuesax/dist/vuesax.common.js","vuesax/dist/vuesax.css":"node_modules/vuesax/dist/vuesax.css"}],"../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -46350,7 +46361,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49365" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50318" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -54,10 +54,13 @@ export default {
             timer: 1500
           });
           localStorage.setItem("token", data.data.token);
-          this.$emit('pageIn')
+          this.$emit("pageIn");
         })
         .catch(err => {
-          console.log(err);
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "failed to SignIn";
+          Swal.fire("Error!", message, "error");
         });
     }
   }

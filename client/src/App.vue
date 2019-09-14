@@ -36,8 +36,12 @@
             ></rightcolumn>
           </div>
         </div>
+        <transition name="slide-fade">
         <write v-if="isWrite" @uploadFile="getFile($event)"></write>
+         </transition>
+         <transition name="slide-fade">
         <edit v-if="isEdit" v-bind:arc="artic" @edit-me="updateMe()"></edit>
+        </transition>
       </div>
     </div>
   </div>
@@ -274,5 +278,11 @@ export default {
 }
 .write {
   color: #21759b;
+}
+.slide-fade-enter-active {
+  animation: slideInRight .5s;
+}
+.slide-fade-leave-active {
+  animation: slideInRight .5s reverse;
 }
 </style>
