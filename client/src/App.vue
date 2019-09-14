@@ -36,8 +36,12 @@
             ></rightcolumn>
           </div>
         </div>
+        <transition name="slide-fade">
         <write v-if="isWrite" @uploadFile="getFile($event)"></write>
+         </transition>
+         <transition name="slide-fade">
         <edit v-if="isEdit" v-bind:arc="artic" @edit-me="updateMe()"></edit>
+        </transition>
       </div>
     </div>
   </div>
@@ -54,7 +58,7 @@ import leftcolumn from "./components/leftcolumn.vue";
 import rightcolumn from "./components/rightcolumn.vue";
 import write from "./components/write.vue";
 import edit from "./components/edit.vue";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -129,7 +133,7 @@ export default {
       this.isEdit = false;
     },
     getFile(e) {
-      this.articles.unshift(e);
+      this.getArticles();
       this.isWrite = false;
       this.isBody = true;
       this.isEdit = false;
@@ -138,7 +142,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/",
+        url: "http://34.87.37.210/articles/",
         headers: {
           token
         }
@@ -166,7 +170,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: "http://localhost:3000/articles/myArticles",
+        url: "http://34.87.37.210/articles/myArticles",
         headers: {
           token
         }
@@ -192,7 +196,7 @@ export default {
       let token = localStorage.getItem("token");
       axios({
         method: "GET",
-        url: `http://localhost:3000/articles/tags/${name}`,
+        url: `http://34.87.37.210/articles/tags/${name}`,
         headers: {
           token
         }
@@ -274,5 +278,11 @@ export default {
 }
 .write {
   color: #21759b;
+}
+.slide-fade-enter-active {
+  animation: slideInRight .5s;
+}
+.slide-fade-leave-active {
+  animation: slideInRight .5s reverse;
 }
 </style>

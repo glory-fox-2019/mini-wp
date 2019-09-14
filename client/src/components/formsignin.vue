@@ -38,7 +38,7 @@ export default {
       let email = this.emailLogin;
       let password = this.passwordLogin;
       axios({
-        url: "http://localhost:3000/users/signin",
+        url: "http://34.87.37.210/users/signin",
         method: "POST",
         data: {
           email,
@@ -54,10 +54,13 @@ export default {
             timer: 1500
           });
           localStorage.setItem("token", data.data.token);
-          this.$emit('pageIn')
+          this.$emit("pageIn");
         })
         .catch(err => {
-          console.log(err);
+          let message =
+            (error.response.data && error.response.data.message) ||
+            "failed to SignIn";
+          Swal.fire("Error!", message, "error");
         });
     }
   }

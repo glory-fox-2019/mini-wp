@@ -14,9 +14,18 @@ Includes SignIn, Google SignIn, and Resgitration
 
 To Sign In without using google authorization
 
-    url: 'http://34.87.37.210/user/signin'
-    headers: token *required*,
-    body: {
+
+* **URL** 
+
+    http://34.87.37.210/user/signin
+* **METHOD** 
+
+    POST
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         email:{
             type: string
             required: true
@@ -25,27 +34,43 @@ To Sign In without using google authorization
             type: string
             required: true
         }
-    },
-    response status: {
-        success: {
+
+* **Success Response** 
+
+        {
             message: 'Login Success'
             status: 200
-        },
-        error: {
-            message:'Not Found',
-            status: 404
         }
-    }
+
+* **Error Response** 
+
+        {
+            httpStatus: 400,
+            message: 'Wrong Email/Password'
+        }
+        or
+        {
+            httpStatus: 404,
+            message: 'Email Not Found'    
+        }
+
 
 
 
 # POST /user/Gsignin
 
 To Sign In using google authorization
+* **URL** 
 
-    url: 'http://34.87.37.210/user/Gsignin'
-    headers: token *required*,
-    body: {
+    http://34.87.37.210/user/Gsignin
+* **METHOD** 
+
+    POST
+* **URL Params** 
+
+    **none**
+* **Data Params** 
+
         email:{
             type: string
             required: true
@@ -54,29 +79,38 @@ To Sign In using google authorization
             type: string
             required: true
         }
-    },
-    response status: {
-        success: {
+* **Success Response** 
+
+        {
             message: 'Login Success'
             status: 200
         },
-        error: {
-            message:'Not Found',
-            status: 404
+* **Error Response** 
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error'    
         }
-    }
 
 
 # POST /user/register
 
 To Register 
 
-    url: 'http://34.87.37.210/user/register'
-    headers: none,
-    body: {
+* **URL**
+
+    http://34.87.37.210/user/register
+* **METHOD** 
+
+    POST
+* **URL Params**
+
+    **none**
+* **Data Params** 
+
         name:{
-            type: string
-            required: true
+        type: string
+        required: true
         } ,
         email:{
             type: string
@@ -86,13 +120,22 @@ To Register
             type:string,
             required:true
         }
-    },
-    response status: {
-        success: {
-            message: 'Account is successfully created'
-            status: 201
-        }
-    }
+* **Success Response** 
+
+            {
+                message: 'Account is successfully created',
+                status: 201
+            }
+
+* **Error Response** 
+
+            {
+                message: 'Internal Sever Error'
+                status: 500
+            }
+
+
+
 
 # Article Routes
 
@@ -102,54 +145,82 @@ Includes, CRUD of articles, Getting current user profile, filtering articles Lis
 
 User creating articles 
 
-    url: 'http://34.87.37.210/articles/create'
-    headers: token *required*,
-    body: {
-        title:{
-            type: string
-            required: true
-        } ,
-        content:{
-            type: string
-            required: true
-        },
-        createdAt:{
-            type:Date,
-            required:true
-        },
-        featured_image:{
-            type:String,
-            required:true
-        },
-        author:{
-            type:String,
-            required:true
-        },
-        tags: []
-    },
-    response status: {
-        success: {
-            data : {
-                title,
-                content,
-                featured_image,
-                UserId,
-                author,
-                tags
+* **URL**
+
+    http://34.87.37.210/articles/create
+* **METHOD**
+
+    POST
+* **Headers**
+
+    token
+* **URL Params**
+
+    **none**
+* **Data Params**
+
+        {
+            title:{
+                type: string
+                required: true
+            } ,
+            content:{
+                type: string
+                required: true
             },
+            createdAt:{
+                type:Date,
+                required:true
+            },
+            featured_image:{
+                type:String,
+                required:true
+            },
+            author:{
+                type:String,
+                required:true
+            },
+            tags: []
+        }
+
+* **Success Response** 
+
+        {
             message: 'article is successfully created'
             status: 201
         }
-    }
+
+* **Error Response** 
+
+        {
+            httpStatus: 500
+            message: 'Internal Server Error'
+        }
 
 
 # PATCH /articles/update/:id
 
-User can update thei articles
+User can update their articles
 
-    url: 'http://34.87.37.210/articles/update/:id'
-    headers: token *required*,
-    body: {
+* **URL**
+
+    http://34.87.37.210/articles/update/:id
+* **METHOD**
+
+    PATCH
+
+* **Headers**
+
+    token
+
+* **URL Params**
+
+        {
+            id=[integer]
+        }
+* **Data Params**
+
+    {
         title:{
             type: string
         } ,
@@ -159,48 +230,99 @@ User can update thei articles
         featured_image:{
             type:String,
         },
-        } 
-    },
-    response status: {
-        success: {
+    } 
+
+* **Success Response**
+
+        {
             data : {
-                updatedData
-            },
+
+        title:{
+            type: string
+        } ,
+        content:{
+            type: string
+        },
+        featured_image:{
+            type:String,
+        }, 
+        },
             message: 'Data is successfully updated'
             status: 201
         }
-    }
+
+* **Error Response**
+
+        {
+            httpStatus: 500,
+            message: 'Internal Server Error
+        }
 
 # DELETE /articles/delete/:id
 
 ## Deleting User's articles
 
-    url: 'http://34.87.37.210/articles/delete/:id'
-    headers: token *required*
-    body: none,
-    response status: {
-        success: {
-            data : {
-                title,
-                content,
-                featured_image,
-                UserId,
-                author
+* **URL**
+
+    http://34.87.37.210/articles/delete/:id
+
+* **METHOD**
+
+    DELETE
+
+* **Headers**
+
+    token
+
+* **URL Params**
+
+        id=[integer]
+* **Data Params**
+
+    **none**
+* **Success Response**
+
+        {
+            title,
+            content,
+            featured_image,
+            UserId,
+            author
             },
+
             message: 'article is successfully deleted'
             status: 200
         }
-    }
+* **Error Response**
+
+        {
+            message: 'Internal Server Error'
+            httpStatus: 500
+        }
 
 # GET /articles/
 
 ## Get All Article
 
-    url: 'http://34.87.37.210/articles',
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
+* **URL**
+
+    http://34.87.37.210/articles
+
+* **METHOD**
+
+    GET
+* **Headers**
+    
+    token *required*    
+* **URL Params**
+
+    **none**
+* **Data Params**
+
+    **none**
+* **Success Response**
+
+        {
             name : {
                 type: string
             },
@@ -208,19 +330,38 @@ User can update thei articles
             message: 'articles are found'
             status: 200
         }
-    }
+
+* **Error Response**
+
+        {
+            message: 'Internal Server Error'
+            httpStatus: 500
+        }
+
 # GET /articles/filter/:id
 
 ## Get Article by their Id
 
-    url: 'http://34.87.37.210/articles/filter/:id'
-    headers: token *required*,
-    body: 
-    id: {
-        type: String
-        },
-    response status: {
-        success: {
+
+* **URL**
+
+    http://34.87.37.210/articles/filter/:id
+* **METHOD**
+
+    GET
+* **Headers**
+
+    token *required*
+* **URL Params**
+
+    id=[integer]
+* **Data Params**
+
+    **none**
+* **Success Response**
+
+
+        {
             data : {
                 title,
                 content,
@@ -232,25 +373,51 @@ User can update thei articles
             message: 'found your article'
             status: 200
         }
-    }
+* **Error Response**
+
+        {
+            message: 'Internal Server Error'
+            httpStatus: 500
+        }
 
 
 # GET /articles/myArticles
 
 ## Get Current User's Articles
 
-    url: 'http://34.87.37.210/articles/myArticles'
-    headers: token *required*,
-    body: none,
-    response status: {
-        success: {
+
+* **URL**
+
+    http://34.87.37.210/articles/myArticles
+* **METHOD**
+
+    GET
+* **Headers**
+
+    token *required*
+* **URL Params**
+
+    **none**
+* **Data Params**
+
+    **none**
+* **Success Response**
+
+
+        {
             data : {
                 data (array of articles)
             },
             message: 'found your articles'
             status: 200
         }
-    }
+* **Error Response**
+
+
+        {
+            message: 'Internal Server Error'
+            httpStatus: 500
+        }
 
 #ERROR
 
@@ -259,7 +426,7 @@ User can update thei articles
 Form of Error Handling
 
 
-      code: httpStatus || 406,
+      code: httpStatus || 500,
       message,
 
 

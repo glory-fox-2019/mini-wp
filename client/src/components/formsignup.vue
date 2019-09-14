@@ -46,7 +46,7 @@ export default {
       let name = this.nameSignup;
       axios({
         method: "POST",
-        url: "http://localhost:3000/users/register",
+        url: "http://34.87.37.210/users/register",
         data: {
           email,
           password,

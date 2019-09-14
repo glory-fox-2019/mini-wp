@@ -53,7 +53,6 @@ export default {
       this.image = file[0];
     },
     submitForm() {
-      console.log(this.tags)
       let taggs = []
       for(let i = 0; i < this.tags.length;i++){
         taggs.push(this.tags[i].text)
@@ -66,7 +65,7 @@ export default {
       formData.set("tagku", taggs)
       axios({
         method: "POST",
-        url: "http://localhost:3000/articles/create",
+        url: "http://34.87.37.210/articles/create",
         headers: {
           token
         },
@@ -81,8 +80,9 @@ export default {
             "success"
           );
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          let message = error.response.data && error.response.data.message || 'Failed to Create'
+          Swal.fire("Error!",message, "error");
         });
     },
     clearItem() {
