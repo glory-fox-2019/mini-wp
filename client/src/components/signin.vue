@@ -17,6 +17,7 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email address</label>
                   <input
+                    required
                     type="email"
                     class="form-control"
                     aria-describedby="emailHelp"
@@ -31,6 +32,7 @@
                 <div class="form-group">
                   <label for="password">Password</label>
                   <input
+                    required
                     type="password"
                     class="form-control"
                     id="password"
@@ -43,7 +45,11 @@
                   <a href="#" @click.prevent="renderRegister">Register</a>
                 </small>
                 <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                  <button v-if="!isLoading" type="submit" class="btn btn-primary mt-4">Submit</button>
+                  <button v-else class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>
                 </div>
               </form>
             </div>
@@ -108,7 +114,11 @@
               <a href="#" @click.prevent="renderLogin">Login</a>
             </small>
             <div class="d-flex justify-content-center">
-              <button type="submit" class="btn btn-primary mt-4">Submit</button>
+              <button v-if="!isLoading" type="submit" class="btn btn-primary mt-4">Submit</button>
+              <button v-else class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
             </div>
           </form>
         </div>
@@ -119,10 +129,11 @@
 
 <script>
 import axios from "axios";
-
+const baseUrl = "http://localhost:3000";
 export default {
   data() {
     return {
+      isLoading: false,
       email: "",
       password: "",
       username: "",
@@ -130,34 +141,40 @@ export default {
     };
   },
   methods: {
-
     onSignin() {
-      axios({
-        method: "post",
-        url: "http://localhost:3000/users/login",
-        data: {
-          email: this.email,
-          password: this.password
-        }
-      })
-
-      .then(({ data })=>{
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('userId', data.userId)
-        this.$emit('loggedin')
-        Swal.fire(
-        'Good job!',
-        'Log in success!',
-        'success'
-        )
-      })
-      .catch(err => {
-        Swal.fire(
-        'Opppsss..',
-        'Email / password wrong',
-        'error'
-        )
-      })
+      if (this.email == "" || this.password == "") {
+        Swal.fire({
+          title: "Please Fill All Column!",
+          type: "error",
+          buttons: false,
+          timer: 2000
+        });
+      } else {
+        this.isLoading = true;
+        axios({
+          method: "post",
+          url: `${baseUrl}/users/login`,
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        })
+          .then(({ data }) => {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userId", data._id);
+            localStorage.setItem("page", "dashboard");
+            this.$emit("loggedin");
+            this.isLoading = false;
+            Swal.fire(
+              "Good job!",
+              `Welcome to WordPress, ${data.username}`,
+              "success"
+            );
+          })
+          .catch(err => {
+            Swal.fire("Opppsss..", "Email / password wrong", "error");
+          });
+      }
     },
 
     renderRegister() {
@@ -169,31 +186,37 @@ export default {
     },
 
     onSignup() {
-      console.log('masuk');
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/users/register',
-        data: {
-          email: this.email,
-          username: this.username,
-          password: this.password
-        }
-      })
-      .then(response => {
-        Swal.fire(
-        'Good job!',
-        'You have successfully registered as a user!',
-        'success'
-        ),
-        this.renderLogin()
-      })
-      .catch(err => {
-        Swal.fire(
-        'Opppsss..',
-        'Use another email / username',
-        'error'
-        )
-      })
+      if (this.email == "" || this.password == "" || this.password == "") {
+        Swal.fire({
+          title: "Please Fill All Column!",
+          type: "error",
+          buttons: false,
+          timer: 2000
+        });
+      } else {
+        this.isLoading = true
+        axios({
+          method: "post",
+          url: `${baseUrl}/users/register`,
+          data: {
+            email: this.email,
+            username: this.username,
+            password: this.password
+          }
+        })
+          .then(response => {
+            this.isLoading = false
+            Swal.fire(
+              `Congrats, ${response.data.username}!`,
+              `You can login now with your email and password`,
+              "success"
+            ),
+              this.renderLogin();
+          })
+          .catch(err => {
+            Swal.fire("Opppsss..", "Use another email / username", "error");
+          });
+      }
     }
   }
 };

@@ -1,141 +1,116 @@
 <template>
   <div>
     <center>
-      <h1>My Blog</h1>
+      <h1>People's Articles</h1>
     </center>
-    <div class="row">
-      <div class="col-md-4 mt-5 d-flex justify-content-center" v-for="article in articles">
+    <!-- All Articles -->
+    <div class="row" v-if="!keyword">
+      <div
+        class="col-md-4 mt-5 d-flex justify-content-center"
+        v-for="(article, index) in articles"
+        :key="index"
+      >
         <div class="card h-100" style="width: 18rem;">
-          <!-- <a href="#" @click="getModal(article)" data-toggle="modal" data-target="#myModal">
-            <img class="card-img-top" src="http://placehold.it/700x400" alt />
-          </a>-->
-          <!-- <a href="#" @click="getModal(article)" data-toggle="modal" data-target="#myModal">
-            <img v-bind:src="article.image" />
-          </a> -->
+          <a href="#" @click.prevent="getContent(article)">
+            <img class="card-img-top" :src="article.image" alt style="height: 12rem;" />
+          </a>
           <div class="card-body">
             <h4 class="card-title">
-              <a
-                href="#"
-                @click.prevent="getModal(article)"
-                data-toggle="modal"
-                data-target="#myModal"
-              >{{ article.title }}</a>
+              <a href="#" @click.prevent="getContent(article)">{{ article.title }}</a>
             </h4>
-            <p class="card-text">{{ article.content }}</p>
+            <p class="card-text collapse" v-html="article.content"></p>
+            <a
+              class="collapsed"
+              data-toggle="collapse"
+              href="#collapseSummary"
+              aria-expanded="false"
+              aria-controls="collapseSummary"
+              @click.prevent="getContent(article)"
+            >. . .</a>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Article Modal -->
-
-      <!-- <div class="modal" id="myModal">
-            <h6>{{articleModal.userId.username}}<h6>
-            <br>
-            <small>{{articleModal.content}}</small>
-      </div> -->
+    <!-- Filtered Articles -->
+    <div class="row" v-if="keyword">
+      <div
+        class="col-md-4 mt-5 d-flex justify-content-center"
+        v-for="(article, index) in filteredArticles"
+        :key="index"
+      >
+        <div class="card h-100" style="width: 18rem;">
+          <a href="#" @click.prevent="getContent(article)">
+            <img class="card-img-top" :src="article.image" alt style="height: 12rem;" />
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="#" @click.prevent="getContent(article)">{{ article.title }}</a>
+            </h4>
+            <p class="card-text collapse" v-html="article.content"></p>
+            <a
+              class="collapsed"
+              data-toggle="collapse"
+              href="#collapseSummary"
+              aria-expanded="false"
+              aria-controls="collapseSummary"
+              @click.prevent="getContent(article)"
+            >. . .</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+const baseUrl = "http://localhost:3000";
 export default {
+  props: ["keyword"],
   data() {
     return {
       userId: "",
-      articleModal: {
-        image: "",
-        userId: {
-          _id: "",
-          username: ""
-        },
-        likes: []
-      },
       articles: []
     };
   },
   methods: {
     getAllArticles() {
       axios({
-        url: "http://localhost:3000/articles/myArticle",
+        url: `${baseUrl}/articles`,
         method: "get",
         headers: {
-          token: localStorage.token
+          token: localStorage.getItem("token")
         }
       }).then(({ data }) => {
         this.articles = data;
-        console.log(data);
       });
     },
-    getModal(article) {
-      // axios({
-      //   method: "get",
-      //   url: `http://localhost:3000/articles/one/${article._id}`,
-      //   headers: {
-      //     token: localStorage.token
-      //   }
-      // }).then(({ data }) => {
-      //   this.articleModal = data;
-      // });
-        this.$emit('contentActive', {articleId: article._id})
-    },
-    like() {
-      axios({
-        method: "patch",
-        url: `http://localhost:3000/posts/${this.articleModal._id}`,
-        headers: {
-          token: localStorage.token
-        }
-      }).then(({ data }) => {
-        console.log("liked");
-        this.getModal(this.articleModal);
-      });
-    },
-    deletePost() {
-      axios({
-        method: "delete",
-        url: `http://localhost:3000/posts/${this.articleModal._id}`,
-        headers: {
-          token: localStorage.token
-        }
-      }).then(({ data }) => {
-        console.log("deleted");
-        this.articleModal = {
-          image:
-            "https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Delete-2-512.png",
-          userId: {
-            username: "deleted"
-          },
-          likes: []
-        };
-        this.getAllArticles();
-      });
+    getContent(article) {
+      this.$emit("getSingleArticle", article);
     },
     createComment() {
-      console.log("masuk create comment");
       axios({
-        url: `http://localhost:3000/comment/${this.articleModal._id}`,
+        url: `${baseUrl}/comment/${this.articleModal._id}`,
         method: "post",
         headers: {
-          token: localStorage.token
+          token: localStorage.getItem("token")
         },
         data: { comment: this.iscomment }
       }).then(({ data }) => {
         this.com = data;
         this.fetchComment();
-        console.log(data);
       });
     },
     fetchComment() {
       axios({
-        url: `http://localhost:3000/comment/${this.articleModal._id}`,
+        url: `${baseUrl}/comment/${this.articleModal._id}`,
         method: "get",
         headers: {
-          token: localStorage.token
+          token: localStorage.getItem("token")
         }
       }).then(({ data }) => {
         this.comments = data;
-        console.log(data);
       });
     }
   },
@@ -144,12 +119,10 @@ export default {
     this.userId = localStorage.userId;
   },
   computed: {
-    filteredPhotos() {
-      if (filterUser == true) {
-        return this.photos.filter(photo => {
-          return article.author._id == userId;
-        });
-      }
+    filteredArticles() {
+      return this.articles.filter(article => {
+        return article.title.toLowerCase().includes(this.keyword.toLowerCase())
+      })
     }
   }
 };
@@ -160,6 +133,26 @@ export default {
   margin-top: 50px;
 }
 h1 {
-  margin-top: 150px;
+  margin-top: 180px;
+  font-family: 'Permanent Marker', cursive;
 }
+.card-body p.collapse:not(.show) {
+  height: 100px !important;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-body a.collapsed:after {
+  content: "[ Read More ]";
+}
+
+/* .card-body p.collapsing {
+    min-height: 42px !important;
+} */
+
+/* .card-body a:not(.collapsed):after {
+    content: '- Read Less';
+} */
 </style>

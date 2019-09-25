@@ -1,49 +1,45 @@
 <template>
   <div>
-    <navbar v-if="isLogin" @loggedout="logout" @upload="upload"></navbar>
     <signin @loggedin="login" v-if="!isLogin"></signin>
-    <home @contentActive="showContent($event)" v-if="isLogin && !isContent"></home>
-    <singlearticle v-if="isContent"></singlearticle>
-
+    <afterLogin v-if="isLogin" @loggedout="logout" @on_page="toPage" :page="page"></afterLogin>
   </div>
 </template>
 
 <script>
-import navbar from "./components/navbar";
 import signin from "./components/signin";
-import home from "./components/home";
-import singlearticle from "./components/content"
+import afterLogin from "./afterLogin";
 
 export default {
   data() {
     return {
       isLogin: false,
-      uploading: false,
-      inHome: false,
-      inProfile: false,
-      isContent: false
+      page: ""
     };
   },
   components: {
-    navbar,
     signin,
-    home,
-    singlearticle
+    afterLogin
   },
   methods: {
     login() {
+      this.page = localStorage.getItem("page")
       this.isLogin = true;
     },
     logout() {
+      localStorage.clear()
+      sessionStorage.clear()
       this.isLogin = false;
     },
-    showContent(articleId) {
-      this.isContent = true;
+    toPage() {
+      this.page = localStorage.getItem("page")
     }
   },
   created() {
     if (localStorage.getItem("token")) {
-      this.login();
+      this.page = localStorage.getItem("page")
+      this.isLogin = true;
+    } else {
+      this.isLogin = false;
     }
   }
 };

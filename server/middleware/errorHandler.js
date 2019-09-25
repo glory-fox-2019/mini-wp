@@ -1,5 +1,5 @@
 module.exports = function (err, req, res, next) {
-    console.log('ke error handler');
+    console.log('get into error handler');
     console.log(err)
     const status = err.code || 500
     const message = err.message || 'internal server error'

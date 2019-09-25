@@ -41,7 +41,7 @@ const sendUploadToGCS = (req, res, next) => {
     req.file.cloudStorageObject = gcsname
     file.makePublic().then(() => {
       req.file.cloudStoragePublicUrl = getPublicUrl(gcsname)
-      console.log(req.file.cloudStoragePublicUrl, 'cloud storage di image')
+      console.log(req.file.cloudStoragePublicUrl, 'image uploaded successfully')
       next()
     })
   })

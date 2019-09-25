@@ -1,11 +1,9 @@
 const User = require('../models/user')
-const { generateJWT } = require('../helpers/bcrypt')
-const { comparePassword } = require('../helpers/bcrypt')
+const { generateJWT, comparePassword } = require('../helpers/bcrypt')
 
 class userController {
 
     static register(req, res, next) {
-        console.log('masuk regis');
         let newUser = new User({
             username: req.body.username,
             email: req.body.email,
@@ -26,24 +24,16 @@ class userController {
                 email: req.body.email
             })
             .then(user => {
-                // console.log(user)
                 if (user) {
+                    console.log(user, 'user data')
                     if (comparePassword(req.body.password, user.password)) {
-                        console.log('password cocok')
-                        let payload = {
-                            id: user._id,
-                            email: user.email,
-                            username: user.username,
-                            bio: user.bio
-                        }
-
-                        let token = generateJWT(payload)
-                        // console.log(token)
+                        console.log('password correct')
+                        const { _id, email, username, bio, image } = user
+                        const token = generateJWT({ _id, email, username, bio, image })
                         res.status(200).json({
                             token,
-                            userId: user._id,
-                            username: user.username,
-                            bio: user.bio
+                            username,
+                            _id
                         })
                     } else {
                         throw {
@@ -62,23 +52,33 @@ class userController {
     }
 
     static update(req, res, next){
+        const { bio, image } = req.body
+        console.log(req.body, 'data reg body')
         User.updateOne({
-            _id: req.decode.id
+            _id: req.decode._id
         },{
-            bio: req.body.bio,
-            profilePic: req.file.cloudStoragePublicUrl
+            bio,
+            image
+        },{
+            runValidators: true,
         })
         .then(response => {
-            res.status(200).json({meesage: 'success'})
+            res.status(200).json({message: 'update success - controller'})
         })
         .catch(next)
     }
 
-    static findOne(req, res, next){
-        console.log(req.decode)
+    static dataUser(req, res, next){
+        console.log(req.decode,' req decode data')
         User.findOne({
-            _id: req.dec
+            _id: req.decode._id
         })
+        .then(user => {
+            const { _id, username, bio, updatedAt, image } = user
+            const data = { _id, username, bio, updatedAt, image }
+            res.status(200).json(data)
+        })
+        .catch(next)
     }
 }
 

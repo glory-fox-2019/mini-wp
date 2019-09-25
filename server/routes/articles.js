@@ -2,11 +2,14 @@ const controller = require('../controllers/articleController')
 const { authentication, authorization }= require('../middleware/authaoth')
 const router = require('express').Router()
 
-router.use(authentication)
 router.get('/', controller.findAll)
-router.get('/myArticle', controller.myArticle)
+router.use(authentication)
+
 router.post('/', controller.create)
-router.get('/one/:articleId', controller.findOne)
-router.delete('/one/:id', authorization, controller.delete)
+router.get('/user', controller.userArticle)
+router.get('/creator', controller.creatorArticle)
+router.get('/:articleId', controller.findOne)
+router.delete('/:articleId', authorization, controller.delete)
+router.put('/:articleId', authorization, controller.update)
 
 module.exports = router

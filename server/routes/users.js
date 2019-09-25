@@ -6,7 +6,7 @@ const { authorization } = require('../middleware/authaoth');
 
 router.post('/login', userController.login)
 router.post('/register', userController.register)
-router.patch('/update', authentication, userController.update) //sendUploadToGCS
-router.get('/', authentication, userController.findOne)
+router.patch('/', authentication, userController.update)
+router.get('/', authentication, userController.dataUser)
 
 module.exports = router

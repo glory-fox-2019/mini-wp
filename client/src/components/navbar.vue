@@ -21,47 +21,50 @@
             <a class="nav-link" href="#"></a>
           </li>
           <li class="nav-item">
-            <a @click.prevent="goToHomePage" class="nav-link" href="#">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >Features</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">My Profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Edit Profile</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >Article</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Make Article</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Edit Article</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a @click.prevent="upload" class="nav-link" href="#">
-              <i class="fas fa-camera"></i> upload
+            <a @click.prevent="goToHomePage" class="nav-link" href="#">
+              <i class="fa fa-home"></i> Home
             </a>
           </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="far fa-keyboard"></i> Features
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#" @click.prevent="profile">My Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" @click.prevent="editProfile">Edit Profile</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fas fa-file-alt"></i> Article
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#" @click.prevent="myArticle">My Articles</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" @click.prevent="createNewArticle">Create Article</a>
+            </div>
+          </li>
           <li class="nav-item">
-            <a @click.prevent="logout" class="nav-link" href="#">Logout</a>
+            <a @click.prevent="logout" class="nav-link" href="#">
+              <i class="fas fa-power-off"></i> Logout
+            </a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -70,8 +73,8 @@
             type="search"
             placeholder="Search"
             aria-label="Search"
+            v-model="keyword"
           />
-          <button type="submit" class="btn btn-light">Search</button>
         </form>
       </div>
     </nav>
@@ -81,18 +84,39 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      userId: "",
+      keyword: ""
+    };
   },
   methods: {
     goToHomePage() {
-      alert("Masuk Home Page");
+      this.$emit("goToHome");
     },
     logout() {
-      localStorage.removeItem("token");
+      localStorage.clear();
       this.$emit("loggedout");
     },
-    upload() {
-      this.$emit("upload");
+    profile() {
+      this.$emit("getProfile", this.userId);
+    },
+    editProfile() {
+      this.$emit("editProfile");
+    },
+    createNewArticle() {
+      this.$emit("createNew");
+    },
+    myArticle() {
+      this.$emit("myArticle");
+    }
+  },
+  created() {
+    this.userId = localStorage.userId;
+  }
+  ,watch: {
+    keyword() {
+      this.$emit('search', this.keyword)
+      return this.keyword
     }
   }
 };
