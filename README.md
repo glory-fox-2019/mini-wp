@@ -27,6 +27,8 @@ http://localhost:3000
 ![Published Page](https://i.ibb.co/HG6myFt/Screen-Shot-2020-03-12-at-13-28-17.png)
 5. Discover Page
 ![Discover Page](https://i.ibb.co/St2NKKn/Screen-Shot-2020-03-12-at-13-39-33.png)
+6. Article Detail
+![Article Detail](https://i.ibb.co/xGdM1tR/Screen-Shot-2020-03-12-at-13-40-18.png)
 
 ## Users API
 |  HTTP  | Endpoint | Headers | Body | Description | Reference |
