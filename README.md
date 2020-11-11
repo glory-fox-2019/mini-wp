@@ -11,9 +11,22 @@ http://localhost:3000
 ```
 
 ## Index of Reference:
+* [Screenshots]()
 * [Users]()
 * [Articles]()
 * [Tags]()
+
+## Screenshots
+1. Login Page
+![Login Page](https://i.ibb.co/6Yj9FHH/Screen-Shot-2020-03-12-at-13-26-01.png)
+2. Login with Google Account
+![Login with Google Account](https://i.ibb.co/t4pGhCf/Screen-Shot-2020-03-12-at-13-26-51.png)
+3. Draft Page
+![Draft Page](https://i.ibb.co/VvNRhRB/Screen-Shot-2020-03-12-at-13-28-07.png)
+4. Published Page
+![Published Page](https://i.ibb.co/HG6myFt/Screen-Shot-2020-03-12-at-13-28-17.png)
+5. Discover Page
+![Discover Page](https://i.ibb.co/St2NKKn/Screen-Shot-2020-03-12-at-13-39-33.png)
 
 ## Users API
 |  HTTP  | Endpoint | Headers | Body | Description | Reference |
