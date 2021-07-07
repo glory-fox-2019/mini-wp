@@ -1,0 +1,271 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.hidden {
+    display: none !important
+}
+
+.roboto {
+    font-family: 'Roboto Condensed'
+}
+
+/* ============================= NAVBAR =================================== */
+
+.navbar {
+    padding: 0;
+    z-index: 100;
+}
+
+div.brand {
+    height: 60px;
+}
+
+a .navbar {
+    padding: 0
+}
+
+a {
+    display: inline-block;
+}
+
+div.collapse ul li {
+    font-family: 'Oswald';
+    color: azure;
+}
+
+a.navbar-brand {
+    color: white;
+    font-family: 'Lobster';
+    font-size: 25px;
+}
+
+
+img.login {
+    margin-right: 10px;
+    filter: invert(100%)
+}
+
+a.login-btn {
+    margin: 0;
+    font-family: 'Oswald';
+    color: azure;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 23px;
+}
+
+.write a {
+    color: rgb(7, 61, 54);
+}
+
+img.profile-icon {
+    width: 30px;
+    border-radius: 100%;
+    border: 2px solid white;
+}
+
+img.brand-icon {
+    width: 30px;
+    border-radius: 100%;
+}
+
+.nav-item a {
+    color: white;
+}
+
+div.setting ul li a {
+    color: rgb(255, 255, 255)
+}
+
+#navbarSupportedContent ul li a.nav-link {
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: transparent;
+    transition: 0.2s;
+    height: 60px;
+    padding: 0 20px;
+}
+
+#navbarSupportedContent ul li a.nav-link:hover {
+    background-color: #0f314d
+}
+
+/* ========================= CONTAINER ===================================== */
+
+div.container-fluid {
+    height: 1000px;
+    padding: 0;
+    position: relative;
+    top: 60px;
+}
+
+/* ========================= SIDE BAR ================================ */
+
+li.list-group-item {
+    background-color: transparent;
+    padding-left: 0;
+    transition: 0.3s
+}
+
+li.list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.082);
+}
+
+li.list-group-item a {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-family: 'Roboto Condensed';
+    text-decoration: none;
+}
+
+/* ================== CONTENT ================================== */
+
+body,
+html {
+    background-color: rgb(233, 233, 233);
+}
+
+div.content {
+    padding-top: 30px;
+    background-color: rgb(233, 233, 233);
+    margin-left: auto;
+    margin-top: 60px;
+    height: 100vh;
+}
+
+div.articles-container ul li a.nav-link {
+    color: black;
+    margin-right: 10px;
+}
+
+div.nav-articles {
+    border-bottom: 1px solid rgb(139, 139, 139);
+    padding-bottom: 10px;
+}
+
+svg.search-img {
+    height: 100%;
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+div.list-articles {
+    margin-top: 30px;
+}
+
+/* ====================== CARD */
+div.card {
+    width: 90%;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(42, 42, 42, 0.616);
+    margin-bottom: 20px;
+    padding: 10px 0;
+    position: relative;
+    top: 0;
+    transition: 0.1s;
+}
+
+div.card:hover {
+    top: -5px;
+    box-shadow: 0 5px 8px rgba(42, 42, 42, 0.424);
+}
+
+.article-image {
+    padding: 10px 0;
+    text-align: right;
+}
+
+span.timestamp {
+    color: rgb(168, 168, 168);
+    font-size: 15px;
+}
+
+p.paragraph {
+    margin-left: 20px;
+    color: grey
+}
+
+/* ============================ FORM */
+
+div.article-form-container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.inp-title {
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    font-family: 'Literata';
+    font-size: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-bottom: 1px solid rgb(190, 190, 190);
+    margin-bottom: 40px;
+}
+
+.inp-content {
+    width: 100%;
+    margin: 0 auto;
+    height: 200px;
+    padding: 0 20px;
+    font-family: 'Literata';
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgb(190, 190, 190);
+}
+
+/* ======================== FORM LOGIN */
+
+div.home-page {
+    background-image: url('https://i.ibb.co/yV9xYHr/wheat.png');
+    height: 100vh;
+}
+
+div.form-login {
+    position: relative;
+    top: 50px;
+    margin: auto;
+    width: 40%;
+    background-color: azure;
+    padding: 30px 0;
+    font-family: 'Oswald';
+    border-radius: 20px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.602)
+}
+
+h1.login-text {
+    font-family: 'Lobster'
+}
+
+input.login-form {
+    width: 100%;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(110, 110, 110);
+    outline: none;
+    background-color: transparent;
+}
+
+p.login-form {
+    margin-bottom: 10px;
+}
+
+button.login-btn {
+    margin-bottom: 20px;
+}
+
+/* =================================== LANDING PAGE */
+
+div.home-content {
+    width: 80%;
+    height: 800px;
+}
